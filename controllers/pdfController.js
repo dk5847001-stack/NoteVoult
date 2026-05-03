@@ -28,10 +28,21 @@ module.exports.index = async (req, res) => {
             category: "notes",
             ...filter
         });
-
-        // ✅ Micros (with filter)
         const allMicros = await Pdf.find({
             category: "micro",
+            ...filter
+        });
+
+        // ✅ Micros (with filter)
+        const ciaMicros = await Pdf.find({
+            category: "micro",
+            examType: "CIA",
+            ...filter
+        });
+
+        const semesterMicros = await Pdf.find({
+            category: "micro",
+            examType: "Semester",
             ...filter
         });
 
@@ -40,6 +51,8 @@ module.exports.index = async (req, res) => {
             minPdfs,
             allNotes,
             allMicros,
+            ciaMicros,
+            semesterMicros,
             allProjects,
             query: req.query   // 🔥 important for UI selected values
         });

@@ -48,7 +48,7 @@ const pdfSchema = new Schema({
         },
         required: [true, "Branch is required"]
     },
-    
+
     semester: {
         type: Number,
         min: 1,
@@ -63,6 +63,15 @@ const pdfSchema = new Schema({
             message: "Invalid category"
         },
         default: "notes"
+    },
+    examType: {
+        type: String,
+        enum: {
+            values: ["CIA", "Semester"],
+            message: "Invalid exam type"
+        },
+        required: true,
+        default: "Semester"
     }
 });
 

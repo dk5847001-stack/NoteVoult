@@ -558,6 +558,7 @@
 
 
                 <div class="text-center py-5">
+                    <h2>CIA MICRO</h2>
                     <div class="skeleton-wrapper row g-4">
                         <% for(let i=0; i < 8; i++){ %>
                             <div class="col-6 col-sm-6 col-md-4 col-lg-3">
@@ -590,9 +591,99 @@
                     </div>
 
                     <div id="microData" class="real-data row g-4 d-none">
-                        <% if(allMicros && allMicros.length> 0){ %>
+                        <% if(ciaMicros && ciaMicros.length> 0){ %>
 
-                            <% for(let pdf of allMicros){ %>
+                            <% for(let pdf of ciaMicros){ %>
+                                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                    <div class="card pdf-card h-100 text-center p-3">
+
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/330px-PDF_file_icon.svg.png?_=20220802235851"
+                                            class="pdf-icon" alt="pdf">
+
+                                        <div class="card-body d-flex flex-column">
+
+                                            <h5 class="card-title mb-2">
+                                                <%= pdf.title %>
+                                            </h5>
+
+                                            <p class="card-footer-text mb-2">
+                                                <%= pdf.uploadedAt.toLocaleString() %>
+                                            </p>
+                                            <p><span class="badge rounded-pill text-bg-warning">
+                                                    <%= pdf.branch %>
+                                                </span> <span class="badge rounded-pill text-bg-success">Semester : <%=
+                                                        pdf.semester %></span>
+                                            </p>
+
+                                            <div class="mb-3">
+                                                <span class="price-badge">
+                                                    ₹<%= pdf.price %>
+                                                </span>
+                                            </div>
+
+                                            <a href="/pdfs/download/<%= pdf._id %>"
+                                                class="btn btn-outline-primary btn-premium mt-auto download-btn">
+
+                                                <span class="btn-text">
+                                                    <i class="bi bi-download"></i> Pay & Download
+                                                </span>
+
+                                                <span class="loading-text d-none">
+                                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                                    Downloading...
+                                                </span>
+
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+
+                                    <% } else { %>
+                                        <div class="col-12 text-center">
+                                            <h4 class="text-muted">No PDFs available</h4>
+                                        </div>
+                                        <% } %>
+                    </div>
+                </div>
+                <div class="text-center py-5">
+                    <h2>SEMESTER MICRO</h2>
+                    <div class="skeleton-wrapper row g-4">
+                        <% for(let i=0; i < 8; i++){ %>
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="card pdf-card h-100 p-3">
+                                    <div class="placeholder-glow text-center mb-3">
+                                        <span class="placeholder col-6" style="height:70px; border-radius:10px;"></span>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <p class="placeholder-glow">
+                                            <span class="placeholder col-8"></span>
+                                        </p>
+
+                                        <p class="placeholder-glow">
+                                            <span class="placeholder col-6"></span>
+                                        </p>
+
+                                        <p class="placeholder-glow">
+                                            <span class="placeholder col-4"></span>
+                                        </p>
+
+                                        <div class="placeholder-glow">
+                                            <span class="placeholder col-12"
+                                                style="height:38px; border-radius:10px;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                    </div>
+
+                    <div id="microData" class="real-data row g-4 d-none">
+                        <% if(semesterMicros && semesterMicros.length> 0){ %>
+
+                            <% for(let pdf of semesterMicros){ %>
                                 <div class="col-6 col-sm-6 col-md-4 col-lg-3">
                                     <div class="card pdf-card h-100 text-center p-3">
 
