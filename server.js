@@ -26,10 +26,14 @@ app.use(express.static(path.join(__dirname, "public")));
 app.get("/", (req, res) => {
     res.render("home");
 });
-app.get("/show", (req, res)=>{
-    res.render("clients/show");
-})
 app.use("/pdfs", pdfRoutes);
+
+app.get("/pdfs/:id", async (req, res)=>{
+    const {id} = req.params;
+    const pdf = await Pdf.findById(id);
+    console.log(pdf)
+    res.render("clients/show", {pdf});
+})
 // =================== Routes =====================
 
 

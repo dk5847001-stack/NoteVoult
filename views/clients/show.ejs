@@ -1,178 +1,384 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Icon Tabs</title>
-
-<!-- Icons -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-
-<!-- Font -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<% layout("layouts/boilerplate.ejs") -%>
 
 <style>
-body {
-    font-family: 'Poppins', sans-serif;
-    background: #f5f7fa;
-    padding: 40px;
-}
+  .service-showcase {
+    min-height: 100vh;
+    width: 100%;
+    padding: 45px 0 70px;
+    background:
+      linear-gradient(135deg, rgba(2, 6, 23, 0.96), rgba(15, 23, 42, 0.94)),
+      radial-gradient(circle at top left, rgba(59, 130, 246, 0.35), transparent 35%),
+      radial-gradient(circle at bottom right, rgba(34, 197, 94, 0.28), transparent 35%);
+  }
 
-/* Tabs container */
-.tabs {
-    max-width: 900px;
+  .sell-card {
+    max-width: 1180px;
     margin: auto;
-}
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 32px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  }
 
-/* Nav */
-.tabs nav {
+  .preview-wrap {
     position: relative;
-}
+    min-height: 460px;
+    background:
+      linear-gradient(120deg, rgba(13, 110, 253, 0.25), rgba(34, 197, 94, 0.18)),
+      url("data:image/jpeg;base64,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")
+      center/cover no-repeat;
+  }
 
-.tabs nav ul {
+  .preview-wrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(2, 6, 23, 0.94), rgba(2, 6, 23, 0.58), rgba(2, 6, 23, 0.18));
+  }
+
+  .hero-data {
+    position: relative;
+    z-index: 2;
+    max-width: 680px;
+    padding: 70px 45px;
+    color: white;
+  }
+
+  .tag {
+    display: inline-flex;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: rgba(34, 197, 94, 0.16);
+    color: #86efac;
+    border: 1px solid rgba(134, 239, 172, 0.3);
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+
+  .hero-data h1 {
+    font-size: clamp(2rem, 5vw, 4.2rem);
+    font-weight: 900;
+    line-height: 1.05;
+    margin-bottom: 18px;
+  }
+
+  .hero-data p {
+    color: rgba(255, 255, 255, 0.78);
+    font-size: 1.05rem;
+    max-width: 590px;
+  }
+
+  .action-group {
     display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 28px;
+  }
+
+  .btn-main {
+    border: none;
+    border-radius: 999px;
+    padding: 13px 26px;
+    font-weight: 800;
+    color: white;
+    background: linear-gradient(135deg, #2563eb, #22c55e);
+    box-shadow: 0 14px 30px rgba(37, 99, 235, 0.35);
+  }
+
+  .btn-main:hover {
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  .btn-soft {
+    border-radius: 999px;
+    padding: 13px 26px;
+    font-weight: 700;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(15, 23, 42, 0.7);
+  }
+
+  .stat-box {
+    padding: 26px;
+    color: white;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .stat-box:last-child {
+    border-right: 0;
+  }
+
+  .stat-box h3 {
+    font-weight: 900;
+    margin-bottom: 4px;
+  }
+
+  .stat-box span {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+  }
+
+  .content-area {
+    padding: 42px;
+    background: #f8fafc;
+  }
+
+  .section-title {
+    max-width: 680px;
+    margin-bottom: 28px;
+  }
+
+  .section-title h2 {
+    font-weight: 900;
+    color: #0f172a;
+  }
+
+  .section-title p {
+    color: #64748b;
+  }
+
+  .feature-card {
+    height: 100%;
+    padding: 26px;
+    border-radius: 24px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 14px 35px rgba(15, 23, 42, 0.07);
+    transition: 0.3s ease;
+  }
+
+  .feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 22px 55px rgba(15, 23, 42, 0.13);
+  }
+
+  .feature-icon {
+    width: 54px;
+    height: 54px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 1.6rem;
+    margin-bottom: 16px;
+  }
+
+  .package-box {
+    margin-top: 36px;
+    padding: 30px;
+    border-radius: 28px;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+  }
+
+  .price {
+    font-size: 2.5rem;
+    font-weight: 900;
+  }
+
+  .check-list {
     list-style: none;
     padding: 0;
-    border-bottom: 2px solid #ddd;
-    justify-content: space-between;
-}
+    margin: 18px 0 0;
+  }
 
-/* Tab item */
-.tabs nav ul li {
-    text-align: center;
-    flex: 1;
-}
+  .check-list li {
+    margin-bottom: 10px;
+    color: rgba(255, 255, 255, 0.78);
+  }
 
-/* Links */
-.tabs nav ul li a {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-decoration: none;
-    color: #888;
-    padding: 15px 10px;
-    transition: 0.3s;
-}
+  .check-list li::before {
+    content: "✓";
+    color: #22c55e;
+    font-weight: 900;
+    margin-right: 10px;
+  }
 
-/* Icon */
-.tabs nav ul li a i {
-    font-size: 20px;
-    margin-bottom: 5px;
-    transition: 0.3s;
-}
+  @media (max-width: 768px) {
+    .service-showcase {
+      padding: 18px 10px 45px;
+    }
 
-/* Hover */
-.tabs nav ul li a:hover {
-    color: #000;
-}
+    .sell-card {
+      border-radius: 24px;
+    }
 
-.tabs nav ul li a:hover i {
-    transform: translateY(-3px);
-}
+    .preview-wrap {
+      min-height: auto;
+    }
 
-/* Active */
-.tabs nav ul li.active a {
-    color: #000;
-    font-weight: 500;
-}
+    .preview-wrap::after {
+      background: rgba(2, 6, 23, 0.78);
+    }
 
-/* 🔥 Sliding Indicator */
-.indicator {
-    position: absolute;
-    bottom: 0;
-    height: 3px;
-    background: #000;
-    transition: all 0.3s ease;
-    border-radius: 10px;
-}
+    .hero-data {
+      padding: 42px 22px;
+      text-align: center;
+    }
 
-/* Content */
-.content section {
-    display: none;
-    padding: 25px 10px;
-    color: #444;
-}
+    .action-group {
+      justify-content: center;
+    }
 
-.content section.active {
-    display: block;
-    animation: fade 0.3s ease;
-}
+    .stats-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
 
-@keyframes fade {
-    from {opacity: 0; transform: translateY(10px);}
-    to {opacity: 1; transform: translateY(0);}
-}
+    .stat-box {
+      padding: 20px;
+      text-align: center;
+    }
+
+    .content-area {
+      padding: 28px 18px;
+    }
+
+    .package-box {
+      text-align: center;
+      padding: 24px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .stats-row {
+      grid-template-columns: 1fr;
+    }
+
+    .stat-box {
+      border-right: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .stat-box:last-child {
+      border-bottom: 0;
+    }
+
+    .btn-main,
+    .btn-soft {
+      width: 100%;
+      text-align: center;
+    }
+  }
 </style>
-</head>
 
-<body>
+<section class="service-showcase">
+  <div class="container">
+    <div class="sell-card">
 
-<div class="tabs">
+      <div class="preview-wrap">
+        <div class="hero-data">
+          <span class="tag">Portfolio & Website Development</span>
 
-    <nav>
-        <ul id="tabMenu">
-            <li class="active">
-                <a href="#"><i class="fa-solid fa-house"></i><span>Home</span></a>
-            </li>
-            <li>
-                <a href="#"><i class="fa-solid fa-box"></i><span>Archive</span></a>
-            </li>
-            <li>
-                <a href="#"><i class="fa-solid fa-chart-line"></i><span>Analytics</span></a>
-            </li>
-            <li>
-                <a href="#"><i class="fa-solid fa-upload"></i><span>Upload</span></a>
-            </li>
-            <li>
-                <a href="#"><i class="fa-solid fa-gear"></i><span>Settings</span></a>
-            </li>
-        </ul>
+          <h1><%= pdf.title %></h1>
 
-        <div class="indicator" id="indicator"></div>
-    </nav>
+          <p>
+            Main modern portfolio, business website, landing page aur responsive UI design banata hoon,
+            jo mobile aur desktop dono par professional dikhe.
+          </p>
 
-    <div class="content">
-        <section class="active">🏠 Home Content</section>
-        <section>📦 Archive Content</section>
-        <section>📊 Analytics Content</section>
-        <section>⬆ Upload Content</section>
-        <section>⚙ Settings Content</section>
+          <div class="action-group">
+            <a href="#" class="btn btn-main">Order Website</a>
+            <a href="#" class="btn btn-soft">View Demo</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <h3>100%</h3>
+          <span>Responsive Design</span>
+        </div>
+        <div class="stat-box">
+          <h3>Fast</h3>
+          <span>Loading Website</span>
+        </div>
+        <div class="stat-box">
+          <h3>SEO</h3>
+          <span>Basic Setup</span>
+        </div>
+        <div class="stat-box">
+          <h3>Premium</h3>
+          <span>Modern Look</span>
+        </div>
+      </div>
+
+      <div class="content-area">
+        <div class="section-title">
+          <h2>What I Can Build For You</h2>
+          <p>
+            Clean design, strong layout, smooth user experience aur professional branding ke saath websites.
+          </p>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-card">
+              <div class="feature-icon">💼</div>
+              <h5 class="fw-bold">Personal Portfolio</h5>
+              <p class="text-muted mb-0">
+                Students, freelancers, developers aur creators ke liye modern portfolio website.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-card">
+              <div class="feature-icon">🏢</div>
+              <h5 class="fw-bold">Business Website</h5>
+              <p class="text-muted mb-0">
+                Shop, startup, coaching, agency ya local business ke liye professional website.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6 col-lg-4">
+            <div class="feature-card">
+              <div class="feature-icon">🚀</div>
+              <h5 class="fw-bold">Landing Page</h5>
+              <p class="text-muted mb-0">
+                Product, service ya offer promote karne ke liye high-converting landing page.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="package-box">
+          <div class="row align-items-center g-4">
+            <div class="col-lg-7">
+              <h3 class="fw-bold">Start Your Website Today</h3>
+              <p class="text-white-50 mb-0">
+                Portfolio, business page, landing page ya custom design — sab kuch responsive aur premium look ke saath.
+              </p>
+
+              <ul class="check-list">
+                <li>Mobile friendly layout</li>
+                <li>Modern Bootstrap UI</li>
+                <li>Clean sections and strong CTA</li>
+              </ul>
+            </div>
+
+            <div class="col-lg-5 text-lg-end">
+              <div class="price">₹999+</div>
+              <p class="text-white-50">Starting price</p>
+              <a href="#" class="btn btn-main">Book Now</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
     </div>
-
-</div>
-
-<script>
-const tabs = document.querySelectorAll("#tabMenu li");
-const sections = document.querySelectorAll(".content section");
-const indicator = document.getElementById("indicator");
-
-function moveIndicator(el) {
-    indicator.style.width = el.offsetWidth + "px";
-    indicator.style.left = el.offsetLeft + "px";
-}
-
-// initial
-moveIndicator(document.querySelector("#tabMenu li.active"));
-
-tabs.forEach((tab, index) => {
-    tab.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        tabs.forEach(t => t.classList.remove("active"));
-        sections.forEach(s => s.classList.remove("active"));
-
-        tab.classList.add("active");
-        sections[index].classList.add("active");
-
-        moveIndicator(tab);
-    });
-});
-
-// responsive fix
-window.addEventListener("resize", () => {
-    moveIndicator(document.querySelector("#tabMenu li.active"));
-});
-</script>
-
-</body>
-</html>
+  </div>
+</section>
