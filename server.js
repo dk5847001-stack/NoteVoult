@@ -9,6 +9,7 @@ const { storage } = require("./config/cloudConfig");
 const upload = multer({ storage });
 const cloudinary = require("./config/cloudConfig").cloudinary;
 const pdfRoutes = require("./routes/pdfRoutes");
+const ExpressError = require("./utils/ExpressError");
 const session = require("express-session");
 const sessionConfig = require("./config/sessionConfig");
 const flash = require("connect-flash");
@@ -40,11 +41,8 @@ app.get("/", (req, res) => {
 });
 app.use("/pdfs", pdfRoutes);
 
-app.get("/pdfs/:id", async (req, res)=>{
-    const {id} = req.params;
-    const pdf = await Pdf.findById(id);
-    console.log(pdf)
-    res.render("clients/show", {pdf});
+app.use((req, res, next)=>{
+    res.status(404).render("404")
 })
 // =================== Routes =====================
 

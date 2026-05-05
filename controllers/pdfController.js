@@ -173,3 +173,10 @@ module.exports.filterPdfs = async (req, res) => {
         res.status(500).json({ error: "Filter failed" });
     }
 };
+
+module.exports.viewProject = async (req, res)=>{
+    const {id} = req.params;
+    const pdf = await Pdf.findById(id);
+    console.log(pdf)
+    res.render("clients/show", {pdf});
+};

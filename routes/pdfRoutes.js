@@ -13,5 +13,6 @@ router.get("/api/filter", pdfController.filterPdfs);
 router.route("/")
 .get(pdfController.index)
 .post(upload.single("pdf"), pdfController.uploadPdfForm)
+router.get("/:id", pdfController.viewProject)
 
 module.exports = router;
