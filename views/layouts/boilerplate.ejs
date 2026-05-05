@@ -1,25 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NoteVault Prime</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/style.css">
     <style>
-        body{
+        body {
             background-color: rgb(40, 46, 52);
             color: #fff;
         }
     </style>
 </head>
+
 <body>
     <%- include("../includes/navbar.ejs") %>
-    <div class="container">
-        <%- body %>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/script.js"></script>
+        <div class="container">
+            <%- include("../includes/flash.ejs") %>
+                <%- body %>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="/script.js"></script>
+        <script>
+            document.querySelectorAll(".toast").forEach((toast) => {
+                const bsToast = new bootstrap.Toast(toast, { delay: 5000 });
+                bsToast.show();
+
+                setTimeout(() => {
+                    toast.remove();
+                }, 8200);
+            });
+        </script>
 </body>
+
 </html>

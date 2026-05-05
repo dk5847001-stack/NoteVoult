@@ -18,7 +18,7 @@ module.exports.index = async (req, res) => {
         // ✅ All PDFs (no filter)
         const allPdfs = await Pdf.find({});
 
-        const allProjects = await Pdf.find({category: "projects"});
+        const allProjects = await Pdf.find({ category: "projects" });
 
         // ✅ Price > 10 (existing logic)
         const minPdfs = await Pdf.find({ price: { $gt: 10 } });
@@ -63,46 +63,69 @@ module.exports.index = async (req, res) => {
     }
 };
 
-module.exports.renderNewForm = (req, res)=>{
+module.exports.renderNewForm = (req, res) => {
     res.render("clients/new");
 }
 
 module.exports.downloadPdf = async (req, res) => {
-  try {
-    const pdf = await Pdf.findById(req.params.id);
+    try {
+        const pdf = await Pdf.findById(req.params.id);
 
-    if (!pdf || !pdf.pdf?.filename) {
-      return res.status(404).send("File not found");
+        if (!pdf || !pdf.pdf?.filename) {
+            return res.status(404).send("File not found");
+        }
+
+        const publicId = pdf.pdf.filename;
+
+        const downloadName = `${pdf.title.replace(/[^\w\- ]+/g, "").trim() || "document"}.pdf`;
+
+        const signedUrl = cloudinary.utils.private_download_url(
+            publicId,
+            "pdf",
+            {
+                resource_type: "image",   // 🔥 IMPORTANT
+                type: "upload",
+                attachment: downloadName
+            }
+        );
+
+        return res.redirect(signedUrl);
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).send("Download failed");
     }
-
-    const publicId = pdf.pdf.filename;
-
-    const downloadName = `${pdf.title.replace(/[^\w\- ]+/g, "").trim() || "document"}.pdf`;
-
-    const signedUrl = cloudinary.utils.private_download_url(
-      publicId,
-      "pdf",
-      {
-        resource_type: "image",   // 🔥 IMPORTANT
-        type: "upload",
-        attachment: downloadName
-      }
-    );
-
-    return res.redirect(signedUrl);
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Download failed");
-  }
 }
 
 module.exports.uploadPdfForm = async (req, res) => {
     try {
         const { title, price, branch, semester, category } = req.body;
 
+        // 🔴 Basic validation
+        if (!title || !price || !branch || !semester || !category) {
+            req.flash("error", "All fields are required!");
+            return res.redirect("/pdfs/new");
+        }
+
+        // 🔴 File check
         if (!req.file) {
-            return res.status(400).send("No file uploaded");
+            req.flash("error", "Please upload a PDF file!");
+            return res.redirect("/pdfs/new");
+        }
+
+        // 🔴 File type check (extra safety)
+        if (!req.file.mimetype.includes("pdf")) {
+            req.flash("error", "Only PDF files are allowed!");
+            return res.redirect("/pdfs/new");
+        }
+
+        // 🔴 Safe number conversion
+        const parsedPrice = parseFloat(price);
+        const parsedSemester = parseInt(semester);
+
+        if (isNaN(parsedPrice) || isNaN(parsedSemester)) {
+            req.flash("error", "Invalid price or semester!");
+            return res.redirect("/pdfs/new");
         }
 
         const newPdf = new Pdf({
@@ -111,19 +134,21 @@ module.exports.uploadPdfForm = async (req, res) => {
                 url: req.file.path,
                 filename: req.file.filename
             },
-            price: Number(price),
+            price: parsedPrice,
             branch,
-            semester: Number(semester),
+            semester: parsedSemester,
             category
         });
 
         await newPdf.save();
 
+        req.flash("success", "PDF uploaded successfully!");
         res.redirect("/pdfs");
 
     } catch (err) {
-        console.error(err);
+        console.error("UPLOAD ERROR:", err);
 
+        req.flash("error", "Something went wrong while uploading!");
         res.redirect("/pdfs/new");
     }
 };

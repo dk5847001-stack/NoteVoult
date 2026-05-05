@@ -9,6 +9,9 @@ const { storage } = require("./config/cloudConfig");
 const upload = multer({ storage });
 const cloudinary = require("./config/cloudConfig").cloudinary;
 const pdfRoutes = require("./routes/pdfRoutes");
+const session = require("express-session");
+const sessionConfig = require("./config/sessionConfig");
+const flash = require("connect-flash");
 const path = require("path");
 const ejsMate = require("ejs-mate")
 const PORT = 3000;
@@ -21,6 +24,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(session(sessionConfig));
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+});
 
 // =================== Routes =====================
 app.get("/", (req, res) => {
