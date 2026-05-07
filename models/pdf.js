@@ -14,6 +14,7 @@ const pdfSchema = new Schema({
             type: String,
             required: true
         },
+
         filename: {
             type: String,
             required: true
@@ -40,12 +41,15 @@ const pdfSchema = new Schema({
         type: Number,
         default: 5
     },
+
     branch: {
         type: String,
+
         enum: {
             values: ["B.Tech", "BCA", "Agriculture", "BBA", "MBA"],
             message: "Invalid branch"
         },
+
         required: [true, "Branch is required"]
     },
 
@@ -58,22 +62,31 @@ const pdfSchema = new Schema({
 
     category: {
         type: String,
+
         enum: {
             values: ["micro", "notes", "projects"],
             message: "Invalid category"
         },
+
         default: "notes"
     },
+
     examType: {
         type: String,
+
         enum: {
             values: ["CIA", "Semester"],
             message: "Invalid exam type"
         },
+
         required: true,
         default: "Semester"
     }
+
+}, {
+    timestamps: true
 });
 
 const Pdf = mongoose.model("Pdf", pdfSchema);
+
 module.exports = Pdf;

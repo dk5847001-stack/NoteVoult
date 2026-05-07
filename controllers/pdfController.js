@@ -1,50 +1,66 @@
 const Pdf = require("../models/pdf");
-const multer = require('multer')
-const { storage } = require("../config/cloudConfig");
-const upload = multer({ storage });
 const cloudinary = require("../config/cloudConfig").cloudinary;
+const AsyncWrap = require("../utils/AsyncWrap");
 
-module.exports.index = async (req, res) => {
+module.exports.index = AsyncWrap(async (req, res) => {
     try {
-        const { category, branch, semester, minPrice } = req.query;
+        const { branch, semester, minPrice } = req.query;
 
-        // 🔥 Common filter object
+        // ✅ Common filter object
         const filter = {};
 
         if (branch) filter.branch = branch;
-        if (semester) filter.semester = Number(semester);
-        if (minPrice) filter.price = { $gte: Number(minPrice) };
 
-        // ✅ All PDFs (no filter)
-        const allPdfs = await Pdf.find({});
+        if (semester) {
+            filter.semester = Number(semester);
+        }
 
-        const allProjects = await Pdf.find({ category: "projects" });
+        if (minPrice) {
+            filter.price = { $gte: Number(minPrice) };
+        }
 
-        // ✅ Price > 10 (existing logic)
-        const minPdfs = await Pdf.find({ price: { $gt: 10 } });
+        // ✅ New uploaded first
+        const sortNewest = { createdAt: -1 };
 
-        // ✅ Notes (with filter)
+        // ✅ All PDFs
+        const allPdfs = await Pdf.find()
+            .sort(sortNewest);
+
+        // ✅ Projects
+        const allProjects = await Pdf.find({
+            category: "projects"
+        }).sort(sortNewest);
+
+        // ✅ Price > 10
+        const minPdfs = await Pdf.find({
+            price: { $gt: 10 }
+        }).sort(sortNewest);
+
+        // ✅ Notes
         const allNotes = await Pdf.find({
             category: "notes",
             ...filter
-        });
+        }).sort(sortNewest);
+
+        // ✅ All Micros
         const allMicros = await Pdf.find({
             category: "micro",
             ...filter
-        });
+        }).sort(sortNewest);
 
-        // ✅ Micros (with filter)
+        // ✅ CIA Micros
         const ciaMicros = await Pdf.find({
             category: "micro",
             examType: "CIA",
             ...filter
-        });
+        }).sort(sortNewest);
 
+        // ✅ Semester Micros
         const semesterMicros = await Pdf.find({
             category: "micro",
             examType: "Semester",
             ...filter
-        });
+        }).sort(sortNewest);
 
         res.render("clients/index", {
             allPdfs,
@@ -54,20 +70,22 @@ module.exports.index = async (req, res) => {
             ciaMicros,
             semesterMicros,
             allProjects,
-            query: req.query   // 🔥 important for UI selected values
+            query: req.query
         });
 
     } catch (err) {
-        console.log(err);
-        res.send("Error loading PDFs");
+        console.log("INDEX ERROR:", err);
+
+        req.flash("error", "Failed to load PDFs!");
+        res.redirect("/");
     }
-};
+});
 
-module.exports.renderNewForm = (req, res) => {
+module.exports.renderNewForm = AsyncWrap((req, res) => {
     res.render("clients/new");
-}
+});
 
-module.exports.downloadPdf = async (req, res) => {
+module.exports.downloadPdf = AsyncWrap(async (req, res) => {
     try {
         const pdf = await Pdf.findById(req.params.id);
 
@@ -88,16 +106,16 @@ module.exports.downloadPdf = async (req, res) => {
                 attachment: downloadName
             }
         );
-
+        req.flash("success", "Pdf download successfully!")
         return res.redirect(signedUrl);
 
     } catch (err) {
         console.error(err);
         res.status(500).send("Download failed");
     }
-}
+});
 
-module.exports.uploadPdfForm = async (req, res) => {
+module.exports.uploadPdfForm = AsyncWrap(async (req, res) => {
     try {
         const { title, price, branch, semester, category } = req.body;
 
@@ -151,9 +169,9 @@ module.exports.uploadPdfForm = async (req, res) => {
         req.flash("error", "Something went wrong while uploading!");
         res.redirect("/pdfs/new");
     }
-};
+});
 
-module.exports.filterPdfs = async (req, res) => {
+module.exports.filterPdfs = AsyncWrap(async (req, res) => {
     try {
         const { category, branch, semester, minPrice } = req.query;
 
@@ -172,11 +190,11 @@ module.exports.filterPdfs = async (req, res) => {
         console.log(err);
         res.status(500).json({ error: "Filter failed" });
     }
-};
+});
 
-module.exports.viewProject = async (req, res)=>{
+module.exports.viewProject = AsyncWrap(async (req, res)=>{
     const {id} = req.params;
     const pdf = await Pdf.findById(id);
     console.log(pdf)
     res.render("clients/show", {pdf});
-};
+});

@@ -1,18 +1,43 @@
 require("dotenv").config();
+
+const MongoStoreImport = require("connect-mongo");
+
+// ✅ actual class/function extract
+const MongoStore = MongoStoreImport.default || MongoStoreImport;
+
+const store = MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,
+
+    crypto: {
+        secret: process.env.SECRET || process.env.SESSION_SECRET
+    },
+
+    touchAfter: 24 * 3600
+});
+
+store.on("error", (err) => {
+    console.log("SESSION STORE ERROR:", err);
+});
+
 const sessionConfig = {
-    name: "sessionId", // custom cookie name (default 'connect.sid' avoid karo)
+    store,
+
+    name: "sessionId",
 
     secret: process.env.SESSION_SECRET,
 
     resave: false,
-    saveUninitialized: false, // ⚠️ better security
+    saveUninitialized: false,
 
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-        // httpOnly: true,  // JS access block (XSS protection)
-        // secure: process.env.NODE_ENV === "production", // HTTPS only in prod
-        // sameSite: "lax" // CSRF protection basic level
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+        httpOnly: true,
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production"
     }
 };
 
-module.exports = sessionConfig;
+module.exports = {
+    sessionConfig,
+    store
+};
