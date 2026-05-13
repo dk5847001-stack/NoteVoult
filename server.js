@@ -8,11 +8,16 @@ const { storage } = require("./config/cloudConfig");
 const pdfRoutes = require("./routes/pdfRoutes");
 const ExpressError = require("./utils/ExpressError");
 const session = require("express-session");
+const cookieParser = require('cookie-parser');
 const User = require("./models/User");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const { sessionConfig } = require("./config/sessionConfig");
 const flash = require("connect-flash");
+const LoginActivity = require("./models/LoginActivity");
+const UAParser = require('ua-parser-js');
+const geoip = require('geoip-lite');
+const { v4: uuidv4 } = require('uuid');
 const path = require("path");
 const ejsMate = require("ejs-mate")
 const PORT = 3000;
@@ -30,6 +35,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(session(sessionConfig));
 app.use(flash());
+app.use(cookieParser());
+
 
 // passport initialize-----------------------
 app.use(passport.initialize());
@@ -122,6 +129,26 @@ app.get("/", (req, res) => {
 });
 app.use("/pdfs", pdfRoutes);
 
+// ------------Admin Routes --------------
+app.get("/admin", isAdmin, async (req, res)=>{
+    const users = await User.find({});
+    res.render("clients/adminDeshboard.ejs", {users});
+});
+
+app.get("/admin/user/:id", isAdmin, async (req, res) => {
+    const { id } = req.params;
+
+    const user = await User.findById(id);
+
+    const logs = await LoginActivity.find({ user_id: id })
+        .sort({ login_time: -1 });
+
+    res.render("clients/userDetails.ejs", {
+        user,
+        logs
+    });
+});
+
 // ------------------------ Auth Routes ---------------
 app.get("/register", (req, res)=>{
     res.render("clients/register.ejs");
@@ -171,13 +198,51 @@ app.post("/login",
         failureRedirect: "/login",
         failureFlash: true,
     }),
-    (req, res)=>{
+    async (req, res)=>{
+
+        // ================= DEVICE TRACKING =================
+
+        // 1. User-Agent parse
+        const parser = new UAParser(req.headers['user-agent']);
+        const device = parser.getDevice().model || "Desktop";
+        const browser = parser.getBrowser().name || "Unknown";
+        const os = parser.getOS().name || "Unknown";
+
+        // 2. IP + Location
+        const ip = req.ip;
+        const geo = geoip.lookup(ip);
+        const location = geo ? `${geo.city || ""}, ${geo.country}` : "Unknown";
+
+        // 3. Device ID (cookie)
+        let device_id = req.cookies.device_id;
+
+        if (!device_id) {
+            device_id = uuidv4();
+            res.cookie("device_id", device_id, {
+                maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year
+            });
+        }
+
+        // 4. Save in DB
+        await LoginActivity.create({
+            user_id: req.user._id,
+            device,
+            browser,
+            os,
+            ip,
+            location,
+            device_id
+        });
+
+        // ================= NORMAL LOGIN =================
+
         const redirectUrl = res.locals.originalUrl || "/pdfs";
         req.session.originalUrl = null;
+
         req.flash("success", `welcome back, ${req.user.username}`);
         res.redirect(redirectUrl);
     }
- )
+);
 
 app.use((req, res, next)=>{
     res.status(404).render("404")

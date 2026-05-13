@@ -69,11 +69,9 @@
     }
 
     .premium-nav .active {
-        background: linear-gradient(
-            135deg,
-            rgba(6, 182, 212, 0.22),
-            rgba(124, 58, 237, 0.22)
-        );
+        background: linear-gradient(135deg,
+                rgba(6, 182, 212, 0.22),
+                rgba(124, 58, 237, 0.22));
         color: white !important;
         border-color: rgba(56, 189, 248, 0.28);
     }
@@ -164,6 +162,7 @@
     }
 
     @media (max-width: 991px) {
+
         .premium-nav,
         .auth-actions {
             margin-top: 18px;
@@ -199,12 +198,7 @@
         </a>
 
         <!-- Toggle -->
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#premiumNavbar"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#premiumNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -229,17 +223,16 @@
                         <i class="fa-solid fa-cloud-arrow-up"></i>
                         Upload
                     </a>
-                <% } %>
+                    <% } %>
 
-                <span class="premium-badge">
-                    <i class="fa-solid fa-crown me-1"></i>
-                    PRO+
-                </span>
+                        <span class="premium-badge">
+                            <i class="fa-solid fa-crown me-1"></i>
+                            PRO+
+                        </span>
             </div>
 
             <!-- Right Side -->
             <div class="auth-actions ms-auto">
-
                 <% if(!currUser){ %>
 
                     <a href="/register" class="auth-btn btn-register">
@@ -252,19 +245,23 @@
                         Login
                     </a>
 
-                <% } else { %>
+                    <% } else { %>
+                        <a href="/admin" class="auth-btn btn-register">
+                            <i class="fa-solid fa-user-shield"></i>
+                            Admin
+                        </a>
 
-                    <div class="user-pill">
-                        <i class="fa-solid fa-user"></i>
-                        <%= currUser.username %>
-                    </div>
+                        <div class="user-pill">
+                            <i class="fa-solid fa-user"></i>
+                            <%= currUser.username %>
+                        </div>
 
-                    <a href="/logout" class="auth-btn btn-logout">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                        Logout
-                    </a>
+                        <a href="/logout" class="auth-btn btn-logout">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            Logout
+                        </a>
 
-                <% } %>
+                        <% } %>
 
             </div>
         </div>

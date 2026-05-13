@@ -1,0 +1,26 @@
+<h2>User Details</h2>
+
+<p>Name: <%= user.username %></p>
+<p>Email: <%= user.email %></p>
+
+<h3>Login History</h3>
+
+<table border="1">
+<tr>
+    <th>Device</th>
+    <th>Browser</th>
+    <th>OS</th>
+    <th>Location</th>
+    <th>Time</th>
+</tr>
+
+<% logs.forEach(log => { %>
+<tr>
+    <td><%= log.device %></td>
+    <td><%= log.browser %></td>
+    <td><%= log.os %></td>
+    <td><%= log.location %></td>
+    <td><%= log.login_time.toLocaleString() %></td>
+</tr>
+<% }) %>
+</table>

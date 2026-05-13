@@ -1,0 +1,205 @@
+<style>
+.premium-footer {
+    margin-top: 60px;
+    padding: 50px 0 25px;
+    background: linear-gradient(135deg, rgba(2, 6, 23, 0.96), rgba(15, 23, 42, 0.96));
+    backdrop-filter: blur(18px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -18px 45px rgba(0, 0, 0, 0.35);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.footer-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, #06b6d4, #2563eb, #7c3aed);
+    color: white;
+}
+
+.footer-title {
+    font-size: 1.3rem;
+    font-weight: 900;
+    background: linear-gradient(90deg, #38bdf8, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.footer-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+/* 🔥 Subscribe Premium */
+.subscribe-box {
+    margin-top: 20px;
+    padding: 18px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.subscribe-input {
+    height: 48px;
+    border-radius: 12px;
+    border: none;
+    padding-left: 42px;
+}
+
+.input-icon {
+    position: relative;
+}
+
+.input-icon i {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    color: #94a3b8;
+}
+
+.subscribe-btn {
+    height: 48px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+    background: linear-gradient(135deg, #06b6d4, #2563eb, #7c3aed);
+    color: white;
+}
+
+.footer-links h5 {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    font-weight: 800;
+    color: white;
+}
+
+.footer-links a {
+    display: block;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 8px;
+}
+
+.footer-links a:hover {
+    color: white;
+    transform: translateX(4px);
+}
+
+.social-icons {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.social-icons a {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: white;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.footer-bottom {
+    margin-top: 40px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+    font-size: 0.85rem;
+}
+</style>
+
+<footer class="premium-footer">
+<div class="container">
+
+<div class="row">
+
+<div class="col-md-4">
+<div class="footer-brand">
+<div class="footer-icon"><i class="fa-solid fa-layer-group"></i></div>
+<div class="footer-title">NoteVault</div>
+</div>
+
+<p class="footer-text">Premium platform for PDFs & notes.</p>
+
+<div class="social-icons">
+<a href="#"><i class="fab fa-github"></i></a>
+<a href="#"><i class="fab fa-linkedin-in"></i></a>
+<a href="#"><i class="fab fa-twitter"></i></a>
+</div>
+
+<!-- 🔥 Subscribe -->
+<div class="subscribe-box">
+<form id="subscribeForm">
+<div class="input-icon mb-2">
+<i class="fa-solid fa-envelope"></i>
+<input type="email" class="form-control subscribe-input" placeholder="Enter your email" required>
+</div>
+
+<button class="subscribe-btn w-100" id="subBtn">
+<span id="subText"><i class="fa-solid fa-paper-plane me-1"></i> Subscribe</span>
+<span class="spinner-border spinner-border-sm d-none" id="subSpinner"></span>
+</button>
+</form>
+</div>
+
+</div>
+
+<div class="col-md-2 footer-links">
+<h5>Explore</h5>
+<a href="/">Home</a>
+<a href="/pdfs">All PDFs</a>
+<a href="/pdfs/new">Upload</a>
+</div>
+
+<div class="col-md-3 footer-links">
+<h5>Account</h5>
+<a href="/login">Login</a>
+<a href="/register">Register</a>
+</div>
+
+<div class="col-md-3 footer-links">
+<h5>Support</h5>
+<a href="#">Help Center</a>
+<a href="#">Privacy</a>
+</div>
+
+</div>
+
+<div class="footer-bottom">
+© <%= new Date().getFullYear() %> NoteVault
+</div>
+
+</div>
+</footer>
+
+<script>
+const form = document.getElementById("subscribeForm");
+const btn = document.getElementById("subBtn");
+const spinner = document.getElementById("subSpinner");
+const text = document.getElementById("subText");
+
+form.addEventListener("submit", (e)=>{
+ e.preventDefault();
+ spinner.classList.remove("d-none");
+ text.innerHTML = "Sending...";
+ btn.disabled = true;
+
+ setTimeout(()=>{
+   spinner.classList.add("d-none");
+   text.innerHTML = "Subscribed ✅";
+ },1500);
+});
+</script>

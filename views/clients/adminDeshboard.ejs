@@ -1,0 +1,558 @@
+<% layout("layouts/boilerplate.ejs") -%>
+
+    <style>
+        /* ===== PAGE ===== */
+        body {
+            background: #0f172a;
+            color: #e2e8f0;
+        }
+
+        /* ===== HEADER ===== */
+        .admin-header {
+            padding: 20px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        /* ===== USER CARD ===== */
+        .user-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .user-card h6 {
+            color: #94a3b8;
+            margin-bottom: 5px;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .admin-sidebar {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Sidebar buttons */
+        .admin-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+            border: none;
+            color: white;
+            font-weight: 600;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-btn i {
+            font-size: 16px;
+        }
+
+        .admin-btn:hover {
+            transform: translateX(5px);
+        }
+
+        /* Button colors */
+        .btn-subs {
+            background: linear-gradient(135deg, #3b82f6, #06b6d4);
+        }
+
+        .btn-msg {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        }
+
+        .btn-users {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+
+        .btn-pdf {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+        }
+
+        /* ===== BADGE ===== */
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+        }
+
+        .active {
+            background: #22c55e;
+        }
+
+        .blocked {
+            background: #ef4444;
+        }
+
+        /* MOBILE */
+        @media(max-width:768px) {
+            .admin-sidebar {
+                margin-top: 20px;
+            }
+        }
+
+        table {
+            width: 100%;
+        }
+
+        tr,
+        th,
+        td {
+            border: 1px solid rgb(235, 23, 23);
+            padding: 30px;
+        }
+
+        /* ------------------------------------ */
+
+        /* ===== SECTION ===== */
+        .section1 {
+            color: #e2e8f0;
+        }
+
+        /* ===== CARD ===== */
+        .card {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(16px);
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            box-shadow: 0 15px 60px rgba(59, 130, 246, 0.25);
+        }
+
+        /* ===== HEADER ===== */
+        .section1 h5 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== TABLE ===== */
+        .table {
+            border-collapse: separate;
+            border-spacing: 0 10px;
+        }
+
+        /* ===== TABLE HEAD ===== */
+        .table thead th {
+            background: rgba(255, 255, 255, 0.06);
+            border: none;
+            padding: 14px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #94a3b8;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        /* ===== TABLE ROW ===== */
+        .table tbody tr {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 12px;
+            transition: 0.3s ease;
+        }
+
+        /* ===== CELL ===== */
+        .table td {
+            padding: 14px;
+            border: none;
+        }
+
+        /* ===== HOVER EFFECT ===== */
+        .table-hover tbody tr:hover {
+            transform: translateY(-4px) scale(1.01);
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        /* ===== BADGES ===== */
+        .badge {
+            font-size: 12px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-sm {
+            border-radius: 10px;
+            padding: 6px 12px;
+            border: none;
+            transition: 0.3s;
+        }
+
+        /* BLOCK BUTTON */
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.7);
+        }
+
+        /* UNBLOCK BUTTON */
+        .btn-success {
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+
+        .btn-success:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 12px rgba(34, 197, 94, 0.7);
+        }
+
+        /* DELETE BUTTON */
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .btn-danger:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 12px rgba(239, 68, 68, 0.7);
+        }
+
+        /* ===== ICON STYLE ===== */
+        i {
+            margin-right: 4px;
+        }
+
+        /* ===== TOTAL BADGE ===== */
+        .badge.bg-primary {
+            background: linear-gradient(135deg, #3b82f6, #06b6d4) !important;
+            border-radius: 999px;
+            padding: 6px 12px;
+        }
+
+        /* ===== SCROLLBAR (PREMIUM TOUCH) ===== */
+        .table-responsive::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .table-responsive::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-radius: 10px;
+        }
+
+        /* ===== MOBILE ===== */
+        @media(max-width:768px) {
+
+            .table thead {
+                display: none;
+            }
+
+            .table tbody tr {
+                display: block;
+                margin-bottom: 15px;
+                padding: 10px;
+            }
+
+            .table td {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px;
+            }
+
+            .table td::before {
+                content: attr(data-label);
+                font-weight: bold;
+                color: #94a3b8;
+            }
+
+        }
+
+        /* Chrome, Edge, Safari */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Firefox */
+        * {
+            scrollbar-width: none;
+        }
+
+        /* IE / Old Edge */
+        * {
+            -ms-overflow-style: none;
+        }
+
+        .section1 {
+            max-height: 80vh;
+            overflow-y: scroll;
+        }
+        #section1{
+            color: #fff;
+        }
+
+        /* --------------------------- */
+/* ===== SECTION HEADER ===== */
+.premium-section-header {
+    padding: 14px 18px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(139,92,246,0.2));
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s;
+}
+
+/* Hover Glow */
+.premium-section-header:hover {
+    box-shadow: 0 10px 30px rgba(59,130,246,0.3);
+    transform: translateY(-2px);
+}
+
+/* ===== ICON BOX ===== */
+.icon-box {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg,#3b82f6,#8b5cf6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+}
+
+/* ===== TITLE ===== */
+.premium-section-header h5 {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* OPTIONAL: animated underline */
+.premium-section-header::after {
+    content: "";
+    position: absolute;
+    left: 20px;
+    bottom: 8px;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(135deg,#3b82f6,#8b5cf6);
+    transition: 0.4s;
+}
+
+.premium-section-header:hover::after {
+    width: 60px;
+}
+
+    </style>
+
+    <div class="container mt-4">
+
+        <!-- HEADER -->
+        <div class="admin-header">
+            <h3>
+                👑 <i class="fa-solid fa-user-shield"></i> Welcome, <%= currUser.username %>
+            </h3>
+            <p class="mb-0">
+                <i class="fa-solid fa-gauge-high"></i> Admin Dashboard Panel
+            </p>
+        </div>
+
+        <div class="row">
+
+            <!-- LEFT: USER INFO -->
+            <div class="col-lg-8">
+
+                <div class="user-card">
+                    <h6><i class="fa-solid fa-user"></i> Username</h6>
+                    <h5>
+                        <%= currUser.username %>
+                    </h5>
+                </div>
+
+                <div class="user-card">
+                    <h6><i class="fa-solid fa-envelope"></i> Email</h6>
+                    <h5>
+                        <%= currUser.email %>
+                    </h5>
+                </div>
+
+                <div class="user-card">
+                    <h6><i class="fa-solid fa-id-badge"></i> Role</h6>
+                    <h5>
+                        <%= currUser.role %>
+                            <% if(currUser.role==="admin" ){ %>
+                                👑
+                                <% } %>
+                    </h5>
+                </div>
+
+                <div class="user-card">
+                    <h6><i class="fa-solid fa-signal"></i> Status</h6>
+                    <h5>
+                        <% if(currUser.isBlocked==="blocked" ){ %>
+                            <span class="status-badge blocked">
+                                <i class="fa-solid fa-ban"></i> Blocked
+                            </span>
+                            <% } else { %>
+                                <span class="status-badge active">
+                                    <i class="fa-solid fa-check"></i> Active
+                                </span>
+                                <% } %>
+                    </h5>
+                </div>
+
+            </div>
+
+            <!-- RIGHT: ACTION PANEL -->
+            <div class="col-lg-4">
+                <div class="admin-sidebar">
+
+                    <button class="admin-btn btn-subs">
+                        <i class="fa-solid fa-envelope-open-text"></i>
+                        View Subscribers
+                    </button>
+
+                    <button class="admin-btn btn-msg">
+                        <i class="fa-solid fa-comments"></i>
+                        View Messages
+                    </button>
+
+                    <button class="admin-btn btn-users">
+                        <i class="fa-solid fa-users"></i>
+                        Manage Users
+                    </button>
+
+                    <button class="admin-btn btn-pdf">
+                        <i class="fa-solid fa-file-pdf"></i>
+                        Manage PDFs
+                    </button>
+
+                </div>
+            </div>
+
+        </div>
+        <!--------------------------------------------------------------------------------------------------------------------------------------->
+        <!-- USERS SECTION -->
+        <div class="section1 mt-4">
+
+<div class="premium-section-header mt-3 mb-3">
+    <div class="d-flex align-items-center gap-2">
+        <span class="icon-box">
+            <i class="fa-solid fa-users"></i>
+        </span>
+        <h5 class="mb-0">User Section</h5>
+    </div>
+</div>
+
+            <div class="card shadow-lg border-0 p-3" style="background: rgba(255,255,255,0.05); border-radius:16px;">
+                <!-- HEADER -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">
+                        <i class="fa-solid fa-users"></i> Users Management
+                    </h5>
+                    <span class="badge bg-primary">
+                        <i class="fa-solid fa-database"></i> Total: <%= users.length %>
+                    </span>
+                </div>
+
+                <!-- TABLE -->
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover align-middle text-center">
+
+                        <thead>
+                            <tr>
+                                <th><i class="fa-solid fa-user"></i> Name</th>
+                                <th><i class="fa-solid fa-envelope"></i> Email</th>
+                                <th><i class="fa-solid fa-id-badge"></i> Role</th>
+                                <th><i class="fa-solid fa-signal"></i> Status</th>
+                                <th><i class="fa-solid fa-gears"></i> Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <% for(let user of users){ %>
+                                <tr>
+
+                                    <!-- NAME -->
+                                    <td>
+                                        <i class="fa-solid fa-circle-user"></i>
+                                        <%= user.username %>
+                                    </td>
+
+                                    <!-- EMAIL -->
+                                    <td>
+                                        <%= user.email %>
+                                    </td>
+
+                                    <!-- ROLE -->
+                                    <td>
+                                        <% if(user.role==="admin" ){ %>
+                                            <span class="badge bg-warning text-dark">
+                                                👑 Admin
+                                            </span>
+                                            <% } else { %>
+                                                <span class="badge bg-secondary">
+                                                    User
+                                                </span>
+                                                <% } %>
+                                    </td>
+
+                                    <!-- STATUS -->
+                                    <td>
+                                        <% if(user.isBlocked==="blocked" ){ %>
+                                            <span class="badge bg-danger">
+                                                <i class="fa-solid fa-ban"></i> Blocked
+                                            </span>
+                                            <% } else { %>
+                                                <span class="badge bg-success">
+                                                    <i class="fa-solid fa-check"></i> Active
+                                                </span>
+                                                <% } %>
+                                    </td>
+
+                                    <!-- ACTION -->
+                                    <td class="d-flex justify-content-center gap-2">
+
+                                        <% if(user.isBlocked){ %>
+                                            <a href="/admin/unblock/<%= user._id %>" class="btn btn-success btn-sm">
+                                                <i class="fa-solid fa-lock-open"></i>
+                                            </a>
+                                            <% } else { %>
+                                                <a href="/admin/block/<%= user._id %>" class="btn btn-warning btn-sm">
+                                                    <i class="fa-solid fa-ban"></i>
+                                                </a>
+                                                <% } %>
+
+                                                    <a href="/admin/delete/<%= user._id %>"
+                                                        class="btn btn-danger btn-sm"
+                                                        onclick="return confirm('Delete this user?')">
+                                                        <i class="fa-solid fa-trash"></i>
+                                                    </a>
+                                                    <a href="/admin/user/<%= user._id %>" class="btn btn-info btn-sm">
+                                                    <i class="fa-solid fa-eye"></i>
+                                                </a>
+
+                                            
+                                    </td>
+
+                                </tr>
+                                <% } %>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+
+        </div>
