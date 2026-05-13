@@ -206,44 +206,89 @@ app.post("/login",
         const axios = require("axios");
         const { v4: uuidv4 } = require("uuid");
 
-        // ✅ 1. User-Agent parse (FIXED)
-        const parser = new UAParser(req.headers['user-agent']);
+        // ✅ 1. User-Agent parse
+        const userAgent = req.headers['user-agent'];
+        const parser = new UAParser(userAgent);
+        const result = parser.getResult();
 
-        const deviceType = parser.getDevice().type;
         let device = "Desktop";
 
-        if (deviceType === "mobile") device = "Mobile";
-        else if (deviceType === "tablet") device = "Tablet";
+        // 🔥 1. Exact vendor + model (best case)
+        if (result.device.vendor && result.device.model) {
+            device = `${result.device.vendor} ${result.device.model}`;
+        }
 
+        // 🔥 2. iPhone detect
+        else if (/iphone/i.test(userAgent)) {
+            device = "iPhone";
+        }
+
+        // 🔥 3. Samsung
+        else if (/samsung/i.test(userAgent)) {
+            device = "Samsung Device";
+        }
+
+        // 🔥 4. Xiaomi / Redmi / Mi
+        else if (/xiaomi|redmi|mi\s/i.test(userAgent)) {
+            device = "Xiaomi Device";
+        }
+
+        // 🔥 5. Oppo
+        else if (/oppo/i.test(userAgent)) {
+            device = "Oppo Device";
+        }
+
+        // 🔥 6. Vivo
+        else if (/vivo/i.test(userAgent)) {
+            device = "Vivo Device";
+        }
+
+        // 🔥 7. Nothing
+        else if (/nothing/i.test(userAgent)) {
+            device = "Nothing Phone";
+        }
+
+        // 🔥 8. Tablet
+        else if (result.device.type === "tablet") {
+            device = "Tablet";
+        }
+
+        // 🔥 9. Generic mobile fallback
+        else if (result.device.type === "mobile") {
+            device = "Android Mobile";
+        }
+
+        // Browser + OS
         const browser = parser.getBrowser().name || "Unknown";
         const os = parser.getOS().name || "Unknown";
 
-        // ✅ 2. IP FIX (Render friendly)
-        const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
+        // ✅ 2. IP
+        const ip = req.headers['x-forwarded-for']?.split(',')[0] 
+                    || req.socket.remoteAddress;
 
         console.log("User IP:", ip);
 
-        // ✅ 3. LOCATION FIX (better than geoip-lite)
+        // ✅ 3. Location
         let location = "Unknown";
 
         try {
-            const response = await axios.get(`https://ipinfo.io/${ip}/json`);
-            location = `${response.data.city || ""}, ${response.data.country}`;
+            const response = await axios.get(`https://ipapi.co/${ip}/json`);
+            location = `${response.data.city || ""}, ${response.data.region}, ${response.data.country_name} - ${response.data.postal}`;
         } catch (err) {
             console.log("Location error:", err.message);
         }
 
-        // ✅ 4. Device ID (cookie)
+        // ✅ 4. Device ID
         let device_id = req.cookies.device_id;
 
         if (!device_id) {
             device_id = uuidv4();
             res.cookie("device_id", device_id, {
-                maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year
+                maxAge: 1000 * 60 * 60 * 24 * 365
             });
         }
 
-        // ✅ 5. Save in DB
+        // ✅ 5. Save
         await LoginActivity.create({
             user_id: req.user._id,
             device,
