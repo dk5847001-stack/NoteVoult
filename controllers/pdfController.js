@@ -155,7 +155,8 @@ module.exports.uploadPdfForm = AsyncWrap(async (req, res) => {
             price: parsedPrice,
             branch,
             semester: parsedSemester,
-            category
+            category,
+            owner: req.user._id
         });
 
         await newPdf.save();

@@ -40,12 +40,12 @@
             max-width: 980px;
             margin: 0 auto 35px;
             padding: 16px;
-            border-radius: 28px;
-            background: rgba(30, 30, 30, 0.78);
+            /* border-radius: 28px; */
+            /* background: rgba(30, 30, 30, 0.78); */
             backdrop-filter: blur(22px);
-            -webkit-backdrop-filter: blur(22px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28);
+            /* -webkit-backdrop-filter: blur(22px); */
+            /* border: 1px solid rgba(255, 255, 255, 0.25); */
+            /* box-shadow: 0 18px 45px rgba(0, 0, 0, 0.28); */
         }
 
         .premium-tabs nav {
@@ -74,7 +74,7 @@
             align-items: center;
             gap: 7px;
             text-decoration: none;
-            color: #000f2c;
+            color: #fff;
             padding: 14px 10px;
             border-radius: 18px;
             transition: 0.3s ease;
@@ -84,7 +84,7 @@
         .premium-tabs a i {
             font-size: 21px;
             transition: 0.3s ease;
-            color: #000b20;
+            color: white;
         }
 
         .premium-tabs li.active a,
@@ -218,33 +218,42 @@
             color: #cbd5e1 !important;
         }
 
-        @media (max-width: 768px) {
-            .pdf-page {
-                padding: 25px 0 45px;
-            }
+       @media (max-width: 768px) {
+    .pdf-page {
+        padding: 25px 0 45px;
+    }
 
-            .premium-tabs {
-                border-radius: 22px;
-                padding: 12px;
-            }
+    .premium-tabs {
+        border-radius: 22px;
+        padding: 10px;
+        overflow-x: auto;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+    }
 
-            .premium-tabs ul {
-                overflow-x: hidden !important;
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 10px;
-            }
+    .premium-tabs ul {
+        flex-wrap: nowrap !important;
+        justify-content: flex-start;
+        gap: 10px;
+        min-width: max-content;
+        overflow-x: visible !important;
+    }
 
-            .premium-tabs li {
-                flex: 0 0 calc(50% - 10px);
-                min-width: 0;
-            }
+    .premium-tabs li {
+        flex: 0 0 auto;
+        min-width: auto;
+    }
 
-            .premium-tabs a {
-                padding: 12px 8px;
-                font-size: 0.88rem;
-            }
-        }
+    .premium-tabs a {
+        white-space: nowrap;
+        padding: 11px 16px;
+        font-size: 0.86rem;
+    }
+
+    .premium-tabs::-webkit-scrollbar {
+        height: 0;
+    }
+}
 
         @media (max-width: 576px) {
             .pdf-card {
