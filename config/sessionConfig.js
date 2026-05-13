@@ -1,15 +1,17 @@
 require("dotenv").config();
 
 const MongoStoreImport = require("connect-mongo");
-const MongoStore = MongoStoreImport.default || MongoStoreImport;
 
-const sessionSecret = process.env.SESSION_SECRET || process.env.SECRET || "devsecret";
+// ✅ actual class/function extract
+const MongoStore = MongoStoreImport.default || MongoStoreImport;
 
 const store = MongoStore.create({
     mongoUrl: process.env.MONGO_URI,
+
     crypto: {
-        secret: sessionSecret
+        secret: process.env.SECRET || process.env.SESSION_SECRET
     },
+
     touchAfter: 24 * 3600
 });
 
@@ -19,8 +21,11 @@ store.on("error", (err) => {
 
 const sessionConfig = {
     store,
+
     name: "sessionId",
-    secret: sessionSecret,
+
+    secret: process.env.SESSION_SECRET,
+
     resave: false,
     saveUninitialized: false,
 
