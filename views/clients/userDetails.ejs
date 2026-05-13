@@ -1,197 +1,147 @@
 <% layout("layouts/boilerplate.ejs") -%>
 
-<style>
-    .user-page {
-        min-height: 90vh;
-        width: 100%;
-        padding: 24px;
-    }
+    <!-- 🔥 Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-    .user-card {
-        width: 100%;
-        border-radius: 32px;
-        overflow: hidden;
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        backdrop-filter: blur(22px);
-        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
-    }
-
-    .user-header {
-        padding: 34px 38px;
-        color: #fff;
-        background: linear-gradient(135deg, rgba(6, 182, 212, 0.22), rgba(124, 58, 237, 0.22));
-        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-    }
-
-    .user-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 20px;
-        display: grid;
-        place-items: center;
-        font-size: 1.45rem;
-        color: white;
-        background: linear-gradient(135deg, #06b6d4, #2563eb, #7c3aed);
-        box-shadow: 0 16px 35px rgba(37, 99, 235, 0.38);
-    }
-
-    .user-header h1 {
-        margin-top: 18px;
-        font-weight: 900;
-    }
-
-    .user-header p {
-        color: rgba(255,255,255,0.75);
-    }
-
-    .user-body {
-        padding: 30px;
-        background: rgba(255,255,255,0.96);
-    }
-
-    .info-box {
-        background: #f8fafc;
-        border-radius: 18px;
-        padding: 16px 20px;
-        margin-bottom: 20px;
-        border: 1px solid #e2e8f0;
-    }
-
-    .info-box i {
-        margin-right: 8px;
-        color: #2563eb;
-    }
-
-    /* Table */
-    .table-wrapper {
-        overflow-x: auto;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        border-radius: 18px;
-        overflow: hidden;
-    }
-
-    th {
-        background: #0f172a;
-        color: white;
-        padding: 14px;
-        font-size: 14px;
-    }
-
-    td {
-        padding: 14px;
-        border-bottom: 1px solid #e5e7eb;
-        font-size: 14px;
-    }
-
-    tr:hover {
-        background: #f1f5f9;
-    }
-
-    .badge-current {
-        background: #d1fae5;
-        color: #047857;
-        padding: 4px 8px;
-        border-radius: 6px;
-        font-size: 12px;
-        margin-left: 6px;
-    }
-
-    .icon {
-        margin-right: 6px;
-        color: #64748b;
-    }
-
-    @media (max-width: 768px) {
-        .user-page {
-            padding: 12px;
-        }
-
-        .user-header, .user-body {
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
             padding: 20px;
         }
-    }
-</style>
 
-<section class="user-page">
-    <div class="user-card">
+        .container {
+            max-width: 1000px;
+            margin: auto;
+        }
 
-        <!-- 🔥 Header -->
-        <div class="user-header">
-            <div class="user-icon">
-                <i class="fa-solid fa-user"></i>
-            </div>
+        /* 🔥 User Card */
+        .card {
+            background: #9195a8;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
 
-            <h1>User Details</h1>
-            <p>Track login activity, devices, and access history.</p>
-        </div>
+        .card h2 {
+            margin-bottom: 10px;
+        }
 
-        <!-- 🔥 Body -->
-        <div class="user-body">
+        .user-info p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
 
-            <!-- 🔹 User Info -->
-            <div class="info-box">
-                <p><i class="fa-solid fa-user"></i><strong>Name:</strong> <%= user.username %></p>
-                <p><i class="fa-solid fa-envelope"></i><strong>Email:</strong> <%= user.email %></p>
-            </div>
+        .user-info i {
+            margin-right: 8px;
+            color: #555;
+        }
 
-            <!-- 🔥 Login History -->
-            <h4 class="mb-3">
-                <i class="fa-solid fa-clock-rotate-left"></i> Login History
-            </h4>
+        /* 🔥 Table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #bcb9b9c9;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
 
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th><i class="fa-solid fa-mobile-screen"></i> Device</th>
-                            <th><i class="fa-solid fa-globe"></i> Browser</th>
-                            <th><i class="fa-solid fa-laptop"></i> OS</th>
-                            <th><i class="fa-solid fa-location-dot"></i> Location</th>
-                            <th><i class="fa-solid fa-clock"></i> Time</th>
-                        </tr>
-                    </thead>
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
 
-                    <tbody>
-                        <% logs.forEach((log, index) => { %>
-                        <tr>
-                            <td>
-                                <i class="fa-solid fa-mobile icon"></i>
-                                <%= log.device %>
-                                <% if(index === 0) { %>
-                                    <span class="badge-current">Current</span>
-                                <% } %>
-                            </td>
+        th {
+            background: #111;
+            color: #fff;
+        }
 
-                            <td>
-                                <i class="fa-solid fa-globe icon"></i>
-                                <%= log.browser %>
-                            </td>
+        tr:nth-child(even) {
+            background: #3B82F6;
+        }
 
-                            <td>
-                                <i class="fa-solid fa-laptop icon"></i>
-                                <%= log.os %>
-                            </td>
+        tr:hover {
+            background: #8c9aea;
+        }
 
-                            <td>
-                                <i class="fa-solid fa-location-dot icon"></i>
-                                <%= log.location %>
-                            </td>
+        /* 🔥 Icons styling */
+        .icon {
+            margin-right: 6px;
+            color: #666;
+        }
 
-                            <td>
-                                <i class="fa-solid fa-clock icon"></i>
-                                <%= new Date(log.login_time).toLocaleString() %>
-                            </td>
-                        </tr>
-                        <% }) %>
-                    </tbody>
-                </table>
-            </div>
+        /* 🔥 Badge */
+        .badge {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            background: #e0f7e9;
+            color: #0a8f4c;
+            margin-left: 5px;
+        }
 
+    </style>
+
+
+<div class="container mt-3">
+
+    <!-- 🔥 User Info Card -->
+    <div class="card">
+        <h2><i class="fa fa-user"></i> User Details</h2>
+
+        <div class="user-info">
+            <p><i class="fa fa-user-circle"></i> <strong>Name:</strong> <%= user.username %></p>
+            <p><i class="fa fa-envelope"></i> <strong>Email:</strong> <%= user.email %></p>
         </div>
     </div>
-</section>
+
+    <!-- 🔥 Login History -->
+    <h3><i class="fa fa-clock-rotate-left"></i> Login History</h3>
+
+    <table>
+        <tr>
+            <th><i class="fa fa-mobile-screen"></i> Device</th>
+            <th><i class="fa fa-globe"></i> Browser</th>
+            <th><i class="fa fa-laptop"></i> OS</th>
+            <th><i class="fa fa-location-dot"></i> Location</th>
+            <th><i class="fa fa-clock"></i> Time</th>
+        </tr>
+
+        <% logs.forEach((log, index) => { %>
+        <tr>
+            <td>
+                <i class="fa fa-mobile icon"></i>
+                <%= log.device %>
+
+                <% if(index === 0) { %>
+                    <span class="badge">Current</span>
+                <% } %>
+            </td>
+
+            <td>
+                <i class="fa fa-globe icon"></i>
+                <%= log.browser %>
+            </td>
+
+            <td>
+                <i class="fa fa-laptop icon"></i>
+                <%= log.os %>
+            </td>
+
+            <td>
+                <i class="fa fa-location-dot icon"></i>
+                <%= log.location %>
+            </td>
+
+            <td>
+                <i class="fa fa-clock icon"></i>
+                <%= new Date(log.login_time).toLocaleString() %>
+            </td>
+        </tr>
+        <% }) %>
+
+    </table>
+
+</div>
