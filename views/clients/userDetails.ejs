@@ -10,9 +10,10 @@
             padding: 20px;
         }
 
+
         .container {
-            max-width: 1000px;
             margin: auto;
+            overflow-x: hidden;
         }
 
         /* 🔥 User Card */
@@ -20,7 +21,7 @@
             background: #9195a8;
             padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
 
@@ -45,10 +46,11 @@
             background: #bcb9b9c9;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
-        th, td {
+        th,
+        td {
             padding: 12px;
             text-align: left;
         }
@@ -82,66 +84,95 @@
             margin-left: 5px;
         }
 
+        table {
+            width: 100%;
+        }
+
+        /* Hide scrollbar but keep scroll working */
+        .scrollbar-hide {
+            overflow-x: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .table-wrapper::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 
 
-<div class="container mt-3">
+    <div class="container mt-3">
 
-    <!-- 🔥 User Info Card -->
-    <div class="card">
-        <h2><i class="fa fa-user"></i> User Details</h2>
+        <!-- 🔥 User Info Card -->
+        <div class="card">
+            <h2><i class="fa fa-user"></i> User Details</h2>
 
-        <div class="user-info">
-            <p><i class="fa fa-user-circle"></i> <strong>Name:</strong> <%= user.username %></p>
-            <p><i class="fa fa-envelope"></i> <strong>Email:</strong> <%= user.email %></p>
+            <div class="user-info">
+                <p><i class="fa fa-user-circle"></i> <strong>Name:</strong>
+                    <%= user.username %>
+                </p>
+                <p><i class="fa fa-envelope"></i> <strong>Email:</strong>
+                    <%= user.email %>
+                </p>
+            </div>
+        </div>
+
+        <!-- 🔥 Login History -->
+        <h3><i class="fa fa-clock-rotate-left"></i> Login History</h3>
+        <div class="table-wrapper scrollbar-hide">
+
+            <table>
+                <tr>
+                    <th><i class="fa fa-mobile-screen"></i> Device</th>
+                    <th><i class="fa fa-globe"></i> Browser</th>
+                    <th><i class="fa fa-laptop"></i> OS</th>
+                    <th><i class="fa fa-location-dot"></i> Location</th>
+                    <th><i class="fa fa-clock"></i> Time</th>
+                </tr>
+
+                <% logs.forEach((log, index)=> { %>
+                    <tr>
+                        <td>
+                            <i class="fa fa-mobile icon"></i>
+                            <%= log.device %>
+
+                                <% if(index===0) { %>
+                                    <span class="badge">Current</span>
+                                    <% } %>
+                        </td>
+
+                        <td>
+                            <i class="fa fa-globe icon"></i>
+                            <%= log.browser %>
+                        </td>
+
+                        <td>
+                            <i class="fa fa-laptop icon"></i>
+                            <%= log.os %>
+                        </td>
+
+                        <td>
+                            <i class="fa fa-location-dot icon"></i>
+                            <%= log.location %>
+                        </td>
+
+                        <td>
+                            <i class="fa fa-clock icon"></i>
+                            <%= new Date(log.login_time).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }) %>
+                        </td>
+                    </tr>
+                    <% }) %>
+
+            </table>
         </div>
     </div>
-
-    <!-- 🔥 Login History -->
-    <h3><i class="fa fa-clock-rotate-left"></i> Login History</h3>
-
-    <table>
-        <tr>
-            <th><i class="fa fa-mobile-screen"></i> Device</th>
-            <th><i class="fa fa-globe"></i> Browser</th>
-            <th><i class="fa fa-laptop"></i> OS</th>
-            <th><i class="fa fa-location-dot"></i> Location</th>
-            <th><i class="fa fa-clock"></i> Time</th>
-        </tr>
-
-        <% logs.forEach((log, index) => { %>
-        <tr>
-            <td>
-                <i class="fa fa-mobile icon"></i>
-                <%= log.device %>
-
-                <% if(index === 0) { %>
-                    <span class="badge">Current</span>
-                <% } %>
-            </td>
-
-            <td>
-                <i class="fa fa-globe icon"></i>
-                <%= log.browser %>
-            </td>
-
-            <td>
-                <i class="fa fa-laptop icon"></i>
-                <%= log.os %>
-            </td>
-
-            <td>
-                <i class="fa fa-location-dot icon"></i>
-                <%= log.location %>
-            </td>
-
-            <td>
-                <i class="fa fa-clock icon"></i>
-                <%= new Date(log.login_time).toLocaleString() %>
-            </td>
-        </tr>
-        <% }) %>
-
-    </table>
-
-</div>

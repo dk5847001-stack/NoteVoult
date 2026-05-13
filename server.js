@@ -130,9 +130,9 @@ app.get("/", (req, res) => {
 app.use("/pdfs", pdfRoutes);
 
 // ------------Admin Routes --------------
-app.get("/admin", isAdmin, async (req, res)=>{
+app.get("/admin", isAdmin, async (req, res) => {
     const users = await User.find({});
-    res.render("clients/adminDeshboard.ejs", {users});
+    res.render("clients/adminDeshboard.ejs", { users });
 });
 
 app.get("/admin/user/:id", isAdmin, async (req, res) => {
@@ -150,15 +150,15 @@ app.get("/admin/user/:id", isAdmin, async (req, res) => {
 });
 
 // ------------------------ Auth Routes ---------------
-app.get("/register", (req, res)=>{
+app.get("/register", (req, res) => {
     res.render("clients/register.ejs");
 });
-app.get("/login", (req, res)=>{
-res.render("clients/login.ejs");
+app.get("/login", (req, res) => {
+    res.render("clients/login.ejs");
 });
-app.get("/logout", (req, res)=>{
-    req.logout((err)=>{
-        if(err){
+app.get("/logout", (req, res) => {
+    req.logout((err) => {
+        if (err) {
             req.flash("error", err.message);
             return res.redirect("/");
         };
@@ -192,7 +192,7 @@ app.post("/register", async (req, res) => {
 });
 
 // login route----------
-app.post("/login", 
+app.post("/login",
     saveOriginalUrl,
     passport.authenticate("local", {
         failureRedirect: "/login",
@@ -213,49 +213,56 @@ app.post("/login",
 
         let device = "Desktop";
 
-        // 🔥 1. Exact vendor + model (best case)
+        // ✅ Exact model if available
         if (result.device.vendor && result.device.model) {
             device = `${result.device.vendor} ${result.device.model}`;
         }
 
-        // 🔥 2. iPhone detect
-        else if (/iphone/i.test(userAgent)) {
-            device = "iPhone";
-        }
+        // 🔥 Manual extraction (IMPORTANT)
+        else {
+            const ua = userAgent.toLowerCase();
 
-        // 🔥 3. Samsung
-        else if (/samsung/i.test(userAgent)) {
-            device = "Samsung Device";
-        }
+            // iPhone
+            if (/iphone/.test(ua)) {
+                device = "iPhone";
+            }
 
-        // 🔥 4. Xiaomi / Redmi / Mi
-        else if (/xiaomi|redmi|mi\s/i.test(userAgent)) {
-            device = "Xiaomi Device";
-        }
+            // Samsung (SM-XXXX detect)
+            else if (/sm-[a-z0-9]+/.test(ua)) {
+                const match = ua.match(/sm-[a-z0-9]+/);
+                device = `Samsung ${match[0].toUpperCase()}`;
+            }
 
-        // 🔥 5. Oppo
-        else if (/oppo/i.test(userAgent)) {
-            device = "Oppo Device";
-        }
+            // Xiaomi / Redmi / Poco
+            else if (/redmi|mi\s|poco/.test(ua)) {
+                const match = ua.match(/(redmi|mi|poco)[\s\-]?[a-z0-9]+/);
+                device = match ? match[0].toUpperCase() : "Xiaomi Device";
+            }
 
-        // 🔥 6. Vivo
-        else if (/vivo/i.test(userAgent)) {
-            device = "Vivo Device";
-        }
+            // Oppo
+            else if (/oppo/.test(ua)) {
+                device = "Oppo Device";
+            }
 
-        // 🔥 7. Nothing
-        else if (/nothing/i.test(userAgent)) {
-            device = "Nothing Phone";
-        }
+            // Vivo
+            else if (/vivo/.test(ua)) {
+                device = "Vivo Device";
+            }
 
-        // 🔥 8. Tablet
-        else if (result.device.type === "tablet") {
-            device = "Tablet";
-        }
+            // Nothing
+            else if (/nothing/.test(ua)) {
+                device = "Nothing Phone";
+            }
 
-        // 🔥 9. Generic mobile fallback
-        else if (result.device.type === "mobile") {
-            device = "Android Mobile";
+            // Tablet
+            else if (result.device.type === "tablet") {
+                device = "Tablet";
+            }
+
+            // Mobile fallback
+            else if (result.device.type === "mobile") {
+                device = "Android Mobile";
+            }
         }
 
         // Browser + OS
@@ -263,8 +270,13 @@ app.post("/login",
         const os = parser.getOS().name || "Unknown";
 
         // ✅ 2. IP
-        const ip = req.headers['x-forwarded-for']?.split(',')[0] 
-                    || req.socket.remoteAddress;
+        let ip = req.headers['x-forwarded-for']?.split(',')[0]
+            || req.socket.remoteAddress;
+
+        // 🔥 Fix localhost issue
+        if (ip === "::1" || ip === "127.0.0.1") {
+            ip = "8.8.8.8"; // test IP (Google)
+        }
 
         console.log("User IP:", ip);
 
@@ -273,7 +285,16 @@ app.post("/login",
 
         try {
             const response = await axios.get(`https://ipapi.co/${ip}/json`);
-            location = `${response.data.city || ""}, ${response.data.region}, ${response.data.country_name} - ${response.data.postal}`;
+
+            const data = response.data;
+
+            location = [
+                data.city,
+                data.region,
+                data.country_name,
+                data.postal
+            ].filter(Boolean).join(", ");
+
         } catch (err) {
             console.log("Location error:", err.message);
         }
@@ -309,7 +330,7 @@ app.post("/login",
     }
 );
 
-app.use((req, res, next)=>{
+app.use((req, res, next) => {
     res.status(404).render("404")
 })
 // =================== Routes =====================
