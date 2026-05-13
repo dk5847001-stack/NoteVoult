@@ -1,224 +1,230 @@
 <% layout("layouts/boilerplate.ejs") -%>
 
-<style>
-    .login-page {
-        min-height: 90vh;
-        padding: 50px 0;
-    }
-
-    .login-card {
-        border-radius: 28px;
-        overflow: hidden;
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        backdrop-filter: blur(20px);
-        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
-    }
-
-    .login-left {
-        padding: 45px;
-        color: #fff;
-    }
-
-    .login-left h1 {
-        font-size: 2.4rem;
-        font-weight: 800;
-    }
-
-    .login-left p {
-        color: rgba(255, 255, 255, 0.72);
-        line-height: 1.7;
-    }
-
-    .login-left img {
-        max-height: 340px;
-        filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.35));
-    }
-
-    .guideline-box {
-        margin-top: 25px;
-        padding: 20px;
-        border-radius: 22px;
-        background: rgba(255, 255, 255, 0.09);
-        border: 1px solid rgba(255, 255, 255, 0.14);
-    }
-
-    .guideline-box h5 {
-        font-weight: 700;
-        margin-bottom: 14px;
-    }
-
-    .guideline-box ul {
-        padding-left: 18px;
-        margin-bottom: 0;
-        color: rgba(255, 255, 255, 0.78);
-        font-size: 0.94rem;
-        line-height: 1.8;
-    }
-
-    .login-form-area {
-        padding: 45px;
-        background: rgba(255, 255, 255, 0.96);
-    }
-
-    .form-title {
-        font-weight: 800;
-        color: #0f172a;
-        margin-bottom: 8px;
-    }
-
-    .form-subtitle {
-        color: #64748b;
-        margin-bottom: 28px;
-    }
-
-    .form-label {
-        font-weight: 700;
-        color: #334155;
-    }
-
-    .premium-input {
-        height: 52px;
-        border-radius: 16px;
-        border: 1px solid #dbeafe;
-        background: #f8fafc;
-        padding-left: 16px;
-    }
-
-    .premium-input:focus {
-        border-color: #0dcaf0;
-        box-shadow: 0 0 0 0.22rem rgba(13, 202, 240, 0.18);
-        background: #fff;
-    }
-
-    .btn-premium-login {
-        height: 52px;
-        border: none;
-        border-radius: 16px;
-        color: #fff;
-        font-weight: 800;
-        background: linear-gradient(135deg, #06b6d4, #2563eb, #7c3aed);
-        box-shadow: 0 16px 35px rgba(37, 99, 235, 0.32);
-        transition: 0.3s ease;
-    }
-
-    .btn-premium-login:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 22px 45px rgba(124, 58, 237, 0.38);
-        color: #fff;
-    }
-
-    .register-link {
-        text-align: center;
-        margin-top: 18px;
-        color: #64748b;
-    }
-
-    .register-link a {
-        text-decoration: none;
-        font-weight: 800;
-        color: #2563eb;
-    }
-
-    .security-note {
-        margin-top: 14px;
-        font-size: 0.85rem;
-        color: #64748b;
-        text-align: center;
-    }
-
-    @media (max-width: 768px) {
+    <style>
         .login-page {
-            padding: 25px 12px;
+            min-height: 90vh;
+            padding: 50px 0;
         }
 
-        .login-left,
-        .login-form-area {
-            padding: 28px 22px;
+        .login-card {
+            border-radius: 28px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+        }
+
+        .login-left {
+            padding: 45px;
+            color: #fff;
         }
 
         .login-left h1 {
-            font-size: 1.8rem;
+            font-size: 2.4rem;
+            font-weight: 800;
         }
-    }
-</style>
 
-<section class="login-page">
-    <div class="container">
-        <div class="row login-card align-items-stretch">
+        .login-left p {
+            color: rgba(255, 255, 255, 0.72);
+            line-height: 1.7;
+        }
 
-            <div class="col-lg-6 login-left d-none d-lg-flex flex-column justify-content-center">
-                <h1>Welcome Back to NoteVault</h1>
-                <p>
-                    Login to access your PDFs, notes, projects, micro papers,
-                    and premium study resources from your secure dashboard.
-                </p>
+        .login-left img {
+            max-height: 340px;
+            filter: drop-shadow(0 25px 35px rgba(0, 0, 0, 0.35));
+        }
 
-                <div class="text-center my-3">
-                    <img
-                        src="https://cdni.iconscout.com/illustration/premium/thumb/login-10299071-8333958.png"
-                        alt="login"
-                        class="img-fluid"
-                    >
+        .guideline-box {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.09);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+        }
+
+        .guideline-box h5 {
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .guideline-box ul {
+            padding-left: 18px;
+            margin-bottom: 0;
+            color: rgba(255, 255, 255, 0.78);
+            font-size: 0.94rem;
+            line-height: 1.8;
+        }
+
+        .login-form-area {
+            padding: 45px;
+            background: rgba(255, 255, 255, 0.96);
+        }
+
+        .form-title {
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 8px;
+        }
+
+        .form-subtitle {
+            color: #64748b;
+            margin-bottom: 28px;
+        }
+
+        .form-label {
+            font-weight: 700;
+            color: #334155;
+        }
+
+        .premium-input {
+            height: 52px;
+            border-radius: 16px;
+            border: 1px solid #dbeafe;
+            background: #f8fafc;
+            padding-left: 16px;
+        }
+
+        .premium-input:focus {
+            border-color: #0dcaf0;
+            box-shadow: 0 0 0 0.22rem rgba(13, 202, 240, 0.18);
+            background: #fff;
+        }
+
+        .btn-premium-login {
+            height: 52px;
+            border: none;
+            border-radius: 16px;
+            color: #fff;
+            font-weight: 800;
+            background: linear-gradient(135deg, #06b6d4, #2563eb, #7c3aed);
+            box-shadow: 0 16px 35px rgba(37, 99, 235, 0.32);
+            transition: 0.3s ease;
+        }
+
+        .btn-premium-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 22px 45px rgba(124, 58, 237, 0.38);
+            color: #fff;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 18px;
+            color: #64748b;
+        }
+
+        .register-link a {
+            text-decoration: none;
+            font-weight: 800;
+            color: #2563eb;
+        }
+
+        .security-note {
+            margin-top: 14px;
+            font-size: 0.85rem;
+            color: #64748b;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .login-page {
+                padding: 25px 12px;
+            }
+
+            .login-left,
+            .login-form-area {
+                padding: 28px 22px;
+            }
+
+            .login-left h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        #loginBtn:disabled {
+            cursor: not-allowed;
+            opacity: 0.75;
+        }
+    </style>
+
+    <section class="login-page">
+        <div class="container">
+            <div class="row login-card align-items-stretch">
+
+                <div class="col-lg-6 login-left d-none d-lg-flex flex-column justify-content-center">
+                    <h1>Welcome Back to NoteVault</h1>
+                    <p>
+                        Login to access your PDFs, notes, projects, micro papers,
+                        and premium study resources from your secure dashboard.
+                    </p>
+
+                    <div class="text-center my-3">
+                        <img src="https://cdni.iconscout.com/illustration/premium/thumb/login-10299071-8333958.png"
+                            alt="login" class="img-fluid">
+                    </div>
+
+                    <div class="guideline-box">
+                        <h5>Login Guidelines</h5>
+                        <ul>>Enter your registered username correctly.</li>
+                            <li>Keep your password private and secure.</li>
+                            <li>Use your own account to access uploaded resources.</li>
+                            <li>Do not share premium PDFs without permission.</li>
+                            <li>Logout after using a public or shared device.</li>
+                        </ul>
+                    </div>
                 </div>
 
-                <div class="guideline-box">
-                    <h5>Login Guidelines</h5>
-                    <ul>>Enter your registered username correctly.</li>
-                        <li>Keep your password private and secure.</li>
-                        <li>Use your own account to access uploaded resources.</li>
-                        <li>Do not share premium PDFs without permission.</li>
-                        <li>Logout after using a public or shared device.</li>
-                    </ul>
+                <div class="col-lg-6 login-form-area">
+                    <h2 class="form-title">Login Account</h2>
+                    <p class="form-subtitle">
+                        Enter your credentials to continue to your dashboard.
+                    </p>
+
+                    <form method="post" action="/login">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" name="email" id="email" class="form-control premium-input"
+                                placeholder="Enter your email" required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" name="password" id="password" class="form-control premium-input"
+                                placeholder="Enter your password" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-premium-login w-100" id="loginBtn">
+                            Login Now
+                        </button>
+
+                        <script>
+                            const loginForm = document.querySelector("form");
+                            const loginBtn = document.getElementById("loginBtn");
+
+                            loginForm.addEventListener("submit", () => {
+
+                                loginBtn.innerHTML = `
+            <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+            Logging In...
+        `;
+
+                                loginBtn.disabled = true;
+                                loginBtn.style.cursor = "not-allowed";
+                            });
+                        </script>
+
+                        <div class="security-note">
+                            Your login session is protected with secure authentication.
+                        </div>
+
+                        <div class="register-link">
+                            Don’t have an account?
+                            <a href="/register">Create account</a>
+                        </div>
+                    </form>
                 </div>
+
             </div>
-
-            <div class="col-lg-6 login-form-area">
-                <h2 class="form-title">Login Account</h2>
-                <p class="form-subtitle">
-                    Enter your credentials to continue to your dashboard.
-                </p>
-
-                <form method="post" action="/login">
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input
-                            type="email"
-                            name="email"
-                            id="email"
-                            class="form-control premium-input"
-                            placeholder="Enter your email"
-                            required
-                        >
-                    </div>
-
-                    <div class="mb-4">
-                        <label for="password" class="form-label">Password</label>
-                        <input
-                            type="password"
-                            name="password"
-                            id="password"
-                            class="form-control premium-input"
-                            placeholder="Enter your password"
-                            required
-                        >
-                    </div>
-
-                    <button type="submit" class="btn btn-premium-login w-100">
-                        Login Now
-                    </button>
-
-                    <div class="security-note">
-                        Your login session is protected with secure authentication.
-                    </div>
-
-                    <div class="register-link">
-                        Don’t have an account?
-                        <a href="/register">Create account</a>
-                    </div>
-                </form>
-            </div>
-
         </div>
-    </div>
-</section>
+    </section>
