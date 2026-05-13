@@ -198,22 +198,42 @@ app.post("/login",
         failureRedirect: "/login",
         failureFlash: true,
     }),
-    async (req, res)=>{
+    async (req, res) => {
 
         // ================= DEVICE TRACKING =================
 
-        // 1. User-Agent parse
+        const UAParser = require("ua-parser-js");
+        const axios = require("axios");
+        const { v4: uuidv4 } = require("uuid");
+
+        // ✅ 1. User-Agent parse (FIXED)
         const parser = new UAParser(req.headers['user-agent']);
-        const device = parser.getDevice().model || "Desktop";
+
+        const deviceType = parser.getDevice().type;
+        let device = "Desktop";
+
+        if (deviceType === "mobile") device = "Mobile";
+        else if (deviceType === "tablet") device = "Tablet";
+
         const browser = parser.getBrowser().name || "Unknown";
         const os = parser.getOS().name || "Unknown";
 
-        // 2. IP + Location
-        const ip = req.ip;
-        const geo = geoip.lookup(ip);
-        const location = geo ? `${geo.city || ""}, ${geo.country}` : "Unknown";
+        // ✅ 2. IP FIX (Render friendly)
+        const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.socket.remoteAddress;
 
-        // 3. Device ID (cookie)
+        console.log("User IP:", ip);
+
+        // ✅ 3. LOCATION FIX (better than geoip-lite)
+        let location = "Unknown";
+
+        try {
+            const response = await axios.get(`https://ipinfo.io/${ip}/json`);
+            location = `${response.data.city || ""}, ${response.data.country}`;
+        } catch (err) {
+            console.log("Location error:", err.message);
+        }
+
+        // ✅ 4. Device ID (cookie)
         let device_id = req.cookies.device_id;
 
         if (!device_id) {
@@ -223,7 +243,7 @@ app.post("/login",
             });
         }
 
-        // 4. Save in DB
+        // ✅ 5. Save in DB
         await LoginActivity.create({
             user_id: req.user._id,
             device,
