@@ -1,4 +1,5 @@
 <% layout("layouts/boilerplate.ejs") -%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
     <style>
         /* ===== PAGE ===== */
@@ -107,7 +108,6 @@
         tr,
         th,
         td {
-            border: 1px solid rgb(235, 23, 23);
             padding: 30px;
         }
 
@@ -354,6 +354,219 @@
         .premium-section-header:hover::after {
             width: 60px;
         }
+
+        /*--------------------------------------- Subscriber Section Styles--------------------------------------- */
+        body {
+            background: #0f172a;
+            color: #fff;
+        }
+
+        .subscriber-page {
+            padding: 40px 0;
+        }
+
+        .subscriber-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(18px);
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        .subscriber-header {
+            padding: 30px;
+            background: linear-gradient(135deg,
+                    rgba(59, 130, 246, 0.25),
+                    rgba(168, 85, 247, 0.25));
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .subscriber-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .subscriber-subtitle {
+            color: rgba(255, 255, 255, 0.7);
+            margin: 0;
+        }
+
+        .stats-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 18px;
+            padding: 25px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 22px;
+            padding: 22px;
+        }
+
+        .stat-card h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .stat-card p {
+            margin: 0;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            padding: 25px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0 14px;
+        }
+
+        th {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0 20px 12px;
+            white-space: nowrap;
+        }
+
+        td {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 22px 20px;
+            vertical-align: middle;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        tr td:first-child {
+            border-left: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 18px 0 0 18px;
+        }
+
+        tr td:last-child {
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 0 18px 18px 0;
+        }
+
+        tr {
+            transition: 0.3s ease;
+        }
+
+        tbody tr:hover {
+            transform: translateY(-4px);
+        }
+
+        .email-box {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .email-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+            font-size: 1.1rem;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+        }
+
+        .email-text {
+            font-weight: 600;
+            word-break: break-word;
+        }
+
+        .time-text {
+            color: #cbd5e1;
+            font-size: 0.92rem;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: capitalize;
+        }
+
+        .status-active {
+            background: rgba(34, 197, 94, 0.16);
+            color: #4ade80;
+            border: 1px solid rgba(74, 222, 128, 0.25);
+        }
+
+        .status-inactive {
+            background: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(248, 113, 113, 0.2);
+        }
+
+        .empty-box {
+            padding: 70px 20px;
+            text-align: center;
+        }
+
+        .empty-box i {
+            font-size: 4rem;
+            margin-bottom: 18px;
+            color: #64748b;
+        }
+
+        .empty-box h3 {
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .empty-box p {
+            color: #94a3b8;
+        }
+
+        @media(max-width:768px) {
+
+            .subscriber-page {
+                padding: 20px 0;
+            }
+
+            .subscriber-header {
+                padding: 22px;
+            }
+
+            .subscriber-title {
+                font-size: 1.5rem;
+            }
+
+            td {
+                padding: 18px 14px;
+            }
+
+            .email-icon {
+                width: 42px;
+                height: 42px;
+                font-size: 1rem;
+            }
+
+            .stats-box {
+                padding: 18px;
+            }
+
+            .table-wrapper {
+                padding: 18px;
+            }
+        }
     </style>
 
     <div class="container mt-4">
@@ -418,7 +631,7 @@
             <div class="col-lg-4">
                 <div class="admin-sidebar">
 
-                    <button class="admin-btn btn-subs">
+                    <button id="subscriberBtn" class="admin-btn btn-subs">
                         <i class="fa-solid fa-envelope-open-text"></i>
                         View Subscribers
                     </button>
@@ -559,6 +772,144 @@
 
         </div>
 
+        <!-- -------------------------------------- Subscriber Section ------------------------------------ -->
+        <section id="subscriber" class="subscriber-page">
+
+            <div class="container">
+
+                <div class="subscriber-card">
+
+                    <!-- Header -->
+                    <div class="subscriber-header">
+
+                        <h1 class="subscriber-title">
+                            <i class="fa-solid fa-envelope-open-text me-2"></i>
+                            Subscriber Dashboard
+                        </h1>
+
+                        <p class="subscriber-subtitle">
+                            Manage and monitor all newsletter subscribers in one place.
+                        </p>
+
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="stats-box">
+
+                        <div class="stat-card">
+                            <h3>
+                                <%= allSubscribers.length %>
+                            </h3>
+                            <p>Total Subscribers</p>
+                        </div>
+
+                        <div class="stat-card">
+                            <h3>
+                                <%= allSubscribers.filter(s=> s.status === "active").length %>
+                            </h3>
+                            <p>Active Subscribers</p>
+                        </div>
+
+                        <div class="stat-card">
+                            <h3>
+                                <%= allSubscribers.filter(s=> s.status === "inactive").length %>
+                            </h3>
+                            <p>Inactive Subscribers</p>
+                        </div>
+
+                    </div>
+
+                    <!-- Table -->
+                    <div class="table-wrapper">
+
+                        <% if(allSubscribers.length> 0){ %>
+
+                            <table>
+
+                                <thead>
+                                    <tr>
+                                        <th>Email Address</th>
+                                        <th>Subscribed Time</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <% for(let subscriber of allSubscribers){ %>
+
+                                        <tr>
+
+                                            <td>
+                                                <div class="email-box">
+
+                                                    <div class="email-icon">
+                                                        <i class="fa-solid fa-user"></i>
+                                                    </div>
+
+                                                    <div class="email-text">
+                                                        <%= subscriber.email %>
+                                                    </div>
+
+                                                </div>
+                                            </td>
+
+                                            <td>
+                                                <div class="time-text">
+                                                    <%= subscriber.subscribedAt.toLocaleString() %>
+                                                </div>
+                                            </td>
+
+                                            <td>
+
+                                                <span class="
+                                            status-badge
+                                            <%= subscriber.status === 'active'
+                                                ? 'status-active'
+                                                : 'status-inactive'
+                                            %>
+                                        ">
+
+                                                    <i class="fa-solid fa-circle-check"></i>
+
+                                                    <%= subscriber.status %>
+
+                                                </span>
+
+                                            </td>
+
+                                        </tr>
+
+                                        <% } %>
+
+                                </tbody>
+
+                            </table>
+
+                            <% } else { %>
+
+                                <div class="empty-box">
+
+                                    <i class="fa-solid fa-envelope-circle-check"></i>
+
+                                    <h3>No Subscribers Yet</h3>
+
+                                    <p>
+                                        Once users subscribe, they will appear here.
+                                    </p>
+
+                                </div>
+
+                                <% } %>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
         <!--  --------------------------------   Java Script  ------------------------ -->
         <script>
             const manageUsersBtn = document.getElementById("manageUsersBtn");
@@ -566,6 +917,15 @@
 
             manageUsersBtn.addEventListener("click", () => {
                 section1.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            });
+            const subscriberBtn = document.getElementById("subscriberBtn");
+            const subscriber = document.getElementById("subscriber");
+
+            subscriberBtn.addEventListener("click", () => {
+                subscriber.scrollIntoView({
                     behavior: "smooth",
                     block: "start"
                 });

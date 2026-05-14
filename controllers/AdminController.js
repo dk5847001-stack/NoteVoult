@@ -1,10 +1,12 @@
 const User = require("../models/User");
+const Subscriber = require("../models/Subscriber");
 const LoginActivity = require("../models/LoginActivity");
 const AsyncWrap = require("../utils/AsyncWrap");
 
 module.exports.index = AsyncWrap(async (req, res) => {
     const users = await User.find({});
-    res.render("clients/adminDeshboard.ejs", { users });
+    const allSubscribers = await Subscriber.find({});
+    res.render("clients/adminDeshboard.ejs", { users, allSubscribers });
 });
 
 module.exports.blockUser = AsyncWrap(async (req, res) => {
