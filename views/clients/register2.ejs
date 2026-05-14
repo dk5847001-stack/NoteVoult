@@ -28,6 +28,7 @@
             font-family: "Source Sans Pro", sans-serif;
             font-weight: 400;
             -webkit-font-smoothing: antialiased;
+            overflow-y: hidden;
         }
 
         form {
@@ -447,7 +448,7 @@
             </label>
         </div>
         <div class="inputGroup inputGroup3">
-            <button type="submit" id="login">Log in</button>
+            <button type="submit" id="login">Create Account</button>
         </div>
 
         <p class="mt-1 mt" style="text-align:center; margin:0; color:#617E92; font-weight:600;">
@@ -869,7 +870,7 @@
     const loginBtn = document.getElementById("login");
     if (loginForm && loginBtn) {
         loginForm.addEventListener("submit", function () {
-            loginBtn.innerHTML = `<span style="display:inline-block;width:18px;height:18px;border:3px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;vertical-align:-3px;margin-right:8px;animation:spinLogin .7s linear infinite;"></span> Logging In...`;
+            loginBtn.innerHTML = `<span style="display:inline-block;width:18px;height:18px;border:3px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;vertical-align:-3px;margin-right:8px;animation:spinLogin .7s linear infinite;"></span> Creating Account...`;
             loginBtn.disabled = true;
             loginBtn.style.cursor = "not-allowed";
         });
