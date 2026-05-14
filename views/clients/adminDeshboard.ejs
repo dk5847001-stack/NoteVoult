@@ -294,66 +294,66 @@
             max-height: 80vh;
             overflow-y: scroll;
         }
-        #section1{
+
+        #section1 {
             color: #fff;
         }
 
         /* --------------------------- */
-/* ===== SECTION HEADER ===== */
-.premium-section-header {
-    padding: 14px 18px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(139,92,246,0.2));
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: 0.3s;
-}
+        /* ===== SECTION HEADER ===== */
+        .premium-section-header {
+            padding: 14px 18px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
 
-/* Hover Glow */
-.premium-section-header:hover {
-    box-shadow: 0 10px 30px rgba(59,130,246,0.3);
-    transform: translateY(-2px);
-}
+        /* Hover Glow */
+        .premium-section-header:hover {
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+            transform: translateY(-2px);
+        }
 
-/* ===== ICON BOX ===== */
-.icon-box {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    background: linear-gradient(135deg,#3b82f6,#8b5cf6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 16px;
-}
+        /* ===== ICON BOX ===== */
+        .icon-box {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
+        }
 
-/* ===== TITLE ===== */
-.premium-section-header h5 {
-    font-weight: 600;
-    letter-spacing: 0.5px;
-}
+        /* ===== TITLE ===== */
+        .premium-section-header h5 {
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
 
-/* OPTIONAL: animated underline */
-.premium-section-header::after {
-    content: "";
-    position: absolute;
-    left: 20px;
-    bottom: 8px;
-    width: 0%;
-    height: 2px;
-    background: linear-gradient(135deg,#3b82f6,#8b5cf6);
-    transition: 0.4s;
-}
+        /* OPTIONAL: animated underline */
+        .premium-section-header::after {
+            content: "";
+            position: absolute;
+            left: 20px;
+            bottom: 8px;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            transition: 0.4s;
+        }
 
-.premium-section-header:hover::after {
-    width: 60px;
-}
-
+        .premium-section-header:hover::after {
+            width: 60px;
+        }
     </style>
 
     <div class="container mt-4">
@@ -428,7 +428,7 @@
                         View Messages
                     </button>
 
-                    <button class="admin-btn btn-users">
+                    <button class="admin-btn btn-users" id="manageUsersBtn">
                         <i class="fa-solid fa-users"></i>
                         Manage Users
                     </button>
@@ -444,16 +444,16 @@
         </div>
         <!--------------------------------------------------------------------------------------------------------------------------------------->
         <!-- USERS SECTION -->
-        <div class="section1 mt-4">
+        <div id="section1" class="section1 mt-4">
 
-<div class="premium-section-header mt-3 mb-3">
-    <div class="d-flex align-items-center gap-2">
-        <span class="icon-box">
-            <i class="fa-solid fa-users"></i>
-        </span>
-        <h5 class="mb-0">User Section</h5>
-    </div>
-</div>
+            <div class="premium-section-header mt-3 mb-3">
+                <div class="d-flex align-items-center gap-2">
+                    <span class="icon-box">
+                        <i class="fa-solid fa-users"></i>
+                    </span>
+                    <h5 class="mb-0">User Section</h5>
+                </div>
+            </div>
 
             <div class="card shadow-lg border-0 p-3" style="background: rgba(255,255,255,0.05); border-radius:16px;">
                 <!-- HEADER -->
@@ -524,7 +524,7 @@
                                     <!-- ACTION -->
                                     <td class="d-flex justify-content-center gap-2">
 
-                                        <% if(user.isBlocked){ %>
+                                        <% if(user.isBlocked==="active" ){ %>
                                             <a href="/admin/unblock/<%= user._id %>" class="btn btn-success btn-sm">
                                                 <i class="fa-solid fa-lock-open"></i>
                                             </a>
@@ -534,16 +534,18 @@
                                                 </a>
                                                 <% } %>
 
-                                                    <a href="/admin/delete/<%= user._id %>"
-                                                        class="btn btn-danger btn-sm"
-                                                        onclick="return confirm('Delete this user?')">
-                                                        <i class="fa-solid fa-trash"></i>
-                                                    </a>
-                                                    <a href="/admin/user/<%= user._id %>" class="btn btn-info btn-sm">
-                                                    <i class="fa-solid fa-eye"></i>
-                                                </a>
+                                                    <form action="/admin/delete/<%= user._id %>?_method=DELETE"
+                                                        method="POST" onsubmit="return confirm('Delete this user?')">
 
-                                            
+                                                        <button class="btn btn-danger btn-sm">
+                                                            <i class="fa-solid fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                    <a href="/admin/user/<%= user._id %>" class="btn btn-info btn-sm">
+                                                        <i class="fa-solid fa-eye"></i>
+                                                    </a>
+
+
                                     </td>
 
                                 </tr>
@@ -556,3 +558,16 @@
             </div>
 
         </div>
+
+        <!--  --------------------------------   Java Script  ------------------------ -->
+        <script>
+            const manageUsersBtn = document.getElementById("manageUsersBtn");
+            const section1 = document.getElementById("section1");
+
+            manageUsersBtn.addEventListener("click", () => {
+                section1.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
+            });
+        </script>

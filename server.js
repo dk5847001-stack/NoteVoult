@@ -5,7 +5,10 @@ require("./config/dbConfig");
 const methodOverride = require("method-override");
 const multer = require('multer')
 const { storage } = require("./config/cloudConfig");
+
 const pdfRoutes = require("./routes/pdfRoutes");
+const AdminRoutes = require("./routes/AdminRoutes");
+
 const ExpressError = require("./utils/ExpressError");
 const session = require("express-session");
 const cookieParser = require('cookie-parser');
@@ -20,6 +23,12 @@ const geoip = require('geoip-lite');
 const { v4: uuidv4 } = require('uuid');
 const path = require("path");
 const ejsMate = require("ejs-mate")
+
+
+const isLoggedIn = require("./middlewares/AuthMiddleware");
+const saveOriginalUrl = require("./middlewares/saveOriginalUrlMiddleware");
+const isOwner = require("./middlewares/ownerMiddleware");
+
 const PORT = 3000;
 const app = express();
 app.set("trust proxy", 1);
@@ -61,67 +70,6 @@ app.use((req, res, next) => {
     next();
 });
 
-// Auth middleware----------------------------
-function isLoggedIn(req, res, next) {
-    if (!req.isAuthenticated()) {
-        if (req.method === "GET") {
-            req.session.originalUrl = req.originalUrl;
-        }
-
-        req.flash("error", "You must be logged in first!");
-        return res.redirect("/login");
-    }
-
-    next();
-}
-
-// Save original url----------------------------
-function saveOriginalUrl(req, res, next) {
-    if (req.session.originalUrl) {
-        res.locals.originalUrl = req.session.originalUrl;
-    }
-
-    next();
-}
-
-// Owner check middleware-----------------------
-async function isOwner(req, res, next) {
-    const { id } = req.params;
-
-    const pdf = await Pdf.findById(id);
-
-    if (!pdf) {
-        req.flash("error", "PDF not found!");
-        return res.redirect("/pdfs");
-    }
-
-    if (!req.user) {
-        req.flash("error", "You must be logged in first!");
-        return res.redirect("/login");
-    }
-
-    if (!pdf.owner.equals(req.user._id)) {
-        req.flash("error", "You don't have permission to do that!");
-        return res.redirect("/pdfs");
-    }
-
-    next();
-}
-
-// Admin check middleware----------------------
-function isAdmin(req, res, next) {
-    if (!req.isAuthenticated()) {
-        req.flash("error", "You must be logged in first!");
-        return res.redirect("/login");
-    }
-
-    if (req.user.role !== "admin") {
-        req.flash("error", "You don't have admin permission!");
-        return res.redirect("/pdfs");
-    }
-
-    next();
-}
 
 // =================== Routes =====================
 app.get("/", (req, res) => {
@@ -130,24 +78,7 @@ app.get("/", (req, res) => {
 app.use("/pdfs", pdfRoutes);
 
 // ------------Admin Routes --------------
-app.get("/admin", isAdmin, async (req, res) => {
-    const users = await User.find({});
-    res.render("clients/adminDeshboard.ejs", { users });
-});
-
-app.get("/admin/user/:id", isAdmin, async (req, res) => {
-    const { id } = req.params;
-
-    const user = await User.findById(id);
-
-    const logs = await LoginActivity.find({ user_id: id })
-        .sort({ login_time: -1 });
-
-    res.render("clients/userDetails.ejs", {
-        user,
-        logs
-    });
-});
+app.use("/admin", AdminRoutes);
 
 // ------------------------ Auth Routes ---------------
 app.get("/register", (req, res) => {
@@ -200,6 +131,21 @@ app.post("/login",
     }),
     async (req, res) => {
 
+        // ===== user status check? ========
+        if (req.user.isBlocked === "blocked") {
+            req.logout((err) => {
+                if (err) {
+                    req.flash("error", "Something went wrong!");
+                    return res.redirect("/login");
+                }
+
+                req.flash("error", "Sorry! you're 🚫 blocked by admin, please contact admin");
+                return res.redirect("/login");
+            });
+
+            return;
+        }
+
         // ================= DEVICE TRACKING =================
 
         const UAParser = require("ua-parser-js");
@@ -213,56 +159,49 @@ app.post("/login",
 
         let device = "Desktop";
 
-        // ✅ Exact model if available
+        // 🔥 1. Exact vendor + model (best case)
         if (result.device.vendor && result.device.model) {
             device = `${result.device.vendor} ${result.device.model}`;
         }
 
-        // 🔥 Manual extraction (IMPORTANT)
-        else {
-            const ua = userAgent.toLowerCase();
+        // 🔥 2. iPhone detect
+        else if (/iphone/i.test(userAgent)) {
+            device = "iPhone";
+        }
 
-            // iPhone
-            if (/iphone/.test(ua)) {
-                device = "iPhone";
-            }
+        // 🔥 3. Samsung
+        else if (/samsung/i.test(userAgent)) {
+            device = "Samsung Device";
+        }
 
-            // Samsung (SM-XXXX detect)
-            else if (/sm-[a-z0-9]+/.test(ua)) {
-                const match = ua.match(/sm-[a-z0-9]+/);
-                device = `Samsung ${match[0].toUpperCase()}`;
-            }
+        // 🔥 4. Xiaomi / Redmi / Mi
+        else if (/xiaomi|redmi|mi\s/i.test(userAgent)) {
+            device = "Xiaomi Device";
+        }
 
-            // Xiaomi / Redmi / Poco
-            else if (/redmi|mi\s|poco/.test(ua)) {
-                const match = ua.match(/(redmi|mi|poco)[\s\-]?[a-z0-9]+/);
-                device = match ? match[0].toUpperCase() : "Xiaomi Device";
-            }
+        // 🔥 5. Oppo
+        else if (/oppo/i.test(userAgent)) {
+            device = "Oppo Device";
+        }
 
-            // Oppo
-            else if (/oppo/.test(ua)) {
-                device = "Oppo Device";
-            }
+        // 🔥 6. Vivo
+        else if (/vivo/i.test(userAgent)) {
+            device = "Vivo Device";
+        }
 
-            // Vivo
-            else if (/vivo/.test(ua)) {
-                device = "Vivo Device";
-            }
+        // 🔥 7. Nothing
+        else if (/nothing/i.test(userAgent)) {
+            device = "Nothing Phone";
+        }
 
-            // Nothing
-            else if (/nothing/.test(ua)) {
-                device = "Nothing Phone";
-            }
+        // 🔥 8. Tablet
+        else if (result.device.type === "tablet") {
+            device = "Tablet";
+        }
 
-            // Tablet
-            else if (result.device.type === "tablet") {
-                device = "Tablet";
-            }
-
-            // Mobile fallback
-            else if (result.device.type === "mobile") {
-                device = "Android Mobile";
-            }
+        // 🔥 9. Generic mobile fallback
+        else if (result.device.type === "mobile") {
+            device = "Android Mobile";
         }
 
         // Browser + OS
