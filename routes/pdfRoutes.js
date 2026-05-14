@@ -5,12 +5,15 @@ const { storage } = require("../config/cloudConfig");
 const pdfController = require("../controllers/pdfController");
 const { validatePdf } = require("../middlewares/pdfValidation");
 
+const isLoggedIn = require("../middlewares/AuthMiddleware");
+const isAdmin = require("../middlewares/AdminMiddleware");
+
 const router = express.Router();
 const upload = multer({ storage });
 
-router.get("/new", pdfController.renderNewForm);
+router.get("/new", isLoggedIn, pdfController.renderNewForm);
 
-router.get("/download/:id", pdfController.downloadPdf);
+router.get("/download/:id", isLoggedIn, pdfController.downloadPdf);
 
 router.get("/api/filter", pdfController.filterPdfs);
 
