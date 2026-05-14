@@ -12,11 +12,18 @@ const flash = require("connect-flash");
 
 require("./config/dbConfig");
 
+const Subscriber = require("./models/Subscriber");
+
 const User = require("./models/User");
 const pdfRoutes = require("./routes/pdfRoutes");
 const AdminRoutes = require("./routes/AdminRoutes");
 const AuthRoutes = require("./routes/AuthRoutes");
 const { sessionConfig } = require("./config/sessionConfig");
+
+const saveOriginalUrl = require("./middlewares/saveOriginalUrlMiddleware");
+const isLoggedIn = require("./middlewares/AuthMiddleware");
+const isAdmin = require("./middlewares/AdminMiddleware");
+const AsyncWrap = require("./utils/AsyncWrap");
 
 const PORT = 3000;
 const app = express();
@@ -59,7 +66,7 @@ app.use((req, res, next) => {
     next();
 });
 
-// Routes
+// Routes------------------------------------------------
 app.get("/", (req, res) => {
     res.render("home");
 });
@@ -67,6 +74,23 @@ app.get("/", (req, res) => {
 app.use("/", AuthRoutes);
 app.use("/pdfs", pdfRoutes);
 app.use("/admin", AdminRoutes);
+
+app.get("/subscribers", isLoggedIn, isAdmin, AsyncWrap(async (req, res) => {
+    const allSubscribers = await Subscriber.find({}).sort({ subscribedAt: -1 });
+
+    res.render("clients/subscriber.ejs", { allSubscribers });
+}));
+
+app.post("/subscribers", AsyncWrap(async (req, res) => {
+    const { email } = req.body;
+
+    await Subscriber.create({ email });
+
+    req.flash("success", "🎉 You subscribed successfully!");
+
+    res.redirect(req.get("Referrer") || "/");
+}));
+// Routes------------------------------------------------
 
 // 404
 app.use((req, res) => {

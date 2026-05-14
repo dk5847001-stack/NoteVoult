@@ -142,17 +142,37 @@
 
 <!-- 🔥 Subscribe -->
 <div class="subscribe-box">
-<form id="subscribeForm">
-<div class="input-icon mb-2">
-<i class="fa-solid fa-envelope"></i>
-<input type="email" class="form-control subscribe-input" placeholder="Enter your email" required>
-</div>
 
-<button class="subscribe-btn w-100" id="subBtn">
-<span id="subText"><i class="fa-solid fa-paper-plane me-1"></i> Subscribe</span>
-<span class="spinner-border spinner-border-sm d-none" id="subSpinner"></span>
-</button>
-</form>
+    <form id="subscribeForm" method="post" action="/subscribers">
+
+        <div class="input-icon mb-2">
+            <i class="fa-solid fa-envelope"></i>
+
+            <input 
+                type="email"
+                name="email"
+                class="form-control subscribe-input"
+                placeholder="Enter your email"
+                
+            >
+        </div>
+
+        <button type="submit" class="subscribe-btn w-100" id="subBtn">
+
+            <span id="subText">
+                <i class="fa-solid fa-paper-plane me-1"></i>
+                Subscribe
+            </span>
+
+            <span 
+                class="spinner-border spinner-border-sm d-none"
+                id="subSpinner">
+            </span>
+
+        </button>
+
+    </form>
+
 </div>
 
 </div>
@@ -188,18 +208,16 @@
 <script>
 const form = document.getElementById("subscribeForm");
 const btn = document.getElementById("subBtn");
-const spinner = document.getElementById("subSpinner");
 const text = document.getElementById("subText");
+const spinner = document.getElementById("subSpinner");
 
-form.addEventListener("submit", (e)=>{
- e.preventDefault();
- spinner.classList.remove("d-none");
- text.innerHTML = "Sending...";
- btn.disabled = true;
+form.addEventListener("submit", () => {
 
- setTimeout(()=>{
-   spinner.classList.add("d-none");
-   text.innerHTML = "Subscribed ✅";
- },1500);
+    spinner.classList.remove("d-none");
+
+    text.innerHTML = "Subscribing...";
+
+    btn.disabled = true;
+
 });
 </script>
