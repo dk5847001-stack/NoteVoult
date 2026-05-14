@@ -18,6 +18,7 @@ const User = require("./models/User");
 const pdfRoutes = require("./routes/pdfRoutes");
 const AdminRoutes = require("./routes/AdminRoutes");
 const AuthRoutes = require("./routes/AuthRoutes");
+const SubscriberRoutes = require("./routes/SubcriberRoutes");
 const { sessionConfig } = require("./config/sessionConfig");
 
 const saveOriginalUrl = require("./middlewares/saveOriginalUrlMiddleware");
@@ -74,22 +75,7 @@ app.get("/", (req, res) => {
 app.use("/", AuthRoutes);
 app.use("/pdfs", pdfRoutes);
 app.use("/admin", AdminRoutes);
-
-app.get("/subscribers", isLoggedIn, isAdmin, AsyncWrap(async (req, res) => {
-    const allSubscribers = await Subscriber.find({}).sort({ subscribedAt: -1 });
-
-    res.render("clients/subscriber.ejs", { allSubscribers });
-}));
-
-app.post("/subscribers", AsyncWrap(async (req, res) => {
-    const { email } = req.body;
-
-    await Subscriber.create({ email });
-
-    req.flash("success", "🎉 You subscribed successfully!");
-
-    res.redirect(req.get("Referrer") || "/");
-}));
+app.use("/subscribers", SubscriberRoutes);
 // Routes------------------------------------------------
 
 // 404

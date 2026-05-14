@@ -6,7 +6,7 @@ const axios = require("axios");
 const { v4: uuidv4 } = require("uuid");
 
 module.exports.renderRegisterForm = AsyncWrap((req, res) => {
-    res.render("clients/register.ejs");
+    res.render("clients/register2.ejs");
 });
 
 module.exports.renderLoginForm = AsyncWrap((req, res) => {
