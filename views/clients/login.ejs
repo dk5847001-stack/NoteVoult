@@ -30,19 +30,15 @@
             font-family: "Source Sans Pro", sans-serif;
             font-weight: 400;
             -webkit-font-smoothing: antialiased;
-            overflow-y: hidden;
+            overflow-y: auto;
         }
 
         form {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            position: relative;
             display: block;
-            width: 100vw;
-            /* max-width: 400px; */
+            width: min(100%, 430px);
             background-color: #FFF;
-            margin: 0;
+            margin: 45px auto 55px;
             padding: 2.25em;
             box-sizing: border-box;
             border: solid 1px #DDD;
@@ -257,6 +253,48 @@
 
         .mt {
             margin-top: 8px;
+        }
+
+        @media (max-width: 576px) {
+            form {
+                width: calc(100% - 20px);
+                margin: 24px auto 38px;
+                padding: 1.45em;
+            }
+
+            form .svgContainer {
+                width: 145px;
+                height: 145px;
+                margin-bottom: 0.8em;
+            }
+
+            form .inputGroup {
+                margin-bottom: 1.35em;
+            }
+
+            form label {
+                font-size: 1em;
+            }
+
+            form input[type=email],
+            form input[type=text],
+            form input[type=number],
+            form input[type=url],
+            form input[type=search],
+            form input[type=password],
+            form button {
+                height: 54px;
+                font-size: 1.05em;
+            }
+
+            form .inputGroup1 .helper1 {
+                font-size: 1.05em;
+                transform: translate(1em, 2.45em) scale(1);
+            }
+
+            form .inputGroup1.focusWithText .helper {
+                transform: translate(1em, 1.6em) scale(0.68);
+            }
         }
     </style>
 

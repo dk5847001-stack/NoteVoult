@@ -1,0 +1,243 @@
+/* ===== NAVBAR FIREFLY BUTTON - UPGRADED ===== */
+
+.circle {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin: -4px 0 0 -4px;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  z-index: 9999;
+  background: #facc15;
+  box-shadow:
+    0 0 8px #fdfca9 inset,
+    0 0 24px #ffeb3b,
+    0 0 8px #ffffff42;
+}
+
+.button-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 42px;
+  text-decoration: none;
+  isolation: isolate;
+}
+
+.button {
+
+  z-index: 2;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 92px;
+  height: 38px;
+  padding: 15px 22px !important;
+  border-radius: 999px;
+  border: 1px solid rgba(250, 204, 21, 0.55);
+  background: linear-gradient(135deg, #facc15, #f59e0b);
+  color: #111827;
+  font-size: 1rem !important;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0.7px;
+  text-transform: capitalize;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow:
+    0 8px 22px rgba(250, 204, 21, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    filter 0.25s ease;
+}
+
+.button::before,
+.button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.button::before {
+  box-shadow: 0 0 26px #ffeb3b;
+  mix-blend-mode: screen;
+}
+
+.button::after {
+  box-shadow:
+    0 0 23px #fdfca9 inset,
+    0 0 10px #ffffff42;
+}
+
+.button-wrapper:hover .button {
+  transform: translateY(-2px) scale(1.03);
+  filter: brightness(1.08);
+  box-shadow:
+    0 12px 30px rgba(250, 204, 21, 0.45),
+    0 0 22px rgba(255, 235, 59, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.button-wrapper:hover .button::before,
+.button-wrapper:hover .button::after {
+  opacity: 1;
+}
+
+.dot {
+  display: block;
+  position: absolute;
+  z-index: 1;
+  width: var(--size);
+  height: var(--size);
+  pointer-events: none;
+  transition: transform calc(var(--speed) / 12) ease;
+  transform: translate(var(--starting-x), var(--starting-y)) rotate(var(--rotatation));
+}
+
+.dot::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  background: #fde047;
+  box-shadow:
+    0 0 6px #ffeb3b,
+    0 0 4px #fdfca9 inset,
+    0 0 2px 1px #ffffff42;
+  animation:
+    hoverFirefly var(--speed) infinite,
+    dimFirefly calc(var(--speed) / 2) infinite calc(var(--speed) / 3);
+  animation-play-state: paused;
+}
+
+.button-wrapper:hover .dot {
+  transform: translate(0, 0) rotate(var(--rotatation));
+}
+
+.button-wrapper:hover .dot::after {
+  animation-play-state: running;
+}
+
+.dot-1 {
+  --rotatation: 0deg;
+  --speed: 14s;
+  --size: 5px;
+  --starting-x: 22px;
+  --starting-y: 15px;
+  top: 4px;
+  left: -10px;
+  opacity: 0.7;
+}
+
+.dot-2 {
+  --rotatation: 122deg;
+  --speed: 16s;
+  --size: 3px;
+  --starting-x: 28px;
+  --starting-y: 8px;
+  top: 3px;
+  left: 8px;
+  opacity: 0.75;
+}
+
+.dot-3 {
+  --rotatation: 39deg;
+  --speed: 20s;
+  --size: 4px;
+  --starting-x: -8px;
+  --starting-y: 14px;
+  top: -4px;
+  right: 16px;
+}
+
+.dot-4 {
+  --rotatation: 220deg;
+  --speed: 18s;
+  --size: 2px;
+  --starting-x: -24px;
+  --starting-y: -4px;
+  bottom: 7px;
+  right: -8px;
+  opacity: 0.9;
+}
+
+.dot-5 {
+  --rotatation: 190deg;
+  --speed: 22s;
+  --size: 4px;
+  --starting-x: -30px;
+  --starting-y: -14px;
+  bottom: -3px;
+  right: 4px;
+}
+
+.dot-6 {
+  --rotatation: 20deg;
+  --speed: 15s;
+  --size: 3px;
+  --starting-x: 10px;
+  --starting-y: -14px;
+  bottom: -6px;
+  left: 28px;
+  opacity: 0.75;
+}
+
+.dot-7 {
+  --rotatation: 300deg;
+  --speed: 19s;
+  --size: 3px;
+  --starting-x: 5px;
+  --starting-y: -15px;
+  bottom: -8px;
+  left: 42px;
+}
+
+@keyframes dimFirefly {
+  0%, 100% { opacity: 1; }
+  25% { opacity: 0.4; }
+  50% { opacity: 0.85; }
+  75% { opacity: 0.55; }
+}
+
+@keyframes hoverFirefly {
+  0%, 100% { transform: translate(0, 0); }
+  12% { transform: translate(3px, 1px); }
+  24% { transform: translate(-2px, 3px); }
+  37% { transform: translate(2px, -2px); }
+  55% { transform: translate(-1px, 0); }
+  74% { transform: translate(0, 2px); }
+  88% { transform: translate(-3px, -1px); }
+}
+
+@media (max-width: 768px) {
+  .button-wrapper {
+    height: 38px;
+  }
+
+  .button {
+    min-width: 82px;
+    height: 34px;
+    padding: 0 18px;
+    font-size: 0.7rem;
+  }
+
+  .circle {
+    display: none;
+  }
+
+  .dot {
+    transform: translate(0, 0) rotate(var(--rotatation));
+  }
+}

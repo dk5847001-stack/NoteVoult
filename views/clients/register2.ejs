@@ -6,7 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NoteVoult-Register</title>
+    <title>Login Page</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
     <style>
@@ -30,21 +30,15 @@
             font-family: "Source Sans Pro", sans-serif;
             font-weight: 400;
             -webkit-font-smoothing: antialiased;
-            overflow-y: hidden;
-            margin-bottom: 1000px;
+            overflow-y: auto;
         }
 
         form {
-            margin-bottom: 1000px;
-            position: absolute;
-            top: 53%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            position: relative;
             display: block;
-            width: 100vw;
-            /* max-width: 400px; */
+            width: min(100%, 430px);
             background-color: #FFF;
-            margin: 0;
+            margin: 45px auto 55px;
             padding: 2.25em;
             box-sizing: border-box;
             border: solid 1px #DDD;
@@ -260,6 +254,48 @@
         .mt {
             margin-top: 8px;
         }
+
+        @media (max-width: 576px) {
+            form {
+                width: calc(100% - 20px);
+                margin: 24px auto 38px;
+                padding: 1.45em;
+            }
+
+            form .svgContainer {
+                width: 145px;
+                height: 145px;
+                margin-bottom: 0.8em;
+            }
+
+            form .inputGroup {
+                margin-bottom: 1.35em;
+            }
+
+            form label {
+                font-size: 1em;
+            }
+
+            form input[type=email],
+            form input[type=text],
+            form input[type=number],
+            form input[type=url],
+            form input[type=search],
+            form input[type=password],
+            form button {
+                height: 54px;
+                font-size: 1.05em;
+            }
+
+            form .inputGroup1 .helper1 {
+                font-size: 1.05em;
+                transform: translate(1em, 2.45em) scale(1);
+            }
+
+            form .inputGroup1.focusWithText .helper {
+                transform: translate(1em, 1.6em) scale(0.68);
+            }
+        }
     </style>
 
 </head>
@@ -435,14 +471,15 @@
 
         <div class="inputGroup inputGroup1">
             <label for="loginEmail" id="loginEmailLabel">Email</label>
-            <input type="email" name="email" id="loginEmail" maxlength="254" autocomplete="email" required />
-            <p class="helper helper1">email@domain.com</p>
-        </div>
-        <div class="inputGroup inputGroup1">
-            <label for="username" id="loginEmailLabel">Username</label>
-            <input type="text" name="username" id="loginusername" maxlength="254" autocomplete="username" required />
+            <input type="email" name="email" id="loginEmail" maxlength="254" autocomplete="email" placeholder="Enter your email address..." required />
             <p class="helper helper1"></p>
         </div>
+        <div class="inputGroup inputGroup1">
+            <label for="loginEmail" id="loginEmailLabel">Username</label>
+            <input type="text" name="username" id="loginEmail" maxlength="254" autocomplete="username" placeholder="Enter username..." required />
+            <p class="helper helper1"></p>
+        </div>
+    
         <div class="inputGroup inputGroup2">
             <label for="loginPassword" id="loginPasswordLabel">Password</label>
             <input type="password" name="password" id="loginPassword" autocomplete="current-password" required />
@@ -456,7 +493,7 @@
         </div>
 
         <p class="mt-1 mt" style="text-align:center; margin:0; color:#617E92; font-weight:600;">
-            Already have a account?
+            Already have an account?
             <a href="/login" style="color:#217093; font-weight:700; text-decoration:none;">Login</a>
         </p>
     </form>
@@ -874,7 +911,7 @@
     const loginBtn = document.getElementById("login");
     if (loginForm && loginBtn) {
         loginForm.addEventListener("submit", function () {
-            loginBtn.innerHTML = `<span style="display:inline-block;width:18px;height:18px;border:3px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;vertical-align:-3px;margin-right:8px;animation:spinLogin .7s linear infinite;"></span> Creating Account...`;
+            loginBtn.innerHTML = `<span style="display:inline-block;width:18px;height:18px;border:3px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;vertical-align:-3px;margin-right:8px;animation:spinLogin .7s linear infinite;"></span> Logging In...`;
             loginBtn.disabled = true;
             loginBtn.style.cursor = "not-allowed";
         });

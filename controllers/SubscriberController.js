@@ -1,3 +1,5 @@
+const Subscriber = require("../models/Subscriber");
+
 module.exports.index = async (req, res) => {
     const allSubscribers = await Subscriber.find({}).sort({ subscribedAt: -1 });
 
