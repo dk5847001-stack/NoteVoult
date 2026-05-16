@@ -1,414 +1,466 @@
 <% layout("layouts/boilerplate.ejs") -%>
 
-<style>
-  body{
-    background-color: rgb(16, 16, 16);
-  }
-  .black{
-    background-color: #24396a !important;
-  }
-  .service-showcase {
-    width: 100%;
-    min-height: 100vh;
-    background:
-      radial-gradient(circle at top left, rgba(37, 99, 235, 0.35), transparent 30%),
-      radial-gradient(circle at bottom right, rgba(34, 197, 94, 0.25), transparent 35%),
-      linear-gradient(135deg, #020617, #0f172a 55%, #111827);
-    color: #fff;
-    overflow-x: hidden;
-  }
+  <style>
+    body {
+      background-color: rgb(16, 16, 16);
+    }
 
-  .hero-section {
-    width: 100%;
-    min-height: 620px;
-    padding: 90px 7%;
-    display: flex;
-    align-items: center;
-    background:
-      linear-gradient(90deg, rgba(2, 6, 23, 0.96), rgba(2, 6, 23, 0.72), rgba(2, 6, 23, 0.35)),
-      url("https://static.vecteezy.com/system/resources/thumbnails/011/153/363/small_2x/3d-web-developer-working-on-project-illustration-png.png") center/cover no-repeat;
-  }
+    .black {
+      background-color: #24396a !important;
+    }
 
-  .hero-content {
-    max-width: 720px;
-  }
+    .service-showcase {
+      width: 100%;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.35), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(34, 197, 94, 0.25), transparent 35%),
+        linear-gradient(135deg, #020617, #0f172a 55%, #111827);
+      color: #fff;
+      overflow-x: hidden;
+    }
 
-  .tag {
-    display: inline-block;
-    padding: 8px 18px;
-    border-radius: 999px;
-    background: rgba(34, 197, 94, 0.15);
-    border: 1px solid rgba(34, 197, 94, 0.45);
-    color: #86efac;
-    font-weight: 700;
-    margin-bottom: 18px;
-  }
-
-  .hero-content h1 {
-    font-size: clamp(2.4rem, 6vw, 5rem);
-    font-weight: 900;
-    line-height: 1.05;
-    margin-bottom: 20px;
-  }
-
-  .hero-content p {
-    font-size: 1.1rem;
-    color: rgba(255,255,255,0.78);
-    max-width: 620px;
-  }
-
-  .btn-main {
-    border: 0;
-    border-radius: 999px;
-    padding: 13px 28px;
-    font-weight: 800;
-    color: white;
-    background: linear-gradient(135deg, #2563eb, #22c55e);
-    box-shadow: 0 14px 35px rgba(37, 99, 235, 0.35);
-  }
-
-  .btn-main:hover {
-    color: white;
-    transform: translateY(-2px);
-  }
-
-  .btn-soft {
-    border-radius: 999px;
-    padding: 13px 28px;
-    font-weight: 700;
-    color: white;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.25);
-  }
-
-  .stats-strip {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    background: rgba(15, 23, 42, 0.92);
-    border-top: 1px solid rgba(255,255,255,0.08);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-  }
-
-  .stat-box {
-    padding: 28px;
-    text-align: center;
-    border-right: 1px solid rgba(255,255,255,0.08);
-  }
-
-  .stat-box:last-child {
-    border-right: 0;
-  }
-
-  .stat-box h3 {
-    font-weight: 900;
-    margin-bottom: 5px;
-  }
-
-  .stat-box span {
-    color: rgba(255,255,255,0.62);
-  }
-
-  .content-area {
-    width: 100%;
-    padding: 70px 7%;
-    background: #2f2f40;
-    color: #0f172a;
-  }
-
-  .section-head {
-    max-width: 760px;
-    margin: 0 auto 45px;
-    text-align: center;
-  }
-
-  .section-head h2 {
-    font-size: clamp(2rem, 4vw, 3.3rem);
-    font-weight: 900;
-  }
-
-  .section-head p {
-    color: #64748b;
-    font-size: 1.05rem;
-  }
-
-  .feature-card {
-    height: 100%;
-    padding: 28px;
-    border-radius: 26px;
-    background: rgb(119, 125, 176);
-    border: 1px solid #e2e8f0;
-    box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
-    transition: 0.3s ease;
-  }
-
-  .feature-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 26px 65px rgba(15, 23, 42, 0.14);
-  }
-
-  .feature-icon {
-    width: 58px;
-    height: 58px;
-    display: grid;
-    place-items: center;
-    border-radius: 18px;
-    background: linear-gradient(135deg, #eff6ff, #dcfce7);
-    font-size: 1.7rem;
-    margin-bottom: 18px;
-  }
-
-  .pricing-section {
-    padding: 75px 7%;
-    background:
-      radial-gradient(circle at top right, rgba(37, 99, 235, 0.22), transparent 30%),
-      #020617;
-  }
-
-  .pricing-card {
-    height: 100%;
-    padding: 32px;
-    border-radius: 30px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.14);
-    backdrop-filter: blur(18px);
-    box-shadow: 0 25px 65px rgba(0,0,0,0.35);
-    transition: 0.3s ease;
-  }
-
-  .pricing-card:hover {
-    transform: translateY(-10px);
-  }
-
-  .pricing-card.popular {
-    border: 1px solid rgba(34, 197, 94, 0.65);
-    background: linear-gradient(135deg, rgba(37,99,235,0.18), rgba(34,197,94,0.16));
-  }
-
-  .plan-name {
-    font-size: 1.3rem;
-    font-weight: 900;
-  }
-
-  .plan-price {
-    font-size: 2.8rem;
-    font-weight: 900;
-    margin: 18px 0 5px;
-  }
-
-  .plan-price small {
-    font-size: 1rem;
-    color: rgba(255,255,255,0.6);
-  }
-
-  .plan-desc {
-    color: rgba(255,255,255,0.65);
-    min-height: 48px;
-  }
-
-  .plan-list {
-    list-style: none;
-    padding: 0;
-    margin: 25px 0;
-  }
-
-  .plan-list li {
-    margin-bottom: 12px;
-    color: rgba(255,255,255,0.78);
-  }
-
-  .plan-list li::before {
-    content: "✓";
-    color: #22c55e;
-    font-weight: 900;
-    margin-right: 10px;
-  }
-
-  @media (max-width: 768px) {
     .hero-section {
-      min-height: 560px;
-      padding: 65px 22px;
-      text-align: center;
-      justify-content: center;
+      width: 100%;
+      min-height: 620px;
+      padding: 90px 7%;
+      display: flex;
+      align-items: center;
+      background:
+        linear-gradient(90deg, rgba(2, 6, 23, 0.96), rgba(2, 6, 23, 0.72), rgba(2, 6, 23, 0.35)),
+        url("https://static.vecteezy.com/system/resources/thumbnails/011/153/363/small_2x/3d-web-developer-working-on-project-illustration-png.png") center/cover no-repeat;
+    }
+
+    .hero-content {
+      max-width: 720px;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, 0.15);
+      border: 1px solid rgba(34, 197, 94, 0.45);
+      color: #86efac;
+      font-weight: 700;
+      margin-bottom: 18px;
+    }
+
+    .hero-content h1 {
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 20px;
     }
 
     .hero-content p {
-      margin: auto;
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.78);
+      max-width: 620px;
+    }
+
+    .btn-main {
+      border: 0;
+      border-radius: 999px;
+      padding: 13px 28px;
+      font-weight: 800;
+      color: white;
+      background: linear-gradient(135deg, #2563eb, #22c55e);
+      box-shadow: 0 14px 35px rgba(37, 99, 235, 0.35);
+    }
+
+    .btn-main:hover {
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .btn-soft {
+      border-radius: 999px;
+      padding: 13px 28px;
+      font-weight: 700;
+      color: white;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.25);
     }
 
     .stats-strip {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .content-area,
-    .pricing-section {
-      padding: 50px 18px;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .stats-strip {
-      grid-template-columns: 1fr;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      background: rgba(15, 23, 42, 0.92);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
     .stat-box {
+      padding: 28px;
+      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .stat-box:last-child {
       border-right: 0;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
     }
 
-    .btn-main,
-    .btn-soft {
+    .stat-box h3 {
+      font-weight: 900;
+      margin-bottom: 5px;
+    }
+
+    .stat-box span {
+      color: rgba(255, 255, 255, 0.62);
+    }
+
+    .content-area {
       width: 100%;
-      margin-bottom: 10px;
+      padding: 70px 7%;
+      background: #2f2f40;
+      color: #0f172a;
     }
-  }
-</style>
 
-<section class="service-showcase mt-3">
+    .section-head {
+      max-width: 760px;
+      margin: 0 auto 45px;
+      text-align: center;
+    }
 
-  <div class="hero-section">
-    <div class="hero-content">
-      <span class="tag">Portfolio & Website Development</span>
+    .section-head h2 {
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      font-weight: 900;
+    }
 
-      <h1><%= pdf.title %></h1>
+    .section-head p {
+      color: #64748b;
+      font-size: 1.05rem;
+    }
 
-      <p>
-        Main premium portfolio websites, business websites, landing pages aur responsive UI designs banata hoon
-        jo mobile, tablet aur desktop par professional dikhe.
-      </p>
+    .feature-card {
+      height: 100%;
+      padding: 28px;
+      border-radius: 26px;
+      background: rgb(119, 125, 176);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.08);
+      transition: 0.3s ease;
+    }
 
-      <div class="mt-4">
-        <a href="#" class="btn btn-main me-2">Order Website</a>
-        <a href="#" class="btn btn-outline-success"><b>View Demo</b></a>
-      </div>
-    </div>
-  </div>
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 26px 65px rgba(15, 23, 42, 0.14);
+    }
 
-  <div class="stats-strip">
-    <div class="stat-box">
-      <h3>100%</h3>
-      <span>Responsive Design</span>
-    </div>
-    <div class="stat-box">
-      <h3>Fast</h3>
-      <span>Loading Website</span>
-    </div>
-    <div class="stat-box">
-      <h3>SEO</h3>
-      <span>Basic Setup</span>
-    </div>
-    <div class="stat-box">
-      <h3>Premium</h3>
-      <span>Modern UI Look</span>
-    </div>
-  </div>
+    .feature-icon {
+      width: 58px;
+      height: 58px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #eff6ff, #dcfce7);
+      font-size: 1.7rem;
+      margin-bottom: 18px;
+    }
 
-  <div class="content-area">
-    <div class="section-head">
-      <h2>What I Can Build For You</h2>
-      <p>
-        Clean layout, strong branding, responsive design aur conversion-focused sections ke saath websites.
-      </p>
-    </div>
+    .pricing-section {
+      padding: 75px 7%;
+      background:
+        radial-gradient(circle at top right, rgba(37, 99, 235, 0.22), transparent 30%),
+        #020617;
+    }
 
-    <div class="row g-4">
-      <div class="col-md-6 col-lg-4">
-        <div class="feature-card">
-          <div class="feature-icon">💼</div>
-          <h5 class="fw-bold">Personal Portfolio</h5>
-          <p class="text-muted mb-0">
-            Students, freelancers, developers aur creators ke liye modern portfolio website.
-          </p>
+    .pricing-card {
+      height: 100%;
+      padding: 32px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 25px 65px rgba(0, 0, 0, 0.35);
+      transition: 0.3s ease;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .pricing-card.popular {
+      border: 1px solid rgba(34, 197, 94, 0.65);
+      background: linear-gradient(135deg, rgba(37, 99, 235, 0.18), rgba(34, 197, 94, 0.16));
+    }
+
+    .plan-name {
+      font-size: 1.3rem;
+      font-weight: 900;
+    }
+
+    .plan-price {
+      font-size: 2.8rem;
+      font-weight: 900;
+      margin: 18px 0 5px;
+    }
+
+    .plan-price small {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .plan-desc {
+      color: rgba(255, 255, 255, 0.65);
+      min-height: 48px;
+    }
+
+    .plan-list {
+      list-style: none;
+      padding: 0;
+      margin: 25px 0;
+    }
+
+    .plan-list li {
+      margin-bottom: 12px;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .plan-list li::before {
+      content: "✓";
+      color: #22c55e;
+      font-weight: 900;
+      margin-right: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .hero-section {
+        min-height: 560px;
+        padding: 65px 22px;
+        text-align: center;
+        justify-content: center;
+      }
+
+      .hero-content p {
+        margin: auto;
+      }
+
+      .stats-strip {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .content-area,
+      .pricing-section {
+        padding: 50px 18px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-box {
+        border-right: 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .btn-main,
+      .btn-soft {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+
+  <section class="service-showcase mt-3">
+
+    <div class="hero-section">
+      <div class="hero-content">
+        <span class="tag">Portfolio & Website Development</span>
+
+        <h1>
+          <%= pdf.title %>
+        </h1>
+
+        <p>
+          Main premium portfolio websites, business websites, landing pages aur responsive UI designs banata hoon
+          jo mobile, tablet aur desktop par professional dikhe.
+        </p>
+
+        <div class="mt-4">
+          <a id="order" href="#" class="btn btn-main me-2">Order Website</a>
+          <%if(pdf.title==="LifeStyle Fashion" ){%>
+            <a type="button" class="btn btn-outline-success" href="https://www.lifestylestores.com/in/en/">Demo
+              Link</a>
+            <%}%>
+
+              <%if(pdf.title==="FastDL Downloader" ){%>
+                <a type="button" class="btn btn-outline-success" href="https://fastdl.app/en2">Demo
+                  Link</a>
+                <%}%>
+                  <%if(pdf.title==="SnapDeal Ecommerce" ){%>
+                    <a type="button" class="btn btn-outline-success" href="https://www.snapdeal.com/">Demo
+                      Link</a>
+                    <%}%>
+                      <%if(pdf.title==="Abu Dhabi Travel Hub" ){%>
+                        <a type="button" class="btn btn-outline-success"
+                          href="https://visitabudhabi.ae/en/plan-your-trip/article-hub">Demo
+                          Link</a>
+                        <%}%>
+                          <%if(pdf.title==="ChitChat Video Pro.." ){%>
+                            <a type="button" class="btn btn-outline-success" href="https://video.chitchat.gg/">Demo
+                              Link</a>
+                            <%}%>
+                              <%if(pdf.title==="ChatRoom Project" ){%>
+                                <a type="button" class="btn btn-outline-success"
+                                  href="https://www.chatblink.com/chat-rooms">Demo
+                                  Link</a>
+                                <%}%>
+                                  <%if(pdf.title==="Currency Converter" ){%>
+                                    <a type="button" class="btn btn-outline-success"
+                                      href="https://www.xe.com/currencyconverter/">Demo
+                                      Link</a>
+                                    <%}%>
+                                      <%if(pdf.title==="VidsSave Project" ){%>
+                                        <a type="button" class="btn btn-outline-success"
+                                          href="https://vidssave.com/youtube-video-downloader-3cx">Demo
+                                          Link</a>
+                                        <%}%>
         </div>
       </div>
+    </div>
 
-      <div class="col-md-6 col-lg-4">
-        <div class="feature-card">
-          <div class="feature-icon">🏢</div>
-          <h5 class="fw-bold">Business Website</h5>
-          <p class="text-muted mb-0">
-            Shop, startup, coaching, agency ya local business ke liye professional website.
-          </p>
-        </div>
+    <div class="stats-strip">
+      <div class="stat-box">
+        <h3>100%</h3>
+        <span>Responsive Design</span>
+      </div>
+      <div class="stat-box">
+        <h3>Fast</h3>
+        <span>Loading Website</span>
+      </div>
+      <div class="stat-box">
+        <h3>SEO</h3>
+        <span>Basic Setup</span>
+      </div>
+      <div class="stat-box">
+        <h3>Premium</h3>
+        <span>Modern UI Look</span>
+      </div>
+    </div>
+
+    <div class="content-area">
+      <div class="section-head">
+        <h2>What I Can Build For You</h2>
+        <p>
+          Clean layout, strong branding, responsive design aur conversion-focused sections ke saath websites.
+        </p>
       </div>
 
-      <div class="col-md-6 col-lg-4">
-        <div class="feature-card">
-          <div class="feature-icon">🚀</div>
-          <h5 class="fw-bold">Landing Page</h5>
-          <p class="text-muted mb-0">
-            Product, service ya offer promote karne ke liye high-converting landing page.
-          </p>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon">💼</div>
+            <h5 class="fw-bold">Personal Portfolio</h5>
+            <p class="text-muted mb-0">
+              Students, freelancers, developers aur creators ke liye modern portfolio website.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon">🏢</div>
+            <h5 class="fw-bold">Business Website</h5>
+            <p class="text-muted mb-0">
+              Shop, startup, coaching, agency ya local business ke liye professional website.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <h5 class="fw-bold">Landing Page</h5>
+            <p class="text-muted mb-0">
+              Product, service ya offer promote karne ke liye high-converting landing page.
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="pricing-section">
-    <div class="section-head text-white">
-      <h2>Choose Your Plan</h2>
-      <p class="text-white-50">
-        Apni requirement ke hisaab se website package choose karo.
-      </p>
+    <div class="pricing-section">
+      <div class="section-head text-white">
+        <h2 id="plan">Choose Your Plan</h2>
+        <p class="text-white-50">
+          Apni requirement ke hisaab se website package choose karo.
+        </p>
+      </div>
+
+      <div class="row g-4">
+
+        <div class="col-md-6 col-lg-4">
+          <div class="pricing-card">
+            <div class="plan-name">Pro</div>
+            <div class="plan-price">₹<%= pdf.price-600 %><small> / project</small></div>
+            <p class="plan-desc">Basic portfolio ya simple landing page ke liye best.</p>
+
+            <ul class="plan-list">
+              <li>1 Page Website</li>
+              <li>Responsive Design</li>
+              <li>Modern UI Layout</li>
+              <li>Basic Contact Section</li>
+              <li>Delivery: 2-3 Days</li>
+            </ul>
+
+            <a href="/purchase/<%= pdf._id %>" class="btn black btn-soft w-100">Choose Pro</a>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="pricing-card popular">
+            <span class="tag">Most Popular</span>
+            <div class="plan-name">Plus</div>
+            <div class="plan-price">₹<%= pdf.price %><small> / project</small></div>
+            <p class="plan-desc">Portfolio + multiple sections + premium look ke liye.</p>
+
+            <ul class="plan-list">
+              <li>Up to 3 Pages</li>
+              <li>Premium Responsive UI</li>
+              <li>Portfolio / Services Section</li>
+              <li>Basic SEO Setup</li>
+              <li>Delivery: 4-5 Days</li>
+            </ul>
+
+            <a href="/purchase/<%= pdf._id %>" class="btn btn-main w-100">Choose Plus</a>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="pricing-card">
+            <div class="plan-name">Business</div>
+            <div class="plan-price">₹<%= pdf.price+1800 %><small> / project</small></div>
+            <p class="plan-desc">Business website, advanced pages aur professional branding ke liye.</p>
+
+            <ul class="plan-list">
+              <li>Up to 6 Pages</li>
+              <li>Business Branding UI</li>
+              <li>Advanced Sections</li>
+              <li>SEO + Contact Form</li>
+              <li>Delivery: 7-10 Days</li>
+            </ul>
+
+            <a href="/purchase/<%= pdf._id %>" class="btn black btn-soft w-100">Choose Business</a>
+          </div>
+        </div>
+
+      </div>
     </div>
 
-    <div class="row g-4">
+  </section>
 
-      <div class="col-md-6 col-lg-4">
-        <div class="pricing-card">
-          <div class="plan-name">Pro</div>
-          <div class="plan-price">₹<%= pdf.price-600 %><small> / project</small></div>
-          <p class="plan-desc">Basic portfolio ya simple landing page ke liye best.</p>
+  <script>
+    let order = document.getElementById("order");
+let plan = document.getElementById("plan");
 
-          <ul class="plan-list">
-            <li>1 Page Website</li>
-            <li>Responsive Design</li>
-            <li>Modern UI Layout</li>
-            <li>Basic Contact Section</li>
-            <li>Delivery: 2-3 Days</li>
-          </ul>
-
-          <a href="#" class="btn black btn-soft w-100">Choose Pro</a>
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-4">
-        <div class="pricing-card popular">
-          <span class="tag">Most Popular</span>
-          <div class="plan-name">Plus</div>
-          <div class="plan-price">₹<%= pdf.price %><small> / project</small></div>
-          <p class="plan-desc">Portfolio + multiple sections + premium look ke liye.</p>
-
-          <ul class="plan-list">
-            <li>Up to 3 Pages</li>
-            <li>Premium Responsive UI</li>
-            <li>Portfolio / Services Section</li>
-            <li>Basic SEO Setup</li>
-            <li>Delivery: 4-5 Days</li>
-          </ul>
-
-          <a href="#" class="btn btn-main w-100">Choose Plus</a>
-        </div>
-      </div>
-
-      <div class="col-md-6 col-lg-4">
-        <div class="pricing-card">
-          <div class="plan-name">Business</div>
-          <div class="plan-price">₹<%= pdf.price+1800 %><small> / project</small></div>
-          <p class="plan-desc">Business website, advanced pages aur professional branding ke liye.</p>
-
-          <ul class="plan-list">
-            <li>Up to 6 Pages</li>
-            <li>Business Branding UI</li>
-            <li>Advanced Sections</li>
-            <li>SEO + Contact Form</li>
-            <li>Delivery: 7-10 Days</li>
-          </ul>
-
-          <a href="#" class="btn black btn-soft w-100">Choose Business</a>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-</section>
+order.addEventListener("click", () => {
+    plan.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+});
+  </script>

@@ -25,6 +25,7 @@ const saveOriginalUrl = require("./middlewares/saveOriginalUrlMiddleware");
 const isLoggedIn = require("./middlewares/AuthMiddleware");
 const isAdmin = require("./middlewares/AdminMiddleware");
 const AsyncWrap = require("./utils/AsyncWrap");
+const Pdf = require("./models/pdf");
 
 const PORT = 3000;
 const app = express();
@@ -76,6 +77,19 @@ app.use("/", AuthRoutes);
 app.use("/pdfs", pdfRoutes);
 app.use("/admin", AdminRoutes);
 app.use("/subscribers", SubscriberRoutes);
+
+app.get("/purchase/:id", async (req, res) => {
+    const { id } = req.params;
+
+    const pdf = await Pdf.findById(id);
+
+    if (!pdf) {
+        req.flash("error", "PDF not found!");
+        return res.redirect("/pdfs");
+    }
+
+    res.render("clients/purchase.ejs", { pdf });
+});
 // Routes------------------------------------------------
 
 // 404
