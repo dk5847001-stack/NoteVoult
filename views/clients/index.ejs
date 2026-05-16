@@ -1,908 +1,979 @@
 <% layout("layouts/boilerplate.ejs") -%>
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
-<style>
-    .price-pill{
-        display:inline-flex;
-        align-items:center;
-        justify-content:center;
-        gap:10px;
-        padding:15px 20px;
-        border-radius:999px;
-        background:#123f42;
-        color:#57f0b3;
-        border:1px solid rgba(87,240,179,.28);
-        box-shadow:inset 0 1px 0 rgba(255,255,255,.08),0 12px 28px rgba(0,0,0,.25);
-        font-size:1.05rem;
-        font-weight:900;
-        letter-spacing:.4px;
-        transition:all .3s ease;
-    }
-
-    .price-pill i{font-size:1.15rem;}
-
-    .price-pill:hover{
-        transform:translateY(-3px) scale(1.03);
-        box-shadow:0 0 22px rgba(87,240,179,.22),0 12px 28px rgba(0,0,0,.28);
-    }
-
-    .hr-text{
-        display:flex;
-        align-items:center;
-        text-align:center;
-        margin:50px 0;
-    }
-
-    .hr-text::before,
-    .hr-text::after{
-        content:"";
-        flex:1;
-        border-bottom:1px solid #ccc;
-    }
-
-    .hr-text:not(:empty)::before{margin-right:10px;}
-    .hr-text:not(:empty)::after{margin-left:10px;}
-
-    .hr-text span{
-        font-size:14px;
-        color:#888;
-        font-weight:500;
-    }
-
-    hr{
-        border-radius:8px;
-        margin-top:-3px !important;
-    }
-
-    .premium-tabs{
-        max-width:980px;
-        margin:0 auto 35px;
-        padding:16px;
-        backdrop-filter:blur(22px);
-    }
-
-    .premium-tabs nav{position:relative;}
-
-    .premium-tabs ul{
-        display:flex;
-        list-style:none;
-        padding:0;
-        margin:0;
-        position:relative;
-        gap:12px;
-    }
-
-    .premium-tabs li{
-        flex:1;
-        text-align:center;
-        position:relative;
-        z-index:2;
-    }
-
-    .premium-tabs a{
-        display:flex;
-        flex-direction:column;
-        align-items:center;
-        gap:7px;
-        text-decoration:none;
-        color:#fff;
-        padding:14px 10px;
-        border-radius:18px;
-        transition:.3s ease;
-        font-weight:600;
-    }
-
-    .premium-tabs a i{
-        font-size:21px;
-        transition:.3s ease;
-        color:white;
-    }
-
-    .premium-tabs li.active a,
-    .premium-tabs a:hover{
-        color:#ff4d9d;
-        background:rgba(255,255,255,.08);
-    }
-
-    .premium-tabs li.active a i,
-    .premium-tabs a:hover i{
-        color:#ff4d9d;
-        transform:translateY(-4px) scale(1.08);
-    }
-
-    .tab-indicator{
-        position:absolute;
-        bottom:-6px;
-        height:3px;
-        background:#ff4d9d;
-        transition:all .3s ease;
-        border-radius:10px;
-    }
-
-    .tab-panel{
-        display:none;
-        animation:fadeUp .35s ease;
-    }
-
-    .tab-panel.active{display:block;}
-
-    @keyframes fadeUp{
-        from{opacity:0;transform:translateY(12px);}
-        to{opacity:1;transform:translateY(0);}
-    }
-
-    .pdf-card{
-        border-radius:22px;
-        background:rgba(255,255,255,.14);
-        backdrop-filter:blur(20px);
-        -webkit-backdrop-filter:blur(20px);
-        border:1px solid rgba(255,255,255,.24);
-        box-shadow:0 10px 32px rgba(0,0,0,.26);
-        transition:all .35s ease;
-        overflow:hidden;
-        color:#f8fafc;
-    }
-
-    .pdf-card:hover{
-        transform:translateY(-8px) scale(1.02);
-        background:rgba(255,255,255,.19);
-        border-color:rgba(255,255,255,.38);
-        box-shadow:0 22px 48px rgba(0,0,0,.38);
-    }
-
-    .pdf-icon{
-        width:70px;
-        margin:20px auto 10px;
-        filter:drop-shadow(0 10px 16px rgba(0,0,0,.35));
-    }
-
-    .card-title{
-        color:#f8fafc;
-        font-weight:700;
-    }
-
-    .card-footer-text{
-        font-size:.8rem;
-        color:#cbd5e1;
-    }
-
-    .btn-premium{
-        border-radius:12px;
-        transition:.3s;
-        background:rgba(255,255,255,.9);
-        border:1px solid rgba(255,255,255,.7);
-        color:#0d6efd;
-        font-weight:600;
-    }
-
-    .btn-premium:hover{
-        background:#0d6efd;
-        color:white;
-        transform:scale(1.03);
-        box-shadow:0 10px 25px rgba(13,110,253,.35);
-    }
-
-    .placeholder{
-        animation:pulse 1.2s infinite ease-in-out;
-        background-color:rgba(255,255,255,.35) !important;
-    }
-
-    @keyframes pulse{
-        0%{opacity:.45;}
-        50%{opacity:.95;}
-        100%{opacity:.45;}
-    }
-
-    .tab-panel .text-center h3{
-        color:#f8fafc;
-        font-weight:800;
-    }
-
-    .tab-panel .text-muted{
-        color:#cbd5e1 !important;
-    }
-
-    .new-seal{
-        position:absolute;
-        top:-8px;
-        right:-8px;
-        background:linear-gradient(135deg,#ff1744,#ff9100);
-        color:white;
-        font-size:.58rem;
-        font-weight:800;
-        padding:4px 7px;
-        border-radius:999px;
-        box-shadow:0 0 12px rgba(255,23,68,.7);
-        animation:sealPulse 1.2s infinite;
-        letter-spacing:.5px;
-    }
-
-    @keyframes sealPulse{
-        0%{transform:scale(1);}
-        50%{transform:scale(1.12);}
-        100%{transform:scale(1);}
-    }
-
-    @media(max-width:768px){
-        .pdf-page{padding:25px 0 45px;}
-
-        .premium-tabs{
-            border-radius:22px;
-            padding:10px;
-            overflow-x:auto;
-            overflow-y:hidden;
-            -webkit-overflow-scrolling:touch;
+    <style>
+        .price-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px 20px;
+            border-radius: 999px;
+            background: #123f42;
+            color: #57f0b3;
+            border: 1px solid rgba(87, 240, 179, .28);
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 12px 28px rgba(0, 0, 0, .25);
+            font-size: 1.05rem;
+            font-weight: 900;
+            letter-spacing: .4px;
+            transition: all .3s ease;
         }
 
-        .premium-tabs ul{
-            flex-wrap:nowrap !important;
-            justify-content:flex-start;
-            gap:10px;
-            min-width:max-content;
-            overflow-x:visible !important;
+        .price-pill i {
+            font-size: 1.15rem;
         }
 
-        .premium-tabs li{
-            flex:0 0 auto;
-            min-width:auto;
+        .price-pill:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 0 22px rgba(87, 240, 179, .22), 0 12px 28px rgba(0, 0, 0, .28);
         }
 
-        .premium-tabs a{
-            white-space:nowrap;
-            padding:11px 16px;
-            font-size:.86rem;
+        .hr-text {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 50px 0;
         }
 
-        .premium-tabs::-webkit-scrollbar{height:0;}
-    }
-
-    @media(max-width:576px){
-        .pdf-card{
-            padding:8px !important;
-            border-radius:16px;
+        .hr-text::before,
+        .hr-text::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #ccc;
         }
 
-        .pdf-icon{
-            width:45px;
-            margin:10px auto 8px;
+        .hr-text:not(:empty)::before {
+            margin-right: 10px;
         }
 
-        .card-title{font-size:.9rem;}
-
-        .card-footer-text{font-size:.62rem;}
-
-        .price-pill{
-            padding:10px 14px;
-            gap:7px;
-            font-size:.82rem;
+        .hr-text:not(:empty)::after {
+            margin-left: 10px;
         }
 
-        .price-pill i{font-size:.9rem;}
-
-        .btn-premium{
-            font-size:.68rem;
-            padding:6px 4px;
-            white-space:nowrap;
+        .hr-text span {
+            font-size: 14px;
+            color: #888;
+            font-weight: 500;
         }
 
-        .card-body{padding:8px !important;}
-    }
-    
-</style>
+        hr {
+            border-radius: 8px;
+            margin-top: -3px !important;
+        }
 
-<div class="pdf-page">
-    <div class="container py-4">
+        .premium-tabs {
+            max-width: 980px;
+            margin: 0 auto 35px;
+            padding: 16px;
+            backdrop-filter: blur(22px);
+        }
 
-        <div class="premium-tabs">
-            <nav>
-                <ul id="tabMenu">
-                    <li class="active">
-                        <a href="#">
-                            <i class="fa-solid fa-layer-group"></i>
-                            <span>All PDFs</span>
-                        </a>
-                    </li>
+        .premium-tabs nav {
+            position: relative;
+        }
 
-                    <li>
-                        <a href="#">
-                            <i class="fa-solid fa-book-open"></i>
-                            <span>All Notes</span>
-                        </a>
-                    </li>
+        .premium-tabs ul {
+            display: flex;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            position: relative;
+            gap: 12px;
+        }
 
-                    <li>
-                        <a href="#" class="position-relative">
-                            <i class="fa-solid fa-flask-vial"></i>
-                            <span>All Micro</span>
-                            <span class="new-seal">NEW</span>
-                        </a>
-                    </li>
+        .premium-tabs li {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
 
-                    <li>
-                        <a href="#">
-                            <i class="fa-solid fa-diagram-project"></i>
-                            <span>All Projects</span>
-                        </a>
-                    </li>
+        .premium-tabs a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 7px;
+            text-decoration: none;
+            color: #fff;
+            padding: 14px 10px;
+            border-radius: 18px;
+            transition: .3s ease;
+            font-weight: 600;
+        }
 
-                    <li>
-                        <a href="#">
-                            <i class="fa-solid fa-user-gear"></i>
-                            <span>Settings</span>
-                        </a>
-                    </li>
-                </ul>
+        .premium-tabs a i {
+            font-size: 21px;
+            transition: .3s ease;
+            color: white;
+        }
 
-                <div class="tab-indicator" id="indicator"></div>
-            </nav>
-        </div>
+        .premium-tabs li.active a,
+        .premium-tabs a:hover {
+            color: #ff4d9d;
+            background: rgba(255, 255, 255, .08);
+        }
 
-        <!-- TAB 1 -->
-        <section class="tab-panel active">
+        .premium-tabs li.active a i,
+        .premium-tabs a:hover i {
+            color: #ff4d9d;
+            transform: translateY(-4px) scale(1.08);
+        }
 
-            <div class="skeleton-wrapper row g-4">
-                <% for(let i=0; i < 8; i++){ %>
-                    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                        <div class="card pdf-card h-100 p-3">
-                            <div class="placeholder-glow text-center mb-3">
-                                <span class="placeholder col-6" style="height:70px;border-radius:10px;"></span>
-                            </div>
+        .tab-indicator {
+            position: absolute;
+            bottom: -6px;
+            height: 3px;
+            background: #ff4d9d;
+            transition: all .3s ease;
+            border-radius: 10px;
+        }
 
-                            <div class="card-body">
-                                <p class="placeholder-glow"><span class="placeholder col-8"></span></p>
-                                <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
-                                <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+        .tab-panel {
+            display: none;
+            animation: fadeUp .35s ease;
+        }
 
-                                <div class="placeholder-glow">
-                                    <span class="placeholder col-12" style="height:38px;border-radius:10px;"></span>
+        .tab-panel.active {
+            display: block;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .pdf-card {
+            border-radius: 22px;
+            background: rgba(255, 255, 255, .14);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, .24);
+            box-shadow: 0 10px 32px rgba(0, 0, 0, .26);
+            transition: all .35s ease;
+            overflow: hidden;
+            color: #f8fafc;
+        }
+
+        .pdf-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: rgba(255, 255, 255, .19);
+            border-color: rgba(255, 255, 255, .38);
+            box-shadow: 0 22px 48px rgba(0, 0, 0, .38);
+        }
+
+        .pdf-icon {
+            width: 70px;
+            margin: 20px auto 10px;
+            filter: drop-shadow(0 10px 16px rgba(0, 0, 0, .35));
+        }
+
+        .card-title {
+            color: #f8fafc;
+            font-weight: 700;
+        }
+
+        .card-footer-text {
+            font-size: .8rem;
+            color: #cbd5e1;
+        }
+
+        .btn-premium {
+            border-radius: 12px;
+            transition: .3s;
+            background: rgba(255, 255, 255, .9);
+            border: 1px solid rgba(255, 255, 255, .7);
+            color: #0d6efd;
+            font-weight: 600;
+        }
+
+        .btn-premium:hover {
+            background: #0d6efd;
+            color: white;
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(13, 110, 253, .35);
+        }
+
+        .placeholder {
+            animation: pulse 1.2s infinite ease-in-out;
+            background-color: rgba(255, 255, 255, .35) !important;
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: .45;
+            }
+
+            50% {
+                opacity: .95;
+            }
+
+            100% {
+                opacity: .45;
+            }
+        }
+
+        .tab-panel .text-center h3 {
+            color: #f8fafc;
+            font-weight: 800;
+        }
+
+        .tab-panel .text-muted {
+            color: #cbd5e1 !important;
+        }
+
+        .new-seal {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: linear-gradient(135deg, #ff1744, #ff9100);
+            color: white;
+            font-size: .58rem;
+            font-weight: 800;
+            padding: 4px 7px;
+            border-radius: 999px;
+            box-shadow: 0 0 12px rgba(255, 23, 68, .7);
+            animation: sealPulse 1.2s infinite;
+            letter-spacing: .5px;
+        }
+
+        @keyframes sealPulse {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.12);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @media(max-width:768px) {
+            .pdf-page {
+                padding: 25px 0 45px;
+            }
+
+            .premium-tabs {
+                border-radius: 22px;
+                padding: 10px;
+                overflow-x: auto;
+                overflow-y: hidden;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .premium-tabs ul {
+                flex-wrap: nowrap !important;
+                justify-content: flex-start;
+                gap: 10px;
+                min-width: max-content;
+                overflow-x: visible !important;
+            }
+
+            .premium-tabs li {
+                flex: 0 0 auto;
+                min-width: auto;
+            }
+
+            .premium-tabs a {
+                white-space: nowrap;
+                padding: 11px 16px;
+                font-size: .86rem;
+            }
+
+            .premium-tabs::-webkit-scrollbar {
+                height: 0;
+            }
+        }
+
+        @media(max-width:576px) {
+            .pdf-card {
+                padding: 8px !important;
+                border-radius: 16px;
+            }
+
+            .pdf-icon {
+                width: 45px;
+                margin: 10px auto 8px;
+            }
+
+            .card-title {
+                font-size: .9rem;
+            }
+
+            .card-footer-text {
+                font-size: .62rem;
+            }
+
+            .price-pill {
+                padding: 10px 14px;
+                gap: 7px;
+                font-size: .82rem;
+            }
+
+            .price-pill i {
+                font-size: .9rem;
+            }
+
+            .btn-premium {
+                font-size: .68rem;
+                padding: 6px 4px;
+                white-space: nowrap;
+            }
+
+            .card-body {
+                padding: 8px !important;
+            }
+        }
+    </style>
+
+    <div class="pdf-page">
+        <div class="container py-4">
+
+            <div class="premium-tabs">
+                <nav>
+                    <ul id="tabMenu">
+                        <li class="active">
+                            <a href="#">
+                                <i class="fa-solid fa-layer-group"></i>
+                                <span>All PDFs</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa-solid fa-book-open"></i>
+                                <span>All Notes</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#" class="position-relative">
+                                <i class="fa-solid fa-flask-vial"></i>
+                                <span>All Micro</span>
+                                <span class="new-seal">NEW</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa-solid fa-diagram-project"></i>
+                                <span>All Projects</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="#">
+                                <i class="fa-solid fa-user-gear"></i>
+                                <span>Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div class="tab-indicator" id="indicator"></div>
+                </nav>
+            </div>
+
+            <!-- TAB 1 -->
+            <section class="tab-panel active">
+
+                <div class="skeleton-wrapper row g-4">
+                    <% for(let i=0; i < 8; i++){ %>
+                        <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                            <div class="card pdf-card h-100 p-3">
+                                <div class="placeholder-glow text-center mb-3">
+                                    <span class="placeholder col-6" style="height:70px;border-radius:10px;"></span>
+                                </div>
+
+                                <div class="card-body">
+                                    <p class="placeholder-glow"><span class="placeholder col-8"></span></p>
+                                    <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+                                    <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+
+                                    <div class="placeholder-glow">
+                                        <span class="placeholder col-12" style="height:38px;border-radius:10px;"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        <% } %>
+                </div>
+
+                <div class="real-data row g-4 d-none">
+                    <% if(allPdfs && allPdfs.length> 0){ %>
+
+                        <% for(let pdf of allPdfs){ %>
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="card pdf-card h-100 text-center p-3">
+
+                                    <img src="https://www.freeiconspng.com/thumbs/pdf-icon-png/pdf-word-icon-31.png"
+                                        class="pdf-icon" alt="pdf">
+
+                                    <div class="card-body d-flex flex-column">
+
+                                        <h5 class="card-title mb-2">
+                                            <%= pdf.title %>
+                                        </h5>
+
+                                        <p class="card-footer-text mb-2">
+                                            <%= pdf.uploadedAt.toLocaleString() %>
+                                        </p>
+
+                                        <div class="mb-3">
+                                            <div class="price-pill">
+                                                <i class="fa-solid fa-circle-check"></i>
+
+                                                <span class="old-price">
+                                                    ₹<del>
+                                                        <%= pdf.price %>
+                                                    </del>
+                                                </span>
+
+                                                <span class="free-price">
+                                                    FREE
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <a href="/pdfs/download/<%= pdf._id %>"
+                                            class="btn btn-outline-primary btn-premium mt-auto download-btn">
+
+                                            <span class="btn-text">
+                                                <i class="bi bi-download"></i> Pay & Download
+                                            </span>
+
+                                            <span class="loading-text d-none">
+                                                <span class="spinner-border spinner-border-sm me-2"></span>
+                                                Downloading...
+                                            </span>
+                                        </a>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+
+                                <% } else { %>
+                                    <div class="col-12 text-center">
+                                        <h4 class="text-muted">No PDFs available</h4>
+                                    </div>
+                                    <% } %>
+                </div>
+            </section>
+
+            <!-- TAB 2 -->
+            <section class="tab-panel">
+                <div class="text-center py-5">
+
+                    <div class="skeleton-wrapper row g-4">
+                        <% for(let i=0; i < 8; i++){ %>
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="card pdf-card h-100 p-3">
+                                    <div class="placeholder-glow text-center mb-3">
+                                        <span class="placeholder col-6" style="height:70px;border-radius:10px;"></span>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <p class="placeholder-glow"><span class="placeholder col-8"></span></p>
+                                        <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+                                        <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+
+                                        <div class="placeholder-glow">
+                                            <span class="placeholder col-12"
+                                                style="height:38px;border-radius:10px;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
                     </div>
-                <% } %>
-            </div>
 
-            <div class="real-data row g-4 d-none">
-                <% if(allPdfs && allPdfs.length > 0){ %>
+                    <div class="real-data row g-4 d-none">
+                        <% if(allNotes && allNotes.length> 0){ %>
 
-                    <% for(let pdf of allPdfs){ %>
-                        <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card pdf-card h-100 text-center p-3">
+                            <% for(let pdf of allNotes){ %>
+                                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                    <div class="card pdf-card h-100 text-center p-3">
 
-                                <img src="https://www.freeiconspng.com/thumbs/pdf-icon-png/pdf-word-icon-31.png"
-                                    class="pdf-icon" alt="pdf">
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Samsung_Notes_icon.png"
+                                            class="pdf-icon" alt="pdf">
 
-                                <div class="card-body d-flex flex-column">
+                                        <div class="card-body d-flex flex-column">
 
-                                    <h5 class="card-title mb-2">
-                                        <%= pdf.title %>
-                                    </h5>
+                                            <h5 class="card-title mb-2">
+                                                <%= pdf.title %>
+                                            </h5>
 
-                                    <p class="card-footer-text mb-2">
-                                        <%= pdf.uploadedAt.toLocaleString() %>
-                                    </p>
+                                            <p class="card-footer-text mb-2">
+                                                <%= pdf.uploadedAt.toLocaleString() %>
+                                            </p>
+
+                                            <div class="mb-3">
+                                                <div class="price-pill">
+                                                <i class="fa-solid fa-circle-check"></i>
+
+                                                <span class="old-price">
+                                                    ₹<del>
+                                                        <%= pdf.price %>
+                                                    </del>
+                                                </span>
+
+                                                <span class="free-price">
+                                                    FREE
+                                                </span>
+                                            </div>
+                                            </div>
+
+                                            <a href="/pdfs/download/<%= pdf._id %>"
+                                                class="btn btn-outline-primary btn-premium mt-auto download-btn">
+
+                                                <span class="btn-text">
+                                                    <i class="bi bi-download"></i> Pay & Download
+                                                </span>
+
+                                                <span class="loading-text d-none">
+                                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                                    Downloading...
+                                                </span>
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+
+                                    <% } else { %>
+                                        <div class="col-12 text-center">
+                                            <h4 class="text-muted">No PDFs available</h4>
+                                        </div>
+                                        <% } %>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3 -->
+            <section class="tab-panel">
+
+                <form id="microFilterForm" method="GET" action="/pdfs" class="row g-2 align-items-end">
+                    <input type="hidden" name="category" value="micro">
+
+                    <div class="col-6 col-md-3">
+                        <label class="form-label text-light">Branch</label>
+                        <select name="branch" class="form-select">
+                            <option value="">All Branch</option>
+                            <option value="B.Tech">B.Tech</option>
+                            <option value="BCA">BCA</option>
+                            <option value="Agriculture">Agriculture</option>
+                            <option value="BBA">BBA</option>
+                            <option value="MBA">MBA</option>
+                        </select>
+                    </div>
+
+                    <div class="col-6 col-md-3">
+                        <label class="form-label text-light">Semester</label>
+                        <select name="semester" class="form-select">
+                            <option value="">All Semester</option>
+                            <% for(let i=1; i <=8; i++){ %>
+                                <option value="<%= i %>">Semester <%= i %>
+                                </option>
+                                <% } %>
+                        </select>
+                    </div>
+
+                    <div class="col-6 col-md-3">
+                        <label class="form-label text-light">Min Price</label>
+                        <input type="number" name="minPrice" class="form-control" placeholder="₹ Min">
+                    </div>
+
+                    <div class="col-6 col-md-3 d-flex gap-2">
+                        <button class="btn btn-primary w-100">Filter</button>
+                        <a href="/pdfs" class="btn btn-outline-success w-100">Reset</a>
+                    </div>
+                </form>
+
+                <div class="text-center py-5">
+                    <div class="hr-text mt-0 mb-2">
+                        <span>CIA & SEMESTER MICRO</span>
+                    </div>
+
+                    <div class="skeleton-wrapper row g-4">
+                        <% for(let i=0; i < 8; i++){ %>
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="card pdf-card h-100 p-3">
+                                    <div class="placeholder-glow text-center mb-3">
+                                        <span class="placeholder col-6" style="height:70px;border-radius:10px;"></span>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <p class="placeholder-glow"><span class="placeholder col-8"></span></p>
+                                        <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+                                        <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+
+                                        <div class="placeholder-glow">
+                                            <span class="placeholder col-12"
+                                                style="height:38px;border-radius:10px;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                    </div>
+
+                    <div id="microData" class="real-data row g-4 d-none">
+                        <% if(allMicros && allMicros.length> 0){ %>
+
+                            <% for(let pdf of allMicros){ %>
+                                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                    <div class="card pdf-card h-100 text-center p-3">
+
+                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/330px-PDF_file_icon.svg.png?_=20220802235851"
+                                            class="pdf-icon" alt="pdf">
+
+                                        <div class="card-body d-flex flex-column">
+
+                                            <h5 class="card-title mb-2">
+                                                <%= pdf.title %>
+                                            </h5>
+
+                                            <p class="card-footer-text mb-2">
+                                                <%= pdf.uploadedAt.toLocaleString() %>
+                                            </p>
+
+                                            <p>
+                                                <span class="badge rounded-pill text-bg-warning">
+                                                    <%= pdf.branch %>
+                                                </span>
+
+                                                <span class="badge rounded-pill text-bg-success">
+                                                    Semester : <%= pdf.semester %>
+                                                </span>
+                                            </p>
+
+                                            <div class="mb-3">
+                                                <div class="price-pill">
+                                                <i class="fa-solid fa-circle-check"></i>
+
+                                                <span class="old-price">
+                                                    ₹<del>
+                                                        <%= pdf.price %>
+                                                    </del>
+                                                </span>
+
+                                                <span class="free-price">
+                                                    FREE
+                                                </span>
+                                            </div>
+                                            </div>
+
+                                            <a href="/pdfs/download/<%= pdf._id %>"
+                                                class="btn btn-outline-primary btn-premium mt-auto download-btn">
+
+                                                <span class="btn-text">
+                                                    <i class="bi bi-download"></i> Pay & Download
+                                                </span>
+
+                                                <span class="loading-text d-none">
+                                                    <span class="spinner-border spinner-border-sm me-2"></span>
+                                                    Downloading...
+                                                </span>
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+
+                                    <% } else { %>
+                                        <div class="col-12 text-center">
+                                            <h4 class="text-muted">No PDFs available</h4>
+                                        </div>
+                                        <% } %>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4 -->
+            <section class="tab-panel">
+                <div class="text-center py-5">
+
+                    <div class="skeleton-wrapper row g-4">
+                        <% for(let i=0; i < 8; i++){ %>
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="card pdf-card h-100 p-3">
+                                    <div class="placeholder-glow text-center mb-3">
+                                        <span class="placeholder col-6" style="height:70px;border-radius:10px;"></span>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <p class="placeholder-glow"><span class="placeholder col-8"></span></p>
+                                        <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+                                        <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+
+                                        <div class="placeholder-glow">
+                                            <span class="placeholder col-12"
+                                                style="height:38px;border-radius:10px;"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                    </div>
+
+                    <div class="real-data row g-4 d-none">
+                        <% if(allProjects && allProjects.length> 0){ %>
+
+                            <% for(let pdf of allProjects){ %>
+                                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                    <div class="card pdf-card h-100 text-center p-3">
+
+                                        <img src="https://cdn-icons-png.flaticon.com/512/1087/1087815.png"
+                                            class="pdf-icon" alt="pdf">
+
+                                        <div class="card-body d-flex flex-column">
+
+                                            <h5 class="card-title mb-2">
+                                                <%= pdf.title %>
+                                            </h5>
+
+                                            <p class="card-footer-text mb-2">
+                                                <%= pdf.uploadedAt.toLocaleString() %>
+                                            </p>
+
+                                            <div class="mb-3">
+                                                <div class="price-pill">
+                                                <i class="fa-solid fa-circle-check"></i>
+
+                                                <span class="old-price">
+                                                     ₹<%= pdf.price %>                                                </span>
+                                            </div>
+                                            </div>
+
+                                            <a href="/pdfs/<%= pdf._id %>"
+                                                class="btn btn-outline-primary btn-premium mt-auto">
+
+                                                <span class="btn-text">
+                                                    <i class="bi bi-eye"></i> View More
+                                                </span>
+                                            </a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+
+                                    <% } else { %>
+                                        <div class="col-12 text-center">
+                                            <h4 class="text-muted">No PDFs available</h4>
+                                        </div>
+                                        <% } %>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5 -->
+            <section class="tab-panel">
+                <div class="container py-5">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+
+                            <div class="card border-0 shadow-lg p-4"
+                                style="border-radius:20px;background:rgba(255,255,255,.08);backdrop-filter:blur(20px);">
+
+                                <h3 class="fw-bold text-center mb-4 text-light">
+                                    ⚙ Account Settings
+                                </h3>
+
+                                <div class="mb-4">
+                                    <h6 class="text-uppercase text-muted">Profile</h6>
 
                                     <div class="mb-3">
-    <div class="price-pill">
-        <i class="fa-solid fa-circle-check"></i>
+                                        <label class="form-label text-light">Username</label>
+                                        <input type="text" class="form-control" placeholder="Enter username">
+                                    </div>
 
-        <span class="old-price">
-            ₹<del><%= pdf.price %></del>
-        </span>
-
-        <span class="free-price">
-            FREE
-        </span>
-    </div>
-</div>
-
-                                    <a href="/pdfs/download/<%= pdf._id %>"
-                                        class="btn btn-outline-primary btn-premium mt-auto download-btn">
-
-                                        <span class="btn-text">
-                                            <i class="bi bi-download"></i> Pay & Download
-                                        </span>
-
-                                        <span class="loading-text d-none">
-                                            <span class="spinner-border spinner-border-sm me-2"></span>
-                                            Downloading...
-                                        </span>
-                                    </a>
-
-                                </div>
-                            </div>
-                        </div>
-                    <% } %>
-
-                <% } else { %>
-                    <div class="col-12 text-center">
-                        <h4 class="text-muted">No PDFs available</h4>
-                    </div>
-                <% } %>
-            </div>
-        </section>
-
-        <!-- TAB 2 -->
-        <section class="tab-panel">
-            <div class="text-center py-5">
-
-                <div class="skeleton-wrapper row g-4">
-                    <% for(let i=0; i < 8; i++){ %>
-                        <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card pdf-card h-100 p-3">
-                                <div class="placeholder-glow text-center mb-3">
-                                    <span class="placeholder col-6" style="height:70px;border-radius:10px;"></span>
-                                </div>
-
-                                <div class="card-body">
-                                    <p class="placeholder-glow"><span class="placeholder col-8"></span></p>
-                                    <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
-                                    <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
-
-                                    <div class="placeholder-glow">
-                                        <span class="placeholder col-12" style="height:38px;border-radius:10px;"></span>
+                                    <div class="mb-3">
+                                        <label class="form-label text-light">Email</label>
+                                        <input type="email" class="form-control" placeholder="Enter email">
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    <% } %>
-                </div>
 
-                <div class="real-data row g-4 d-none">
-                    <% if(allNotes && allNotes.length > 0){ %>
+                                <div class="mb-4">
+                                    <h6 class="text-uppercase text-muted">Preferences</h6>
 
-                        <% for(let pdf of allNotes){ %>
-                            <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                                <div class="card pdf-card h-100 text-center p-3">
+                                    <div class="form-check form-switch mb-2">
+                                        <input class="form-check-input" type="checkbox" id="darkMode">
+                                        <label class="form-check-label text-light" for="darkMode">
+                                            Dark Mode
+                                        </label>
+                                    </div>
 
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Samsung_Notes_icon.png"
-                                        class="pdf-icon" alt="pdf">
-
-                                    <div class="card-body d-flex flex-column">
-
-                                        <h5 class="card-title mb-2">
-                                            <%= pdf.title %>
-                                        </h5>
-
-                                        <p class="card-footer-text mb-2">
-                                            <%= pdf.uploadedAt.toLocaleString() %>
-                                        </p>
-
-                                        <div class="mb-3">
-                                            <div class="price-pill">
-                                                <i class="fa-regular fa-circle-check"></i>
-                                                <span>Rs. <%= pdf.price %></span>
-                                            </div>
-                                        </div>
-
-                                        <a href="/pdfs/download/<%= pdf._id %>"
-                                            class="btn btn-outline-primary btn-premium mt-auto download-btn">
-
-                                            <span class="btn-text">
-                                                <i class="bi bi-download"></i> Pay & Download
-                                            </span>
-
-                                            <span class="loading-text d-none">
-                                                <span class="spinner-border spinner-border-sm me-2"></span>
-                                                Downloading...
-                                            </span>
-                                        </a>
-
+                                    <div class="form-check form-switch mb-2">
+                                        <input class="form-check-input" type="checkbox" id="notifications">
+                                        <label class="form-check-label text-light" for="notifications">
+                                            Email Notifications
+                                        </label>
                                     </div>
                                 </div>
-                            </div>
-                        <% } %>
 
-                    <% } else { %>
-                        <div class="col-12 text-center">
-                            <h4 class="text-muted">No PDFs available</h4>
-                        </div>
-                    <% } %>
-                </div>
-            </div>
-        </section>
+                                <div class="mb-4">
+                                    <h6 class="text-uppercase text-muted">Security</h6>
 
-        <!-- TAB 3 -->
-        <section class="tab-panel">
+                                    <div class="mb-3">
+                                        <label class="form-label text-light">New Password</label>
+                                        <input type="password" class="form-control" placeholder="Enter new password">
+                                    </div>
 
-            <form id="microFilterForm" method="GET" action="/pdfs" class="row g-2 align-items-end">
-                <input type="hidden" name="category" value="micro">
-
-                <div class="col-6 col-md-3">
-                    <label class="form-label text-light">Branch</label>
-                    <select name="branch" class="form-select">
-                        <option value="">All Branch</option>
-                        <option value="B.Tech">B.Tech</option>
-                        <option value="BCA">BCA</option>
-                        <option value="Agriculture">Agriculture</option>
-                        <option value="BBA">BBA</option>
-                        <option value="MBA">MBA</option>
-                    </select>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <label class="form-label text-light">Semester</label>
-                    <select name="semester" class="form-select">
-                        <option value="">All Semester</option>
-                        <% for(let i=1; i <= 8; i++){ %>
-                            <option value="<%= i %>">Semester <%= i %></option>
-                        <% } %>
-                    </select>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <label class="form-label text-light">Min Price</label>
-                    <input type="number" name="minPrice" class="form-control" placeholder="₹ Min">
-                </div>
-
-                <div class="col-6 col-md-3 d-flex gap-2">
-                    <button class="btn btn-primary w-100">Filter</button>
-                    <a href="/pdfs" class="btn btn-outline-success w-100">Reset</a>
-                </div>
-            </form>
-
-            <div class="text-center py-5">
-                <div class="hr-text mt-0 mb-2">
-                    <span>CIA & SEMESTER MICRO</span>
-                </div>
-
-                <div class="skeleton-wrapper row g-4">
-                    <% for(let i=0; i < 8; i++){ %>
-                        <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card pdf-card h-100 p-3">
-                                <div class="placeholder-glow text-center mb-3">
-                                    <span class="placeholder col-6" style="height:70px;border-radius:10px;"></span>
-                                </div>
-
-                                <div class="card-body">
-                                    <p class="placeholder-glow"><span class="placeholder col-8"></span></p>
-                                    <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
-                                    <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
-
-                                    <div class="placeholder-glow">
-                                        <span class="placeholder col-12" style="height:38px;border-radius:10px;"></span>
+                                    <div class="mb-3">
+                                        <label class="form-label text-light">Confirm Password</label>
+                                        <input type="password" class="form-control" placeholder="Confirm password">
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    <% } %>
-                </div>
 
-                <div id="microData" class="real-data row g-4 d-none">
-                    <% if(allMicros && allMicros.length > 0){ %>
-
-                        <% for(let pdf of allMicros){ %>
-                            <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                                <div class="card pdf-card h-100 text-center p-3">
-
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/330px-PDF_file_icon.svg.png?_=20220802235851"
-                                        class="pdf-icon" alt="pdf">
-
-                                    <div class="card-body d-flex flex-column">
-
-                                        <h5 class="card-title mb-2">
-                                            <%= pdf.title %>
-                                        </h5>
-
-                                        <p class="card-footer-text mb-2">
-                                            <%= pdf.uploadedAt.toLocaleString() %>
-                                        </p>
-
-                                        <p>
-                                            <span class="badge rounded-pill text-bg-warning">
-                                                <%= pdf.branch %>
-                                            </span>
-
-                                            <span class="badge rounded-pill text-bg-success">
-                                                Semester : <%= pdf.semester %>
-                                            </span>
-                                        </p>
-
-                                        <div class="mb-3">
-                                            <div class="price-pill">
-                                                <i class="fa-regular fa-circle-check"></i>
-                                                <span>Rs. <%= pdf.price %></span>
-                                            </div>
-                                        </div>
-
-                                        <a href="/pdfs/download/<%= pdf._id %>"
-                                            class="btn btn-outline-primary btn-premium mt-auto download-btn">
-
-                                            <span class="btn-text">
-                                                <i class="bi bi-download"></i> Pay & Download
-                                            </span>
-
-                                            <span class="loading-text d-none">
-                                                <span class="spinner-border spinner-border-sm me-2"></span>
-                                                Downloading...
-                                            </span>
-                                        </a>
-
-                                    </div>
-                                </div>
-                            </div>
-                        <% } %>
-
-                    <% } else { %>
-                        <div class="col-12 text-center">
-                            <h4 class="text-muted">No PDFs available</h4>
-                        </div>
-                    <% } %>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 4 -->
-        <section class="tab-panel">
-            <div class="text-center py-5">
-
-                <div class="skeleton-wrapper row g-4">
-                    <% for(let i=0; i < 8; i++){ %>
-                        <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card pdf-card h-100 p-3">
-                                <div class="placeholder-glow text-center mb-3">
-                                    <span class="placeholder col-6" style="height:70px;border-radius:10px;"></span>
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button class="btn btn-outline-light">Cancel</button>
+                                    <button class="btn btn-primary px-4">Save Changes</button>
                                 </div>
 
-                                <div class="card-body">
-                                    <p class="placeholder-glow"><span class="placeholder col-8"></span></p>
-                                    <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
-                                    <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
-
-                                    <div class="placeholder-glow">
-                                        <span class="placeholder col-12" style="height:38px;border-radius:10px;"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    <% } %>
-                </div>
-
-                <div class="real-data row g-4 d-none">
-                    <% if(allProjects && allProjects.length > 0){ %>
-
-                        <% for(let pdf of allProjects){ %>
-                            <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                                <div class="card pdf-card h-100 text-center p-3">
-
-                                    <img src="https://cdn-icons-png.flaticon.com/512/1087/1087815.png"
-                                        class="pdf-icon" alt="pdf">
-
-                                    <div class="card-body d-flex flex-column">
-
-                                        <h5 class="card-title mb-2">
-                                            <%= pdf.title %>
-                                        </h5>
-
-                                        <p class="card-footer-text mb-2">
-                                            <%= pdf.uploadedAt.toLocaleString() %>
-                                        </p>
-
-                                        <div class="mb-3">
-                                            <div class="price-pill">
-                                                <i class="fa-regular fa-circle-check"></i>
-                                                <span>Rs. <%= pdf.price %></span>
-                                            </div>
-                                        </div>
-
-                                        <a href="/pdfs/<%= pdf._id %>"
-                                            class="btn btn-outline-primary btn-premium mt-auto">
-
-                                            <span class="btn-text">
-                                                <i class="bi bi-eye"></i> View More
-                                            </span>
-                                        </a>
-
-                                    </div>
-                                </div>
-                            </div>
-                        <% } %>
-
-                    <% } else { %>
-                        <div class="col-12 text-center">
-                            <h4 class="text-muted">No PDFs available</h4>
-                        </div>
-                    <% } %>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 5 -->
-        <section class="tab-panel">
-            <div class="container py-5">
-                <div class="row justify-content-center">
-                    <div class="col-lg-8">
-
-                        <div class="card border-0 shadow-lg p-4"
-                            style="border-radius:20px;background:rgba(255,255,255,.08);backdrop-filter:blur(20px);">
-
-                            <h3 class="fw-bold text-center mb-4 text-light">
-                                ⚙ Account Settings
-                            </h3>
-
-                            <div class="mb-4">
-                                <h6 class="text-uppercase text-muted">Profile</h6>
-
-                                <div class="mb-3">
-                                    <label class="form-label text-light">Username</label>
-                                    <input type="text" class="form-control" placeholder="Enter username">
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label text-light">Email</label>
-                                    <input type="email" class="form-control" placeholder="Enter email">
-                                </div>
-                            </div>
-
-                            <div class="mb-4">
-                                <h6 class="text-uppercase text-muted">Preferences</h6>
-
-                                <div class="form-check form-switch mb-2">
-                                    <input class="form-check-input" type="checkbox" id="darkMode">
-                                    <label class="form-check-label text-light" for="darkMode">
-                                        Dark Mode
-                                    </label>
-                                </div>
-
-                                <div class="form-check form-switch mb-2">
-                                    <input class="form-check-input" type="checkbox" id="notifications">
-                                    <label class="form-check-label text-light" for="notifications">
-                                        Email Notifications
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="mb-4">
-                                <h6 class="text-uppercase text-muted">Security</h6>
-
-                                <div class="mb-3">
-                                    <label class="form-label text-light">New Password</label>
-                                    <input type="password" class="form-control" placeholder="Enter new password">
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label text-light">Confirm Password</label>
-                                    <input type="password" class="form-control" placeholder="Confirm password">
-                                </div>
-                            </div>
-
-                            <div class="d-flex justify-content-between mt-4">
-                                <button class="btn btn-outline-light">Cancel</button>
-                                <button class="btn btn-primary px-4">Save Changes</button>
                             </div>
 
                         </div>
-
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
+        </div>
     </div>
-</div>
 
-<script>
-    window.addEventListener("load", () => {
-        document.querySelectorAll(".skeleton-wrapper").forEach((skeleton) => {
-            const panel = skeleton.closest(".tab-panel");
-            const realData = panel.querySelector(".real-data");
+    <script>
+        window.addEventListener("load", () => {
+            document.querySelectorAll(".skeleton-wrapper").forEach((skeleton) => {
+                const panel = skeleton.closest(".tab-panel");
+                const realData = panel.querySelector(".real-data");
 
-            if (skeleton && realData) {
-                skeleton.style.display = "none";
-                realData.classList.remove("d-none");
-            }
-        });
-    });
-
-    function attachDownloadLoading() {
-        document.querySelectorAll(".download-btn").forEach(btn => {
-            if (btn.dataset.loadingAttached === "true") return;
-
-            btn.dataset.loadingAttached = "true";
-
-            btn.addEventListener("click", function (e) {
-                e.preventDefault();
-
-                const text = this.querySelector(".btn-text");
-                const loading = this.querySelector(".loading-text");
-
-                if (text && loading) {
-                    text.classList.add("d-none");
-                    loading.classList.remove("d-none");
+                if (skeleton && realData) {
+                    skeleton.style.display = "none";
+                    realData.classList.remove("d-none");
                 }
-
-                this.classList.add("disabled");
-
-                setTimeout(() => {
-                    window.location.href = this.href;
-                }, 300);
-
-                setTimeout(() => {
-                    if (text && loading) {
-                        text.classList.remove("d-none");
-                        loading.classList.add("d-none");
-                    }
-
-                    this.classList.remove("disabled");
-                }, 6000);
             });
         });
-    }
 
-    attachDownloadLoading();
+        function attachDownloadLoading() {
+            document.querySelectorAll(".download-btn").forEach(btn => {
+                if (btn.dataset.loadingAttached === "true") return;
 
-    const tabs = document.querySelectorAll("#tabMenu li");
-    const sections = document.querySelectorAll(".tab-panel");
-    const indicator = document.getElementById("indicator");
+                btn.dataset.loadingAttached = "true";
 
-    function moveIndicator(el) {
-        if (!indicator || !el) return;
+                btn.addEventListener("click", function (e) {
+                    e.preventDefault();
 
-        indicator.style.width = el.offsetWidth + "px";
-        indicator.style.left = el.offsetLeft + "px";
-    }
+                    const text = this.querySelector(".btn-text");
+                    const loading = this.querySelector(".loading-text");
 
-    window.addEventListener("load", () => {
-        moveIndicator(document.querySelector("#tabMenu li.active"));
-    });
+                    if (text && loading) {
+                        text.classList.add("d-none");
+                        loading.classList.remove("d-none");
+                    }
 
-    tabs.forEach((tab, index) => {
-        tab.addEventListener("click", (e) => {
+                    this.classList.add("disabled");
+
+                    setTimeout(() => {
+                        window.location.href = this.href;
+                    }, 300);
+
+                    setTimeout(() => {
+                        if (text && loading) {
+                            text.classList.remove("d-none");
+                            loading.classList.add("d-none");
+                        }
+
+                        this.classList.remove("disabled");
+                    }, 6000);
+                });
+            });
+        }
+
+        attachDownloadLoading();
+
+        const tabs = document.querySelectorAll("#tabMenu li");
+        const sections = document.querySelectorAll(".tab-panel");
+        const indicator = document.getElementById("indicator");
+
+        function moveIndicator(el) {
+            if (!indicator || !el) return;
+
+            indicator.style.width = el.offsetWidth + "px";
+            indicator.style.left = el.offsetLeft + "px";
+        }
+
+        window.addEventListener("load", () => {
+            moveIndicator(document.querySelector("#tabMenu li.active"));
+        });
+
+        tabs.forEach((tab, index) => {
+            tab.addEventListener("click", (e) => {
+                e.preventDefault();
+
+                tabs.forEach(t => t.classList.remove("active"));
+                sections.forEach(s => s.classList.remove("active"));
+
+                tab.classList.add("active");
+                sections[index].classList.add("active");
+
+                moveIndicator(tab);
+            });
+        });
+
+        window.addEventListener("resize", () => {
+            moveIndicator(document.querySelector("#tabMenu li.active"));
+        });
+
+        const microFilterForm = document.getElementById("microFilterForm");
+        const microData = document.getElementById("microData");
+
+        microFilterForm.addEventListener("submit", async function (e) {
             e.preventDefault();
 
-            tabs.forEach(t => t.classList.remove("active"));
-            sections.forEach(s => s.classList.remove("active"));
+            const branch = this.branch.value;
+            const semester = this.semester.value;
+            const minPrice = this.minPrice.value;
 
-            tab.classList.add("active");
-            sections[index].classList.add("active");
+            const params = new URLSearchParams();
+            params.append("category", "micro");
 
-            moveIndicator(tab);
-        });
-    });
+            if (branch) params.append("branch", branch);
+            if (semester) params.append("semester", semester);
+            if (minPrice) params.append("minPrice", minPrice);
 
-    window.addEventListener("resize", () => {
-        moveIndicator(document.querySelector("#tabMenu li.active"));
-    });
-
-    const microFilterForm = document.getElementById("microFilterForm");
-    const microData = document.getElementById("microData");
-
-    microFilterForm.addEventListener("submit", async function (e) {
-        e.preventDefault();
-
-        const branch = this.branch.value;
-        const semester = this.semester.value;
-        const minPrice = this.minPrice.value;
-
-        const params = new URLSearchParams();
-        params.append("category", "micro");
-
-        if (branch) params.append("branch", branch);
-        if (semester) params.append("semester", semester);
-        if (minPrice) params.append("minPrice", minPrice);
-
-        microData.innerHTML = `
+            microData.innerHTML = `
             <div class="col-12 text-center py-5">
                 <div class="spinner-border text-light"></div>
                 <p class="text-light mt-2">Filtering...</p>
             </div>
         `;
 
-        const res = await fetch(`/pdfs/api/filter?${params.toString()}`);
-        const pdfs = await res.json();
+            const res = await fetch(`/pdfs/api/filter?${params.toString()}`);
+            const pdfs = await res.json();
 
-        if (!pdfs.length) {
-            microData.innerHTML = `
+            if (!pdfs.length) {
+                microData.innerHTML = `
                 <div class="col-12 text-center">
                     <h4 class="text-muted">No PDFs found</h4>
                 </div>
             `;
-            return;
-        }
+                return;
+            }
 
-        microData.innerHTML = pdfs.map(pdf => `
+            microData.innerHTML = pdfs.map(pdf => `
             <div class="col-6 col-sm-6 col-md-4 col-lg-3">
                 <div class="card pdf-card h-100 text-center p-3">
                     <img src="https://www.freeiconspng.com/thumbs/pdf-icon-png/pdf-word-icon-31.png"
@@ -940,6 +1011,6 @@
             </div>
         `).join("");
 
-        attachDownloadLoading();
-    });
-</script>
+            attachDownloadLoading();
+        });
+    </script>
