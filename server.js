@@ -1,4 +1,5 @@
 require("dotenv").config();
+const { cloudinary } = require("./config/cloudConfig");
 
 const express = require("express");
 const path = require("path");
@@ -78,6 +79,7 @@ app.use("/pdfs", pdfRoutes);
 app.use("/admin", AdminRoutes);
 app.use("/subscribers", SubscriberRoutes);
 
+// single project view
 app.get("/purchase/:id", async (req, res) => {
     const { id } = req.params;
 
@@ -89,8 +91,7 @@ app.get("/purchase/:id", async (req, res) => {
     }
 
     res.render("clients/purchase.ejs", { pdf });
-});
-// Routes------------------------------------------------
+});// Routes------------------------------------------------
 
 // 404
 app.use((req, res) => {

@@ -199,3 +199,98 @@ module.exports.viewProject = AsyncWrap(async (req, res)=>{
     console.log(pdf)
     res.render("clients/show", {pdf});
 });
+
+module.exports.renderEditForm = async (req, res)=>{
+    const { id } = req.params;
+    const pdf = await Pdf.findById(id);
+    res.render("clients/edit.ejs", {pdf});
+}
+
+module.exports.updatePdf = AsyncWrap(async (req, res) => {
+    const { id } = req.params;
+    const { title, price, branch, semester, category, examType } = req.body;
+
+    const pdfDoc = await Pdf.findById(id);
+
+    if (!pdfDoc) {
+        req.flash("error", "PDF not found!");
+        return res.redirect("/admin");
+    }
+
+    if (!title || !price || !branch || !semester || !category || !examType) {
+        req.flash("error", "All fields are required!");
+        return res.redirect(`/pdfs/${id}/edit`);
+    }
+
+    const parsedPrice = parseFloat(price);
+    const parsedSemester = parseInt(semester);
+
+    if (isNaN(parsedPrice) || isNaN(parsedSemester)) {
+        req.flash("error", "Invalid price or semester!");
+        return res.redirect(`/pdfs/${id}/edit`);
+    }
+
+    pdfDoc.title = title;
+    pdfDoc.price = parsedPrice;
+    pdfDoc.branch = branch;
+    pdfDoc.semester = parsedSemester;
+    pdfDoc.category = category;
+    pdfDoc.examType = examType;
+
+    // Agar new PDF upload hua hai tabhi old PDF replace karo
+    if (req.file) {
+        if (!req.file.mimetype.includes("pdf")) {
+            req.flash("error", "Only PDF files are allowed!");
+            return res.redirect(`/pdfs/${id}/edit`);
+        }
+
+        // Old file Cloudinary se delete
+        if (pdfDoc.pdf && pdfDoc.pdf.filename) {
+            await cloudinary.uploader.destroy(pdfDoc.pdf.filename, {
+                resource_type: "image"
+            });
+        }
+
+        // New file save
+        pdfDoc.pdf = {
+            url: req.file.path,
+            filename: req.file.filename
+        };
+    }
+
+    await pdfDoc.save();
+
+    req.flash("success", "PDF updated successfully!");
+    res.redirect("/admin");
+})
+
+module.exports.deletePdf =  AsyncWrap(async (req, res) => {
+    const { id } = req.params;
+
+    const pdfDoc = await Pdf.findById(id);
+
+    if (!pdfDoc) {
+        req.flash("error", "PDF not found!");
+        return res.redirect("/admin");
+    }
+
+    const publicId = pdfDoc.pdf.filename;
+
+    console.log("Cloudinary publicId:", publicId);
+
+    const cloudResult = await cloudinary.uploader.destroy(publicId, {
+        resource_type: "image"
+    });
+
+    console.log("Cloudinary delete result:", cloudResult);
+
+    if (cloudResult.result !== "ok") {
+        req.flash("error", "Cloudinary file not deleted!");
+        return res.redirect("/admin");
+    }
+
+    await Pdf.findByIdAndDelete(id);
+
+    req.flash("success", "PDF deleted successfully!");
+    res.redirect("/admin");
+})
