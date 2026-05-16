@@ -13,7 +13,7 @@ const upload = multer({ storage });
 
 router.get("/new", isLoggedIn, pdfController.renderNewForm);
 
-router.get("/download/:id", isLoggedIn, pdfController.downloadPdf);
+router.get("/download/:id", pdfController.downloadPdf);
 
 router.get("/api/filter", pdfController.filterPdfs);
 
