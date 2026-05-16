@@ -1,0 +1,207 @@
+.premium-footer {
+    position: relative !important;
+    width: 100%;
+    margin-top: 60px;
+    padding: 48px 0 22px;
+    background: linear-gradient(135deg, rgba(2, 6, 23, 0.98), rgba(15, 23, 42, 0.98));
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -18px 45px rgba(0, 0, 0, 0.35);
+    color: rgba(255, 255, 255, 0.8);
+    overflow: hidden;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.footer-icon {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 14px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, #06b6d4, #2563eb, #7c3aed);
+    color: white;
+}
+
+.footer-title {
+    font-size: 1.3rem;
+    font-weight: 900;
+    background: linear-gradient(90deg, #38bdf8, #a78bfa);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.footer-text {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.social-icons {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.social-icons a {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: white;
+    background: rgba(255, 255, 255, 0.08);
+    text-decoration: none;
+    transition: 0.25s ease;
+}
+
+.social-icons a:hover {
+    background: linear-gradient(135deg, #06b6d4, #2563eb, #7c3aed);
+    transform: translateY(-3px);
+}
+
+.subscribe-box {
+    margin-top: 18px;
+    padding: 16px;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.055);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+
+.input-icon {
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.input-icon i {
+    position: absolute;
+    top: 50%;
+    left: 15px;
+    transform: translateY(-50%);
+    color: #64748b;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.subscribe-input {
+    width: 100%;
+    height: 48px;
+    border-radius: 12px;
+    border: 2px solid #0e7aaa;
+    padding-left: 46px !important;
+    background: #f8fafc;
+    color: #0f172a;
+    font-weight: 700;
+}
+
+.subscribe-btn {
+    width: 100%;
+    height: 44px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 800;
+    background: linear-gradient(135deg, #06b6d4, #2563eb, #7c3aed);
+    color: white;
+}
+
+.footer-links h5,
+.footer-actions h5 {
+    font-size: 0.98rem;
+    margin-bottom: 13px;
+    font-weight: 900;
+    color: white;
+}
+
+.footer-links a {
+    display: block;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 8px;
+    transition: 0.25s ease;
+    font-size: 0.88rem;
+}
+
+.footer-links a:hover {
+    color: white;
+    transform: translateX(4px);
+}
+
+.footer-action-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.footer-action-btn {
+    min-height: 42px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    text-decoration: none;
+    color: white;
+    font-weight: 800;
+    font-size: 0.82rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 7px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: 0.25s ease;
+}
+
+.footer-action-btn:hover {
+    color: white;
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #06b6d4, #2563eb, #7c3aed);
+}
+
+.footer-bottom {
+    margin-top: 34px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    text-align: center;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.62);
+}
+
+@media (max-width: 767px) {
+    .premium-footer {
+        margin-top: 35px;
+        padding: 34px 0 18px;
+    }
+
+    .footer-main-col {
+        margin-bottom: 24px;
+    }
+
+    .footer-link-col {
+        width: 50%;
+        margin-bottom: 20px;
+    }
+
+    .footer-actions {
+        margin-top: 4px;
+    }
+
+    .footer-action-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 9px;
+    }
+
+    .footer-action-btn {
+        font-size: 0.76rem;
+        min-height: 40px;
+        padding: 9px 10px;
+    }
+
+    .subscribe-input {
+        height: 44px;
+        font-size: 0.86rem;
+    }
+}

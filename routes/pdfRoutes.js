@@ -6,6 +6,7 @@ const pdfController = require("../controllers/pdfController");
 const { validatePdf } = require("../middlewares/pdfValidation");
 
 const isLoggedIn = require("../middlewares/AuthMiddleware");
+const isAdmin = require("../middlewares/AdminMiddleware");
 
 const router = express.Router();
 const upload = multer({ storage });
@@ -37,17 +38,18 @@ router
 router.get("/:id", pdfController.viewProject);
 
 // edit
-router.get("/:id/edit", pdfController.renderEditForm);
+router.get("/:id/edit", isLoggedIn, isAdmin, pdfController.renderEditForm);
 
 // update
 router.put(
     "/:id",
-    isLoggedIn,
+    isLoggedIn, 
+    isAdmin,
     upload.single("pdf"),
     pdfController.updatePdf
 );
 
 // delete
-router.delete("/:id", pdfController.deletePdf);
+router.delete("/:id", isLoggedIn, isAdmin, pdfController.deletePdf);
 
 module.exports = router;

@@ -1,578 +1,8 @@
 <% layout("layouts/boilerplate.ejs") -%>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<link rel="stylesheet" href="/css/adminDashboard.css" />
 
-    <style>
-        /* ===== PAGE ===== */
-        body {
-            background: #0f172a;
-            color: #e2e8f0;
-        }
-
-        /* ===== HEADER ===== */
-        .admin-header {
-            padding: 20px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            color: white;
-            margin-bottom: 20px;
-        }
-
-        /* ===== USER CARD ===== */
-        .user-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .user-card h6 {
-            color: #94a3b8;
-            margin-bottom: 5px;
-        }
-
-        /* ===== SIDEBAR ===== */
-        .admin-sidebar {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        /* Sidebar buttons */
-        .admin-btn {
-            width: 100%;
-            padding: 12px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            border: none;
-            color: white;
-            font-weight: 600;
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .admin-btn i {
-            font-size: 16px;
-        }
-
-        .admin-btn:hover {
-            transform: translateX(5px);
-        }
-
-        /* Button colors */
-        .btn-subs {
-            background: linear-gradient(135deg, #3b82f6, #06b6d4);
-        }
-
-        .btn-msg {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-        }
-
-        .btn-users {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-        }
-
-        .btn-pdf {
-            background: linear-gradient(135deg, #f59e0b, #ef4444);
-        }
-
-        /* ===== BADGE ===== */
-        .status-badge {
-            padding: 5px 10px;
-            border-radius: 999px;
-            font-size: 12px;
-        }
-
-        .active {
-            background: #22c55e;
-        }
-
-        .blocked {
-            background: #ef4444;
-        }
-
-        /* MOBILE */
-        @media(max-width:768px) {
-            .admin-sidebar {
-                margin-top: 20px;
-            }
-        }
-
-        table {
-            width: 100%;
-        }
-
-        tr,
-        th,
-        td {
-            padding: 30px;
-        }
-
-        /* ------------------------------------ */
-
-        /* ===== SECTION ===== */
-        .section1 {
-            color: #e2e8f0;
-        }
-
-        /* ===== CARD ===== */
-        .card {
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(16px);
-            border-radius: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-            transition: 0.3s;
-        }
-
-        .card:hover {
-            box-shadow: 0 15px 60px rgba(59, 130, 246, 0.25);
-        }
-
-        /* ===== HEADER ===== */
-        .section1 h5 {
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        /* ===== TABLE ===== */
-        .table {
-            border-collapse: separate;
-            border-spacing: 0 10px;
-        }
-
-        /* ===== TABLE HEAD ===== */
-        .table thead th {
-            background: rgba(255, 255, 255, 0.06);
-            border: none;
-            padding: 14px;
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #94a3b8;
-            position: sticky;
-            top: 0;
-            z-index: 2;
-        }
-
-        /* ===== TABLE ROW ===== */
-        .table tbody tr {
-            background: rgba(255, 255, 255, 0.04);
-            border-radius: 12px;
-            transition: 0.3s ease;
-        }
-
-        /* ===== CELL ===== */
-        .table td {
-            padding: 14px;
-            border: none;
-        }
-
-        /* ===== HOVER EFFECT ===== */
-        .table-hover tbody tr:hover {
-            transform: translateY(-4px) scale(1.01);
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(139, 92, 246, 0.15));
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
-        }
-
-        /* ===== BADGES ===== */
-        .badge {
-            font-size: 12px;
-            padding: 6px 12px;
-            border-radius: 999px;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-        }
-
-        /* ===== BUTTONS ===== */
-        .btn-sm {
-            border-radius: 10px;
-            padding: 6px 12px;
-            border: none;
-            transition: 0.3s;
-        }
-
-        /* BLOCK BUTTON */
-        .btn-warning {
-            background: linear-gradient(135deg, #f59e0b, #f97316);
-            color: white;
-        }
-
-        .btn-warning:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 12px rgba(245, 158, 11, 0.7);
-        }
-
-        /* UNBLOCK BUTTON */
-        .btn-success {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-        }
-
-        .btn-success:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 12px rgba(34, 197, 94, 0.7);
-        }
-
-        /* DELETE BUTTON */
-        .btn-danger {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-        }
-
-        .btn-danger:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 12px rgba(239, 68, 68, 0.7);
-        }
-
-        /* ===== ICON STYLE ===== */
-        i {
-            margin-right: 4px;
-        }
-
-        /* ===== TOTAL BADGE ===== */
-        .badge.bg-primary {
-            background: linear-gradient(135deg, #3b82f6, #06b6d4) !important;
-            border-radius: 999px;
-            padding: 6px 12px;
-        }
-
-        /* ===== SCROLLBAR (PREMIUM TOUCH) ===== */
-        .table-responsive::-webkit-scrollbar {
-            height: 6px;
-        }
-
-        .table-responsive::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            border-radius: 10px;
-        }
-
-        /* ===== MOBILE ===== */
-        @media(max-width:768px) {
-
-            .table thead {
-                display: none;
-            }
-
-            .table tbody tr {
-                display: block;
-                margin-bottom: 15px;
-                padding: 10px;
-            }
-
-            .table td {
-                display: flex;
-                justify-content: space-between;
-                padding: 10px;
-            }
-
-            .table td::before {
-                content: attr(data-label);
-                font-weight: bold;
-                color: #94a3b8;
-            }
-
-        }
-
-        /* Chrome, Edge, Safari */
-        ::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* Firefox */
-        * {
-            scrollbar-width: none;
-        }
-
-        /* IE / Old Edge */
-        * {
-            -ms-overflow-style: none;
-        }
-
-        .section1 {
-            max-height: 80vh;
-            overflow-y: scroll;
-        }
-
-        #section1 {
-            color: #fff;
-        }
-
-        /* --------------------------- */
-        /* ===== SECTION HEADER ===== */
-        .premium-section-header {
-            padding: 14px 18px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: 0.3s;
-        }
-
-        /* Hover Glow */
-        .premium-section-header:hover {
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
-            transform: translateY(-2px);
-        }
-
-        /* ===== ICON BOX ===== */
-        .icon-box {
-            width: 38px;
-            height: 38px;
-            border-radius: 10px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 16px;
-        }
-
-        /* ===== TITLE ===== */
-        .premium-section-header h5 {
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        /* OPTIONAL: animated underline */
-        .premium-section-header::after {
-            content: "";
-            position: absolute;
-            left: 20px;
-            bottom: 8px;
-            width: 0%;
-            height: 2px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            transition: 0.4s;
-        }
-
-        .premium-section-header:hover::after {
-            width: 60px;
-        }
-
-        /*--------------------------------------- Subscriber Section Styles--------------------------------------- */
-        body {
-            background: #0f172a;
-            color: #fff;
-        }
-
-        .subscriber-page {
-            padding: 40px 0;
-        }
-
-        .subscriber-card {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(18px);
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
-        }
-
-        .subscriber-header {
-            padding: 30px;
-            background: linear-gradient(135deg,
-                    rgba(59, 130, 246, 0.25),
-                    rgba(168, 85, 247, 0.25));
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .subscriber-title {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 8px;
-        }
-
-        .subscriber-subtitle {
-            color: rgba(255, 255, 255, 0.7);
-            margin: 0;
-        }
-
-        .stats-box {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 18px;
-            padding: 25px;
-        }
-
-        .stat-card {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 22px;
-            padding: 22px;
-        }
-
-        .stat-card h3 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 6px;
-        }
-
-        .stat-card p {
-            margin: 0;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        .table-wrapper {
-            overflow-x: auto;
-            padding: 25px;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0 14px;
-        }
-
-        th {
-            color: #94a3b8;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            padding: 0 20px 12px;
-            white-space: nowrap;
-        }
-
-        td {
-            background: rgba(255, 255, 255, 0.06);
-            padding: 22px 20px;
-            vertical-align: middle;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        tr td:first-child {
-            border-left: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 18px 0 0 18px;
-        }
-
-        tr td:last-child {
-            border-right: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 0 18px 18px 0;
-        }
-
-        tr {
-            transition: 0.3s ease;
-        }
-
-        tbody tr:hover {
-            transform: translateY(-4px);
-        }
-
-        .email-box {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .email-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            display: grid;
-            place-items: center;
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
-            color: white;
-            font-size: 1.1rem;
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
-        }
-
-        .email-text {
-            font-weight: 600;
-            word-break: break-word;
-        }
-
-        .time-text {
-            color: #cbd5e1;
-            font-size: 0.92rem;
-        }
-
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 16px;
-            border-radius: 999px;
-            font-size: 0.82rem;
-            font-weight: 700;
-            text-transform: capitalize;
-        }
-
-        .status-active {
-            background: rgba(34, 197, 94, 0.16);
-            color: #4ade80;
-            border: 1px solid rgba(74, 222, 128, 0.25);
-        }
-
-        .status-inactive {
-            background: rgba(239, 68, 68, 0.15);
-            color: #f87171;
-            border: 1px solid rgba(248, 113, 113, 0.2);
-        }
-
-        .empty-box {
-            padding: 70px 20px;
-            text-align: center;
-        }
-
-        .empty-box i {
-            font-size: 4rem;
-            margin-bottom: 18px;
-            color: #64748b;
-        }
-
-        .empty-box h3 {
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-
-        .empty-box p {
-            color: #94a3b8;
-        }
-
-        @media(max-width:768px) {
-
-            .subscriber-page {
-                padding: 20px 0;
-            }
-
-            .subscriber-header {
-                padding: 22px;
-            }
-
-            .subscriber-title {
-                font-size: 1.5rem;
-            }
-
-            td {
-                padding: 18px 14px;
-            }
-
-            .email-icon {
-                width: 42px;
-                height: 42px;
-                font-size: 1rem;
-            }
-
-            .stats-box {
-                padding: 18px;
-            }
-
-            .table-wrapper {
-                padding: 18px;
-            }
-        }
-        .margin{
-            margin-top: 40px !important;
-        }
-    </style>
-
-    <div class="container margin mt-4">
+    <div class="container-fluid admin-dashboard-container margin mt-4">
 
         <!-- HEADER -->
         <div class="admin-header">
@@ -671,7 +101,7 @@
                 </div>
             </div>
 
-            <div class="card shadow-lg border-0 p-3" style="background: rgba(255,255,255,0.05); border-radius:16px;">
+            <div class="card admin-panel-card shadow-lg border-0 p-3">
                 <!-- HEADER -->
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h5 class="mb-0">
@@ -701,18 +131,18 @@
                                 <tr>
 
                                     <!-- NAME -->
-                                    <td>
+                                    <td data-label="Name">
                                         <i class="fa-solid fa-circle-user"></i>
                                         <%= user.username %>
                                     </td>
 
                                     <!-- EMAIL -->
-                                    <td>
+                                    <td data-label="Email">
                                         <%= user.email %>
                                     </td>
 
                                     <!-- ROLE -->
-                                    <td>
+                                    <td data-label="Role">
                                         <% if(user.role==="admin" ){ %>
                                             <span class="badge bg-warning text-dark">
                                                 👑 Admin
@@ -725,7 +155,7 @@
                                     </td>
 
                                     <!-- STATUS -->
-                                    <td>
+                                    <td data-label="Status">
                                         <% if(user.isBlocked==="blocked" ){ %>
                                             <span class="badge bg-danger">
                                                 <i class="fa-solid fa-ban"></i> Blocked
@@ -738,7 +168,7 @@
                                     </td>
 
                                     <!-- ACTION -->
-                                    <td class="d-flex justify-content-center gap-2">
+                                    <td data-label="Action" class="user-actions-cell d-flex justify-content-center gap-2">
 
                                         <% if(user.isBlocked==="active" ){ %>
                                             <a href="/admin/unblock/<%= user._id %>" class="btn btn-success btn-sm">
@@ -843,7 +273,7 @@
 
                                         <tr>
 
-                                            <td>
+                                            <td data-label="Email Address">
                                                 <div class="email-box">
 
                                                     <div class="email-icon">
@@ -857,13 +287,13 @@
                                                 </div>
                                             </td>
 
-                                            <td>
+                                            <td data-label="Subscribed Time">
                                                 <div class="time-text">
                                                     <%= subscriber.subscribedAt.toLocaleString() %>
                                                 </div>
                                             </td>
 
-                                            <td>
+                                            <td data-label="Status">
 
                                                 <span class="
                                             status-badge
@@ -916,165 +346,6 @@
 
         <!--  -------------------------------- Pdf section ------------------------ -->
 <section class="pdf-admin-section">
-
-    <style>
-        .pdf-admin-section {
-            padding: 28px 0;
-        }
-
-        .pdf-card {
-            position: relative;
-            border: none;
-            border-radius: 24px;
-            overflow: hidden;
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22);
-            transition: 0.35s ease;
-            color: #fff;
-        }
-
-        .pdf-card:hover {
-            transform: translateY(-7px);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.35);
-        }
-
-        .pdf-icon {
-            width: 68px;
-            height: 68px;
-            object-fit: contain;
-            margin: 18px auto 8px;
-            filter: drop-shadow(0 10px 14px rgba(0,0,0,0.35));
-        }
-
-        .pdf-title {
-            font-size: 1rem;
-            font-weight: 800;
-            color: #f8fafc;
-            line-height: 1.3;
-            min-height: 42px;
-        }
-
-        .card-footer-text {
-            font-size: 0.78rem;
-            color: #cbd5e1;
-        }
-
-        .price-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 7px 13px;
-            border-radius: 999px;
-            background: rgba(34, 197, 94, 0.14);
-            border: 1px solid rgba(34, 197, 94, 0.35);
-            color: #22c55e;
-            font-size: 0.82rem;
-            font-weight: 800;
-        }
-
-        .old-price {
-            color: #94a3b8;
-        }
-
-        .free-price {
-            color: #22c55e;
-        }
-
-        .btn-premium {
-            border-radius: 14px;
-            font-weight: 700;
-            font-size: 0.84rem;
-            padding: 9px 10px;
-        }
-
-        .action-btns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-top: 10px;
-        }
-
-        .edit-btn,
-        .delete-btn {
-            border-radius: 13px;
-            font-size: 0.78rem;
-            font-weight: 700;
-            padding: 8px 6px;
-        }
-
-        .edit-btn {
-            background: rgba(59, 130, 246, 0.14);
-            color: #60a5fa;
-            border: 1px solid rgba(59, 130, 246, 0.35);
-        }
-
-        .edit-btn:hover {
-            background: #2563eb;
-            color: #fff;
-        }
-
-        .delete-btn {
-            background: rgba(239, 68, 68, 0.14);
-            color: #f87171;
-            border: 1px solid rgba(239, 68, 68, 0.35);
-        }
-
-        .delete-btn:hover {
-            background: #dc2626;
-            color: #fff;
-        }
-
-        .empty-box {
-            padding: 45px 20px;
-            border-radius: 24px;
-            background: rgba(255,255,255,0.08);
-            color: #cbd5e1;
-        }
-
-        @media (max-width: 576px) {
-            .pdf-admin-section {
-                padding: 18px 0;
-            }
-
-            .pdf-card {
-                border-radius: 18px;
-                padding: 10px !important;
-            }
-
-            .pdf-icon {
-                width: 48px;
-                height: 48px;
-                margin-top: 10px;
-            }
-
-            .pdf-title {
-                font-size: 0.82rem;
-                min-height: 36px;
-            }
-
-            .card-footer-text {
-                font-size: 0.62rem;
-            }
-
-            .price-pill {
-                font-size: 0.68rem;
-                padding: 5px 9px;
-            }
-
-            .btn-premium,
-            .edit-btn,
-            .delete-btn {
-                font-size: 0.66rem;
-                padding: 7px 4px;
-            }
-
-            .card-body {
-                padding: 8px !important;
-            }
-        }
-    </style>
 <div class="admin-heading-wrapper">
     <div class="admin-heading-line"></div>
 
@@ -1094,145 +365,13 @@
     </h2>
 
     <div class="admin-heading-line"></div>
-</div>
-
-<style>
-    .admin-heading-wrapper {
-        display: flex;
-        align-items: center;
-        gap: 18px;
-        margin: 25px 0 35px;
-    }
-
-    .admin-heading-line {
-        flex: 1;
-        height: 1.5px;
-        background: linear-gradient(
-            to right,
-            transparent,
-            rgba(255,255,255,0.28),
-            transparent
-        );
-    }
-
-    .admin-heading {
-        margin: 0;
-        padding: 14px 24px;
-        border-radius: 22px;
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        flex-wrap: wrap;
-
-        background: rgba(255,255,255,0.10);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-
-        border: 1px solid rgba(255,255,255,0.18);
-
-        box-shadow:
-            0 12px 35px rgba(0,0,0,0.28),
-            inset 0 1px 1px rgba(255,255,255,0.08);
-
-        color: #fff;
-
-        animation: fadeSlide 0.6s ease;
-    }
-
-    .heading-icon {
-        width: 52px;
-        height: 52px;
-        border-radius: 16px;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        background: linear-gradient(135deg, #2563eb, #7c3aed);
-        color: white;
-
-        font-size: 1.2rem;
-
-        box-shadow: 0 10px 24px rgba(37,99,235,0.35);
-    }
-
-    .heading-text {
-        font-size: 1.45rem;
-        font-weight: 800;
-        letter-spacing: 0.4px;
-        color: #f8fafc;
-    }
-
-    .heading-badge {
-        padding: 7px 12px;
-        border-radius: 999px;
-
-        background: rgba(34,197,94,0.15);
-        border: 1px solid rgba(34,197,94,0.35);
-
-        color: #22c55e;
-
-        font-size: 0.75rem;
-        font-weight: 700;
-
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    @keyframes fadeSlide {
-        from {
-            opacity: 0;
-            transform: translateY(14px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    @media (max-width: 768px) {
-
-        .admin-heading-wrapper {
-            gap: 10px;
-            margin: 18px 0 25px;
-        }
-
-        .admin-heading {
-            width: 100%;
-            justify-content: center;
-            text-align: center;
-            padding: 12px 16px;
-            border-radius: 18px;
-        }
-
-        .heading-icon {
-            width: 42px;
-            height: 42px;
-            font-size: 1rem;
-        }
-
-        .heading-text {
-            font-size: 1rem;
-        }
-
-        .heading-badge {
-            font-size: 0.65rem;
-            padding: 5px 10px;
-        }
-
-        .admin-heading-line {
-            display: none;
-        }
-    }
-</style>    <!-- Skeleton Loader -->
+</div>    <!-- Skeleton Loader -->
     <div class="skeleton-wrapper row g-4">
         <% for(let i = 0; i < 8; i++){ %>
             <div class="col-6 col-sm-6 col-md-4 col-lg-3">
                 <div class="card pdf-card h-100 p-3">
                     <div class="placeholder-glow text-center">
-                        <span class="placeholder col-5 rounded-circle" style="height:68px;"></span>
+                        <span class="placeholder col-5 rounded-circle ph-avatar"></span>
                     </div>
 
                     <div class="card-body text-center">
@@ -1249,15 +388,15 @@
                         </p>
 
                         <div class="placeholder-glow mb-2">
-                            <span class="placeholder col-12" style="height:38px; border-radius:14px;"></span>
+                            <span class="placeholder col-12 ph-btn"></span>
                         </div>
 
                         <div class="row g-2 placeholder-glow">
                             <div class="col-6">
-                                <span class="placeholder col-12" style="height:34px; border-radius:12px;"></span>
+                                <span class="placeholder col-12 ph-small-btn"></span>
                             </div>
                             <div class="col-6">
-                                <span class="placeholder col-12" style="height:34px; border-radius:12px;"></span>
+                                <span class="placeholder col-12 ph-small-btn"></span>
                             </div>
                         </div>
                     </div>
@@ -1344,67 +483,8 @@
         <% } %>
     </div>
 
-    <script>
-        window.addEventListener("load", () => {
-            const skeleton = document.querySelector(".pdf-admin-section .skeleton-wrapper");
-            const realData = document.querySelector(".pdf-admin-section .real-data");
-
-            setTimeout(() => {
-                if (skeleton && realData) {
-                    skeleton.style.display = "none";
-                    realData.classList.remove("d-none");
-                }
-            }, 700);
-        });
-
-        document.querySelectorAll(".download-btn").forEach(btn => {
-            btn.addEventListener("click", function (e) {
-                e.preventDefault();
-
-                const text = this.querySelector(".btn-text");
-                const loading = this.querySelector(".loading-text");
-
-                text.classList.add("d-none");
-                loading.classList.remove("d-none");
-                this.classList.add("disabled");
-
-                setTimeout(() => {
-                    window.location.href = this.href;
-                }, 350);
-            });
-        });
-    </script>
-
 </section>
 
 
         <!--  --------------------------------   Java Script  ------------------------ -->
-        <script>
-            const manageUsersBtn = document.getElementById("manageUsersBtn");
-            const section1 = document.getElementById("section1");
-
-            manageUsersBtn.addEventListener("click", () => {
-                section1.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-            });
-            const subscriberBtn = document.getElementById("subscriberBtn");
-            const subscriber = document.getElementById("subscriber");
-
-            subscriberBtn.addEventListener("click", () => {
-                subscriber.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-            });
-            const pdfs = document.getElementById("pdfs");
-            const allPdfs = document.getElementById("allPdfs");
-
-            pdfs.addEventListener("click", () => {
-                allPdfs.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start"
-                });
-            });
-        </script>
+<script src="/js/adminDashboard.js"></script>
