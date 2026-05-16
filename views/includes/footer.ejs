@@ -3,7 +3,7 @@
     position: relative !important;
     width: 100%;
     margin-top: 60px;
-    padding: 45px 0 22px;
+    padding: 48px 0 22px;
     background: linear-gradient(135deg, rgba(2, 6, 23, 0.98), rgba(15, 23, 42, 0.98));
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 -18px 45px rgba(0, 0, 0, 0.35);
@@ -19,19 +19,18 @@
 }
 
 .footer-icon {
-    width: 38px;
-    height: 38px;
-    min-width: 38px;
-    border-radius: 12px;
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    border-radius: 14px;
     display: grid;
     place-items: center;
     background: linear-gradient(135deg, #06b6d4, #2563eb, #7c3aed);
     color: white;
-    font-size: 0.95rem;
 }
 
 .footer-title {
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     font-weight: 900;
     background: linear-gradient(90deg, #38bdf8, #a78bfa);
     -webkit-background-clip: text;
@@ -39,10 +38,9 @@
 }
 
 .footer-text {
-    font-size: 0.88rem;
-    line-height: 1.5;
+    font-size: 0.9rem;
+    line-height: 1.6;
     color: rgba(255, 255, 255, 0.65);
-    margin-bottom: 0;
 }
 
 .social-icons {
@@ -61,7 +59,6 @@
     background: rgba(255, 255, 255, 0.08);
     text-decoration: none;
     transition: 0.25s ease;
-    font-size: 0.9rem;
 }
 
 .social-icons a:hover {
@@ -69,18 +66,12 @@
     transform: translateY(-3px);
 }
 
-/* Subscribe Box */
 .subscribe-box {
     margin-top: 18px;
     padding: 16px;
     border-radius: 18px;
     background: rgba(255,255,255,0.055);
     border: 1px solid rgba(255,255,255,0.1);
-}
-
-.subscribe-box form {
-    width: 100%;
-    margin: 0;
 }
 
 .input-icon {
@@ -92,44 +83,22 @@
 .input-icon i {
     position: absolute;
     top: 50%;
-    left: 16px;
+    left: 15px;
     transform: translateY(-50%);
     color: #64748b;
     z-index: 5;
-    font-size: 1rem;
-    width: 18px;
-    height: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     pointer-events: none;
 }
 
 .subscribe-input {
     width: 100%;
-    height: 52px;
-    border-radius: 10px;
+    height: 48px;
+    border-radius: 12px;
     border: 2px solid #0e7aaa;
-    padding: 0 14px 0 48px !important;
-    font-size: 1.1rem;
-    font-weight: 800;
-    line-height: 52px;
+    padding-left: 46px !important;
     background: #f8fafc;
     color: #0f172a;
-    display: block;
-}
-
-.subscribe-input::placeholder {
-    color: #64748b;
-    font-size: 0.95rem;
-}
-.subscribe-box .form-control {
-    padding-left: 48px !important;
-}
-
-.subscribe-input:focus {
-    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.22);
-    border-color: #38bdf8;
+    font-weight: 700;
 }
 
 .subscribe-btn {
@@ -140,19 +109,13 @@
     font-weight: 800;
     background: linear-gradient(135deg, #06b6d4, #2563eb, #7c3aed);
     color: white;
-    font-size: 0.92rem;
 }
 
-.subscribe-btn:disabled {
-    opacity: 0.75;
-    cursor: not-allowed;
-}
-
-/* Links */
-.footer-links h5 {
+.footer-links h5,
+.footer-actions h5 {
     font-size: 0.98rem;
-    margin-bottom: 12px;
-    font-weight: 800;
+    margin-bottom: 13px;
+    font-weight: 900;
     color: white;
 }
 
@@ -170,28 +133,52 @@
     transform: translateX(4px);
 }
 
+.footer-action-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+
+.footer-action-btn {
+    min-height: 42px;
+    padding: 10px 12px;
+    border-radius: 14px;
+    text-decoration: none;
+    color: white;
+    font-weight: 800;
+    font-size: 0.82rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 7px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: 0.25s ease;
+}
+
+.footer-action-btn:hover {
+    color: white;
+    transform: translateY(-3px);
+    background: linear-gradient(135deg, #06b6d4, #2563eb, #7c3aed);
+}
+
 .footer-bottom {
-    margin-top: 32px;
-    padding-top: 14px;
+    margin-top: 34px;
+    padding-top: 15px;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     text-align: center;
     font-size: 0.78rem;
+    color: rgba(255,255,255,0.62);
 }
 
-/* Mobile Responsive */
 @media (max-width: 767px) {
     .premium-footer {
         margin-top: 35px;
         padding: 34px 0 18px;
     }
 
-    .premium-footer .container {
-        padding-left: 14px;
-        padding-right: 14px;
-    }
-
     .footer-main-col {
-        margin-bottom: 22px;
+        margin-bottom: 24px;
     }
 
     .footer-link-col {
@@ -199,46 +186,33 @@
         margin-bottom: 20px;
     }
 
-    .footer-links h5 {
-        font-size: 0.9rem;
-        margin-bottom: 8px;
+    .footer-actions {
+        margin-top: 4px;
     }
 
-    .footer-links a {
-        font-size: 0.78rem;
-        margin-bottom: 7px;
+    .footer-action-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 9px;
     }
 
-    .subscribe-box {
-        padding: 14px;
-        border-radius: 16px;
-        max-width: 100%;
+    .footer-action-btn {
+        font-size: 0.76rem;
+        min-height: 40px;
+        padding: 9px 10px;
     }
 
     .subscribe-input {
         height: 44px;
-        font-size: 0.82rem;
-        padding-left: 40px;
-    }
-
-    .subscribe-btn {
-        height: 42px;
-        font-size: 0.84rem;
-    }
-
-    .footer-bottom {
-        margin-top: 15px;
-        font-size: 0.72rem;
+        font-size: 0.86rem;
     }
 }
 </style>
 
 <footer class="premium-footer">
     <div class="container">
+        <div class="row g-4">
 
-        <div class="row">
-
-            <div class="col-md-4 footer-main-col">
+            <div class="col-lg-4 col-md-6 footer-main-col">
                 <div class="footer-brand">
                     <div class="footer-icon">
                         <i class="fa-solid fa-layer-group"></i>
@@ -246,7 +220,9 @@
                     <div class="footer-title">NoteVault</div>
                 </div>
 
-                <p class="footer-text">Premium platform for PDFs & notes.</p>
+                <p class="footer-text">
+                    Premium platform for PDFs, notes, micro papers and academic projects.
+                </p>
 
                 <div class="social-icons">
                     <a href="#"><i class="fab fa-github"></i></a>
@@ -271,38 +247,87 @@
                                 <i class="fa-solid fa-paper-plane me-1"></i>
                                 Subscribe
                             </span>
-
                             <span class="spinner-border spinner-border-sm d-none" id="subSpinner"></span>
                         </button>
                     </form>
                 </div>
             </div>
 
-            <div class="col-md-2 footer-links footer-link-col">
+            <div class="col-lg-2 col-md-3 footer-links footer-link-col">
                 <h5>Explore</h5>
                 <a href="/">Home</a>
                 <a href="/pdfs">All PDFs</a>
-                <a href="/pdfs/new">Upload</a>
+                <a href="/pdfs">Notes</a>
+                <a href="/pdfs">Micro</a>
             </div>
 
-            <div class="col-md-3 footer-links footer-link-col">
+            <div class="col-lg-2 col-md-3 footer-links footer-link-col">
                 <h5>Account</h5>
-                <a href="/login">Login</a>
-                <a href="/register">Register</a>
+                <% if(currUser){ %>
+                    <a href="/pdfs">Profile</a>
+                    <a href="/pdfs/new">Upload PDF</a>
+                    <a href="/logout">Logout</a>
+                <% } else { %>
+                    <a href="/login">Login</a>
+                    <a href="/register">Register</a>
+                <% } %>
             </div>
 
-            <div class="col-md-3 footer-links footer-link-col">
-                <h5>Support</h5>
-                <a href="#">Help Center</a>
-                <a href="#">Privacy</a>
+            <div class="col-lg-4 col-md-12 footer-actions">
+                <h5>Quick Actions</h5>
+
+                <div class="footer-action-grid">
+                    <a href="/pdfs" class="footer-action-btn">
+                        <span><i class="fa-solid fa-file-pdf me-1"></i> All PDFs</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                    <a href="/pdfs" class="footer-action-btn">
+                        <span><i class="fa-solid fa-book-open me-1"></i> Notes</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                    <a href="/pdfs" class="footer-action-btn">
+                        <span><i class="fa-solid fa-flask-vial me-1"></i> Micro</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                    <a href="/pdfs" class="footer-action-btn">
+                        <span><i class="fa-solid fa-diagram-project me-1"></i> Projects</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+
+                    <% if(currUser){ %>
+                        <a href="/pdfs/new" class="footer-action-btn">
+                            <span><i class="fa-solid fa-cloud-arrow-up me-1"></i> Upload</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                        <% if(currUser.role === "admin"){ %>
+                            <a href="/admin" class="footer-action-btn">
+                                <span><i class="fa-solid fa-user-shield me-1"></i> Admin</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+                        <% } %>
+                    <% } else { %>
+                        <a href="/register" class="footer-action-btn">
+                            <span><i class="fa-solid fa-user-plus me-1"></i> Register</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+
+                        <a href="/login" class="footer-action-btn">
+                            <span><i class="fa-solid fa-right-to-bracket me-1"></i> Login</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    <% } %>
+                </div>
             </div>
 
         </div>
 
         <div class="footer-bottom">
-            © <%= new Date().getFullYear() %> NoteVault
+            © <%= new Date().getFullYear() %> NoteVault. All rights reserved.
         </div>
-
     </div>
 </footer>
 
