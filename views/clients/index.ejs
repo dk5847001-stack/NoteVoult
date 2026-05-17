@@ -1,61 +1,182 @@
 <% layout("layouts/boilerplate.ejs") -%>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/pdfIndex.css?v=3">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/pdfIndex.css?v=4">
 
-    <div class="pdf-page">
-        <div class="container py-4">
+<div class="pdf-page">
+    <div class="container py-4">
 
-            <div class="premium-tabs">
-                <nav>
-                    <ul id="tabMenu">
-                        <li class="active">
-                            <a href="#">
-                                <i class="fa-solid fa-layer-group"></i>
-                                <span>All PDFs</span>
-                            </a>
-                        </li>
+        <div class="premium-tabs">
+            <nav>
+                <ul id="tabMenu">
+                    <li class="active">
+                        <a href="#">
+                            <i class="fa-solid fa-layer-group"></i>
+                            <span>All PDFs</span>
+                        </a>
+                    </li>
 
-                        <li>
-                            <a href="#">
-                                <i class="fa-solid fa-book-open"></i>
-                                <span>All Notes</span>
-                            </a>
-                        </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa-solid fa-book-open"></i>
+                            <span>All Notes</span>
+                        </a>
+                    </li>
 
-                        <li>
-                            <a href="#" class="position-relative">
-                                <i class="fa-solid fa-flask-vial"></i>
-                                <span>All Micro</span>
-                                <span class="new-seal">NEW</span>
-                            </a>
-                        </li>
+                    <li>
+                        <a href="#" class="position-relative">
+                            <i class="fa-solid fa-flask-vial"></i>
+                            <span>All Micro</span>
+                            <span class="new-seal">NEW</span>
+                        </a>
+                    </li>
 
-                        <li>
-                            <a href="#">
-                                <i class="fa-solid fa-diagram-project"></i>
-                                <span>All Projects</span>
-                            </a>
-                        </li>
+                    <li>
+                        <a href="#">
+                            <i class="fa-solid fa-diagram-project"></i>
+                            <span>All Projects</span>
+                        </a>
+                    </li>
 
-                        <li>
-                            <a href="#">
-                                <i class="fa-solid fa-user-gear"></i>
-                                <span>Settings</span>
-                            </a>
-                        </li>
-                    </ul>
+                    <li>
+                        <a href="#">
+                            <i class="fa-solid fa-user-gear"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
 
-                    <div class="tab-indicator" id="indicator"></div>
-                </nav>
+                <div class="tab-indicator" id="indicator"></div>
+            </nav>
+        </div>
+
+        <!-- TAB 1 : ALL PDFs -->
+        <section class="tab-panel active">
+
+            <div class="skeleton-wrapper row g-4">
+                <% for(let i = 0; i < 8; i++){ %>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card pdf-card h-100 p-3">
+                            <div class="placeholder-glow text-center mb-3">
+                                <span class="placeholder col-6" style="height:70px;border-radius:10px;"></span>
+                            </div>
+
+                            <div class="card-body">
+                                <p class="placeholder-glow"><span class="placeholder col-8"></span></p>
+                                <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+                                <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+
+                                <div class="placeholder-glow">
+                                    <span class="placeholder col-12" style="height:38px;border-radius:10px;"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
             </div>
 
-            <!-- TAB 1 -->
-            <section class="tab-panel active">
+            <div class="real-data row g-4 d-none">
+                <% if(allPdfs && allPdfs.length > 0){ %>
+
+                    <% for(let pdf of allPdfs){ %>
+
+                        <%
+                            const now = new Date();
+                            const unlockDate = pdf.unlockAt ? new Date(pdf.unlockAt) : null;
+                            const isLocked = unlockDate && unlockDate.getTime() > now.getTime();
+                        %>
+
+                        <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                            <div class="card pdf-card h-100 text-center p-3">
+
+                                <img src="https://www.freeiconspng.com/thumbs/pdf-icon-png/pdf-word-icon-31.png"
+                                    class="pdf-icon" alt="pdf">
+
+                                <div class="card-body d-flex flex-column">
+
+                                    <h5 class="card-title mb-2">
+                                        <%= pdf.title %>
+                                    </h5>
+
+                                    <% if(isLocked){ %>
+                                        <p class="card-footer-text mb-2 countdown-text"
+                                            data-unlock="<%= unlockDate.getTime() %>"
+                                            data-uploaded="<%= pdf.uploadedAt.toLocaleString() %>">
+                                            <i class="fa-solid fa-lock me-1"></i>
+                                            Unlocking...
+                                        </p>
+                                    <% } else { %>
+                                        <p class="card-footer-text mb-2">
+                                            <%= pdf.uploadedAt.toLocaleString() %>
+                                        </p>
+                                    <% } %>
+
+                                    <div class="mb-3">
+                                        <div class="price-pill">
+                                            <i class="fa-solid fa-circle-check"></i>
+
+                                            <span class="old-price">
+                                                ₹<del><%= pdf.price %></del>
+                                            </span>
+
+                                            <span class="free-price">
+                                                FREE
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <% if(isLocked){ %>
+
+                                        <button type="button"
+                                            class="btn btn-secondary btn-premium mt-auto locked-download-btn"
+                                            disabled
+                                            data-download-url="/pdfs/download/<%= pdf._id %>"
+                                            data-unlock-action="download">
+
+                                            <span>
+                                                <i class="fa-solid fa-lock"></i>
+                                                Locked
+                                            </span>
+                                        </button>
+
+                                    <% } else { %>
+
+                                        <a href="/pdfs/download/<%= pdf._id %>"
+                                            class="btn btn-outline-primary btn-premium mt-auto download-btn">
+
+                                            <span class="btn-text">
+                                                <i class="bi bi-download"></i> Pay & Download
+                                            </span>
+
+                                            <span class="loading-text d-none">
+                                                <span class="spinner-border spinner-border-sm me-2"></span>
+                                                Downloading...
+                                            </span>
+                                        </a>
+
+                                    <% } %>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    <% } %>
+
+                <% } else { %>
+                    <div class="col-12 text-center">
+                        <h4 class="text-muted">No PDFs available</h4>
+                    </div>
+                <% } %>
+            </div>
+        </section>
+
+        <!-- TAB 2 : ALL NOTES -->
+        <section class="tab-panel">
+            <div class="text-center py-5">
 
                 <div class="skeleton-wrapper row g-4">
-                    <% for(let i=0; i < 8; i++){ %>
+                    <% for(let i = 0; i < 8; i++){ %>
                         <div class="col-6 col-sm-6 col-md-4 col-lg-3">
                             <div class="card pdf-card h-100 p-3">
                                 <div class="placeholder-glow text-center mb-3">
@@ -73,17 +194,24 @@
                                 </div>
                             </div>
                         </div>
-                        <% } %>
+                    <% } %>
                 </div>
 
                 <div class="real-data row g-4 d-none">
-                    <% if(allPdfs && allPdfs.length> 0){ %>
+                    <% if(allNotes && allNotes.length > 0){ %>
 
-                        <% for(let pdf of allPdfs){ %>
+                        <% for(let pdf of allNotes){ %>
+
+                            <%
+                                const now = new Date();
+                                const unlockDate = pdf.unlockAt ? new Date(pdf.unlockAt) : null;
+                                const isLocked = unlockDate && unlockDate.getTime() > now.getTime();
+                            %>
+
                             <div class="col-6 col-sm-6 col-md-4 col-lg-3">
                                 <div class="card pdf-card h-100 text-center p-3">
 
-                                    <img src="https://www.freeiconspng.com/thumbs/pdf-icon-png/pdf-word-icon-31.png"
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Samsung_Notes_icon.png"
                                         class="pdf-icon" alt="pdf">
 
                                     <div class="card-body d-flex flex-column">
@@ -92,18 +220,25 @@
                                             <%= pdf.title %>
                                         </h5>
 
-                                        <p class="card-footer-text mb-2">
-                                            <%= pdf.uploadedAt.toLocaleString() %>
-                                        </p>
+                                        <% if(isLocked){ %>
+                                            <p class="card-footer-text mb-2 countdown-text"
+                                                data-unlock="<%= unlockDate.getTime() %>"
+                                                data-uploaded="<%= pdf.uploadedAt.toLocaleString() %>">
+                                                <i class="fa-solid fa-lock me-1"></i>
+                                                Unlocking...
+                                            </p>
+                                        <% } else { %>
+                                            <p class="card-footer-text mb-2">
+                                                <%= pdf.uploadedAt.toLocaleString() %>
+                                            </p>
+                                        <% } %>
 
                                         <div class="mb-3">
                                             <div class="price-pill">
                                                 <i class="fa-solid fa-circle-check"></i>
 
                                                 <span class="old-price">
-                                                    ₹<del>
-                                                        <%= pdf.price %>
-                                                    </del>
+                                                    ₹<del><%= pdf.price %></del>
                                                 </span>
 
                                                 <span class="free-price">
@@ -112,94 +247,21 @@
                                             </div>
                                         </div>
 
-                                        <a href="/pdfs/download/<%= pdf._id %>"
-                                            class="btn btn-outline-primary btn-premium mt-auto download-btn">
+                                        <% if(isLocked){ %>
 
-                                            <span class="btn-text">
-                                                <i class="bi bi-download"></i> Pay & Download
-                                            </span>
+                                            <button type="button"
+                                                class="btn btn-secondary btn-premium mt-auto locked-download-btn"
+                                                disabled
+                                                data-download-url="/pdfs/download/<%= pdf._id %>"
+                                                data-unlock-action="download">
 
-                                            <span class="loading-text d-none">
-                                                <span class="spinner-border spinner-border-sm me-2"></span>
-                                                Downloading...
-                                            </span>
-                                        </a>
+                                                <span>
+                                                    <i class="fa-solid fa-lock"></i>
+                                                    Locked
+                                                </span>
+                                            </button>
 
-                                    </div>
-                                </div>
-                            </div>
-                            <% } %>
-
-                                <% } else { %>
-                                    <div class="col-12 text-center">
-                                        <h4 class="text-muted">No PDFs available</h4>
-                                    </div>
-                                    <% } %>
-                </div>
-            </section>
-
-            <!-- TAB 2 -->
-            <section class="tab-panel">
-                <div class="text-center py-5">
-
-                    <div class="skeleton-wrapper row g-4">
-                        <% for(let i=0; i < 8; i++){ %>
-                            <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                                <div class="card pdf-card h-100 p-3">
-                                    <div class="placeholder-glow text-center mb-3">
-                                        <span class="placeholder col-6" style="height:70px;border-radius:10px;"></span>
-                                    </div>
-
-                                    <div class="card-body">
-                                        <p class="placeholder-glow"><span class="placeholder col-8"></span></p>
-                                        <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
-                                        <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
-
-                                        <div class="placeholder-glow">
-                                            <span class="placeholder col-12"
-                                                style="height:38px;border-radius:10px;"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <% } %>
-                    </div>
-
-                    <div class="real-data row g-4 d-none">
-                        <% if(allNotes && allNotes.length> 0){ %>
-
-                            <% for(let pdf of allNotes){ %>
-                                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="card pdf-card h-100 text-center p-3">
-
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/a/a3/Samsung_Notes_icon.png"
-                                            class="pdf-icon" alt="pdf">
-
-                                        <div class="card-body d-flex flex-column">
-
-                                            <h5 class="card-title mb-2">
-                                                <%= pdf.title %>
-                                            </h5>
-
-                                            <p class="card-footer-text mb-2">
-                                                <%= pdf.uploadedAt.toLocaleString() %>
-                                            </p>
-
-                                            <div class="mb-3">
-                                                <div class="price-pill">
-                                                    <i class="fa-solid fa-circle-check"></i>
-
-                                                    <span class="old-price">
-                                                        ₹<del>
-                                                            <%= pdf.price %>
-                                                        </del>
-                                                    </span>
-
-                                                    <span class="free-price">
-                                                        FREE
-                                                    </span>
-                                                </div>
-                                            </div>
+                                        <% } else { %>
 
                                             <a href="/pdfs/download/<%= pdf._id %>"
                                                 class="btn btn-outline-primary btn-premium mt-auto download-btn">
@@ -214,133 +276,164 @@
                                                 </span>
                                             </a>
 
-                                        </div>
-                                    </div>
-                                </div>
-                                <% } %>
-
-                                    <% } else { %>
-                                        <div class="col-12 text-center">
-                                            <h4 class="text-muted">No PDFs available</h4>
-                                        </div>
                                         <% } %>
-                    </div>
-                </div>
-            </section>
 
-            <!-- TAB 3 -->
-            <section class="tab-panel">
-
-                <form id="microFilterForm" method="GET" action="/pdfs" class="row g-2 align-items-end">
-                    <input type="hidden" name="category" value="micro">
-
-                    <div class="col-6 col-md-3">
-                        <label class="form-label text-light">Branch</label>
-                        <select name="branch" class="form-select">
-                            <option value="">All Branch</option>
-                            <option value="B.Tech">B.Tech</option>
-                            <option value="BCA">BCA</option>
-                            <option value="Agriculture">Agriculture</option>
-                            <option value="BBA">BBA</option>
-                            <option value="MBA">MBA</option>
-                        </select>
-                    </div>
-
-                    <div class="col-6 col-md-3">
-                        <label class="form-label text-light">Semester</label>
-                        <select name="semester" class="form-select">
-                            <option value="">All Semester</option>
-                            <% for(let i=1; i <=8; i++){ %>
-                                <option value="<%= i %>">Semester <%= i %>
-                                </option>
-                                <% } %>
-                        </select>
-                    </div>
-
-                    <div class="col-6 col-md-3">
-                        <label class="form-label text-light">Min Price</label>
-                        <input type="number" name="minPrice" class="form-control" placeholder="₹ Min">
-                    </div>
-
-                    <div class="col-6 col-md-3 d-flex gap-2">
-                        <button class="btn btn-primary w-100">Filter</button>
-                        <a href="/pdfs" class="btn btn-outline-success w-100">Reset</a>
-                    </div>
-                </form>
-
-                <div class="text-center py-5">
-                    <div class="hr-text mt-0 mb-2">
-                        <span>CIA & SEMESTER MICRO</span>
-                    </div>
-
-                    <div class="skeleton-wrapper row g-4">
-                        <% for(let i=0; i < 8; i++){ %>
-                            <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                                <div class="card pdf-card h-100 p-3">
-                                    <div class="placeholder-glow text-center mb-3">
-                                        <span class="placeholder col-6" style="height:70px;border-radius:10px;"></span>
-                                    </div>
-
-                                    <div class="card-body">
-                                        <p class="placeholder-glow"><span class="placeholder col-8"></span></p>
-                                        <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
-                                        <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
-
-                                        <div class="placeholder-glow">
-                                            <span class="placeholder col-12"
-                                                style="height:38px;border-radius:10px;"></span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <% } %>
-                    </div>
 
-                    <div id="microData" class="real-data row g-4 d-none">
-                        <% if(allMicros && allMicros.length> 0){ %>
+                        <% } %>
 
-                            <% for(let pdf of allMicros){ %>
-                                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="card pdf-card h-100 text-center p-3">
+                    <% } else { %>
+                        <div class="col-12 text-center">
+                            <h4 class="text-muted">No PDFs available</h4>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </section>
 
-                                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/330px-PDF_file_icon.svg.png?_=20220802235851"
-                                            class="pdf-icon" alt="pdf">
+        <!-- TAB 3 : ALL MICRO -->
+        <section class="tab-panel">
 
-                                        <div class="card-body d-flex flex-column">
+            <form id="microFilterForm" method="GET" action="/pdfs" class="row g-2 align-items-end">
+                <input type="hidden" name="category" value="micro">
 
-                                            <h5 class="card-title mb-2">
-                                                <%= pdf.title %>
-                                            </h5>
+                <div class="col-6 col-md-3">
+                    <label class="form-label text-light">Branch</label>
+                    <select name="branch" class="form-select">
+                        <option value="">All Branch</option>
+                        <option value="B.Tech">B.Tech</option>
+                        <option value="BCA">BCA</option>
+                        <option value="Agriculture">Agriculture</option>
+                        <option value="BBA">BBA</option>
+                        <option value="MBA">MBA</option>
+                    </select>
+                </div>
 
+                <div class="col-6 col-md-3">
+                    <label class="form-label text-light">Semester</label>
+                    <select name="semester" class="form-select">
+                        <option value="">All Semester</option>
+                        <% for(let i = 1; i <= 8; i++){ %>
+                            <option value="<%= i %>">Semester <%= i %></option>
+                        <% } %>
+                    </select>
+                </div>
+
+                <div class="col-6 col-md-3">
+                    <label class="form-label text-light">Min Price</label>
+                    <input type="number" name="minPrice" class="form-control" placeholder="₹ Min">
+                </div>
+
+                <div class="col-6 col-md-3 d-flex gap-2">
+                    <button class="btn btn-primary w-100">Filter</button>
+                    <a href="/pdfs" class="btn btn-outline-success w-100">Reset</a>
+                </div>
+            </form>
+
+            <div class="text-center py-5">
+                <div class="hr-text mt-0 mb-2">
+                    <span>CIA & SEMESTER MICRO</span>
+                </div>
+
+                <div class="skeleton-wrapper row g-4">
+                    <% for(let i = 0; i < 8; i++){ %>
+                        <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                            <div class="card pdf-card h-100 p-3">
+                                <div class="placeholder-glow text-center mb-3">
+                                    <span class="placeholder col-6" style="height:70px;border-radius:10px;"></span>
+                                </div>
+
+                                <div class="card-body">
+                                    <p class="placeholder-glow"><span class="placeholder col-8"></span></p>
+                                    <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+                                    <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
+
+                                    <div class="placeholder-glow">
+                                        <span class="placeholder col-12" style="height:38px;border-radius:10px;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+
+                <div id="microData" class="real-data row g-4 d-none">
+                    <% if(allMicros && allMicros.length > 0){ %>
+
+                        <% for(let pdf of allMicros){ %>
+
+                            <%
+                                const now = new Date();
+                                const unlockDate = pdf.unlockAt ? new Date(pdf.unlockAt) : null;
+                                const isLocked = unlockDate && unlockDate.getTime() > now.getTime();
+                            %>
+
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="card pdf-card h-100 text-center p-3">
+
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/330px-PDF_file_icon.svg.png?_=20220802235851"
+                                        class="pdf-icon" alt="pdf">
+
+                                    <div class="card-body d-flex flex-column">
+
+                                        <h5 class="card-title mb-2">
+                                            <%= pdf.title %>
+                                        </h5>
+
+                                        <% if(isLocked){ %>
+                                            <p class="card-footer-text mb-2 countdown-text"
+                                                data-unlock="<%= unlockDate.getTime() %>"
+                                                data-uploaded="<%= pdf.uploadedAt.toLocaleString() %>">
+                                                <i class="fa-solid fa-lock me-1"></i>
+                                                Unlocking...
+                                            </p>
+                                        <% } else { %>
                                             <p class="card-footer-text mb-2">
                                                 <%= pdf.uploadedAt.toLocaleString() %>
                                             </p>
+                                        <% } %>
 
-                                            <p>
-                                                <span class="badge rounded-pill text-bg-warning">
-                                                    <%= pdf.branch %>
+                                        <p>
+                                            <span class="badge rounded-pill text-bg-warning">
+                                                <%= pdf.branch %>
+                                            </span>
+
+                                            <span class="badge rounded-pill text-bg-success">
+                                                Semester : <%= pdf.semester %>
+                                            </span>
+                                        </p>
+
+                                        <div class="mb-3">
+                                            <div class="price-pill">
+                                                <i class="fa-solid fa-circle-check"></i>
+
+                                                <span class="old-price">
+                                                    ₹<del><%= pdf.price %></del>
                                                 </span>
 
-                                                <span class="badge rounded-pill text-bg-success">
-                                                    Semester : <%= pdf.semester %>
+                                                <span class="free-price">
+                                                    FREE
                                                 </span>
-                                            </p>
-
-                                            <div class="mb-3">
-                                                <div class="price-pill">
-                                                    <i class="fa-solid fa-circle-check"></i>
-
-                                                    <span class="old-price">
-                                                        ₹<del>
-                                                            <%= pdf.price %>
-                                                        </del>
-                                                    </span>
-
-                                                    <span class="free-price">
-                                                        FREE
-                                                    </span>
-                                                </div>
                                             </div>
+                                        </div>
+
+                                        <% if(isLocked){ %>
+
+                                            <button type="button"
+                                                class="btn btn-secondary btn-premium mt-auto locked-download-btn"
+                                                disabled
+                                                data-download-url="/pdfs/download/<%= pdf._id %>"
+                                                data-unlock-action="download">
+
+                                                <span>
+                                                    <i class="fa-solid fa-lock"></i>
+                                                    Locked
+                                                </span>
+                                            </button>
+
+                                        <% } else { %>
 
                                             <a href="/pdfs/download/<%= pdf._id %>"
                                                 class="btn btn-outline-primary btn-premium mt-auto download-btn">
@@ -355,75 +448,110 @@
                                                 </span>
                                             </a>
 
-                                        </div>
-                                    </div>
-                                </div>
-                                <% } %>
-
-                                    <% } else { %>
-                                        <div class="col-12 text-center">
-                                            <h4 class="text-muted">No PDFs available</h4>
-                                        </div>
                                         <% } %>
-                    </div>
-                </div>
-            </section>
 
-            <!-- TAB 4 -->
-            <section class="tab-panel">
-                <div class="text-center py-5">
-
-                    <div class="skeleton-wrapper row g-4">
-                        <% for(let i=0; i < 8; i++){ %>
-                            <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                                <div class="card pdf-card h-100 p-3">
-                                    <div class="placeholder-glow text-center mb-3">
-                                        <span class="placeholder col-6" style="height:70px;border-radius:10px;"></span>
-                                    </div>
-
-                                    <div class="card-body">
-                                        <p class="placeholder-glow"><span class="placeholder col-8"></span></p>
-                                        <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
-                                        <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
-
-                                        <div class="placeholder-glow">
-                                            <span class="placeholder col-12"
-                                                style="height:38px;border-radius:10px;"></span>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <% } %>
-                    </div>
 
-                    <div class="real-data row g-4 d-none">
-                        <% if(allProjects && allProjects.length> 0){ %>
+                        <% } %>
 
-                            <% for(let pdf of allProjects){ %>
-                                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                                    <div class="card pdf-card h-100 text-center p-3">
+                    <% } else { %>
+                        <div class="col-12 text-center">
+                            <h4 class="text-muted">No PDFs available</h4>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </section>
 
-                                        <img src="https://cdn-icons-png.flaticon.com/512/1087/1087815.png"
-                                            class="pdf-icon" alt="pdf">
+        <!-- TAB 4 : ALL PROJECTS -->
+        <section class="tab-panel">
+            <div class="text-center py-5">
 
-                                        <div class="card-body d-flex flex-column">
+                <div class="skeleton-wrapper row g-4">
+                    <% for(let i = 0; i < 8; i++){ %>
+                        <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                            <div class="card pdf-card h-100 p-3">
+                                <div class="placeholder-glow text-center mb-3">
+                                    <span class="placeholder col-6" style="height:70px;border-radius:10px;"></span>
+                                </div>
 
-                                            <h5 class="card-title mb-2">
-                                                <%= pdf.title %>
-                                            </h5>
+                                <div class="card-body">
+                                    <p class="placeholder-glow"><span class="placeholder col-8"></span></p>
+                                    <p class="placeholder-glow"><span class="placeholder col-6"></span></p>
+                                    <p class="placeholder-glow"><span class="placeholder col-4"></span></p>
 
+                                    <div class="placeholder-glow">
+                                        <span class="placeholder col-12" style="height:38px;border-radius:10px;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                </div>
+
+                <div class="real-data row g-4 d-none">
+                    <% if(allProjects && allProjects.length > 0){ %>
+
+                        <% for(let pdf of allProjects){ %>
+
+                            <%
+                                const now = new Date();
+                                const unlockDate = pdf.unlockAt ? new Date(pdf.unlockAt) : null;
+                                const isLocked = unlockDate && unlockDate.getTime() > now.getTime();
+                            %>
+
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                                <div class="card pdf-card h-100 text-center p-3">
+
+                                    <img src="https://cdn-icons-png.flaticon.com/512/1087/1087815.png"
+                                        class="pdf-icon" alt="pdf">
+
+                                    <div class="card-body d-flex flex-column">
+
+                                        <h5 class="card-title mb-2">
+                                            <%= pdf.title %>
+                                        </h5>
+
+                                        <% if(isLocked){ %>
+                                            <p class="card-footer-text mb-2 countdown-text"
+                                                data-unlock="<%= unlockDate.getTime() %>"
+                                                data-uploaded="<%= pdf.uploadedAt.toLocaleString() %>">
+                                                <i class="fa-solid fa-lock me-1"></i>
+                                                Unlocking...
+                                            </p>
+                                        <% } else { %>
                                             <p class="card-footer-text mb-2">
                                                 <%= pdf.uploadedAt.toLocaleString() %>
                                             </p>
+                                        <% } %>
 
-                                            <div class="mb-3">
-                                                <div class="price-pill">
-                                                    <i class="fa-solid fa-circle-check"></i>
+                                        <div class="mb-3">
+                                            <div class="price-pill">
+                                                <i class="fa-solid fa-circle-check"></i>
 
-                                                    <span class="old-price">
-                                                        ₹<%= pdf.price %> </span>
-                                                </div>
+                                                <span class="old-price">
+                                                    ₹<%= pdf.price %>
+                                                </span>
                                             </div>
+                                        </div>
+
+                                        <% if(isLocked){ %>
+
+                                            <button type="button"
+                                                class="btn btn-secondary btn-premium mt-auto locked-download-btn"
+                                                disabled
+                                                data-download-url="/pdfs/<%= pdf._id %>"
+                                                data-unlock-action="view">
+
+                                                <span>
+                                                    <i class="fa-solid fa-lock"></i>
+                                                    Locked
+                                                </span>
+                                            </button>
+
+                                        <% } else { %>
 
                                             <a href="/pdfs/<%= pdf._id %>"
                                                 class="btn btn-outline-primary btn-premium mt-auto">
@@ -433,91 +561,94 @@
                                                 </span>
                                             </a>
 
-                                        </div>
-                                    </div>
-                                </div>
-                                <% } %>
-
-                                    <% } else { %>
-                                        <div class="col-12 text-center">
-                                            <h4 class="text-muted">No PDFs available</h4>
-                                        </div>
                                         <% } %>
-                    </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        <% } %>
+
+                    <% } else { %>
+                        <div class="col-12 text-center">
+                            <h4 class="text-muted">No PDFs available</h4>
+                        </div>
+                    <% } %>
                 </div>
-            </section>
+            </div>
+        </section>
 
-            <!-- TAB 5 -->
-            <section class="tab-panel">
-                <div class="container py-5">
-                    <div class="row justify-content-center">
-                        <div class="col-lg-8">
+        <!-- TAB 5 : SETTINGS -->
+        <section class="tab-panel">
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
 
-                            <div class="card border-0 shadow-lg p-4 settings-card">
+                        <div class="card border-0 shadow-lg p-4 settings-card">
 
-                                <h3 class="fw-bold text-center mb-4 text-light">
-                                    ⚙ Account Settings
-                                </h3>
+                            <h3 class="fw-bold text-center mb-4 text-light">
+                                ⚙ Account Settings
+                            </h3>
 
-                                <div class="mb-4">
-                                    <h6 class="text-uppercase text-muted">Profile</h6>
+                            <div class="mb-4">
+                                <h6 class="text-uppercase text-muted">Profile</h6>
 
-                                    <div class="mb-3">
-                                        <label class="form-label text-light">Username</label>
-                                        <input type="text" class="form-control" placeholder="Enter username">
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <label class="form-label text-light">Email</label>
-                                        <input type="email" class="form-control" placeholder="Enter email">
-                                    </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-light">Username</label>
+                                    <input type="text" class="form-control" placeholder="Enter username">
                                 </div>
 
-                                <div class="mb-4">
-                                    <h6 class="text-uppercase text-muted">Preferences</h6>
+                                <div class="mb-3">
+                                    <label class="form-label text-light">Email</label>
+                                    <input type="email" class="form-control" placeholder="Enter email">
+                                </div>
+                            </div>
 
-                                    <div class="form-check form-switch mb-2">
-                                        <input class="form-check-input" type="checkbox" id="darkMode">
-                                        <label class="form-check-label text-light" for="darkMode">
-                                            Dark Mode
-                                        </label>
-                                    </div>
+                            <div class="mb-4">
+                                <h6 class="text-uppercase text-muted">Preferences</h6>
 
-                                    <div class="form-check form-switch mb-2">
-                                        <input class="form-check-input" type="checkbox" id="notifications">
-                                        <label class="form-check-label text-light" for="notifications">
-                                            Email Notifications
-                                        </label>
-                                    </div>
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input" type="checkbox" id="darkMode">
+                                    <label class="form-check-label text-light" for="darkMode">
+                                        Dark Mode
+                                    </label>
                                 </div>
 
-                                <div class="mb-4">
-                                    <h6 class="text-uppercase text-muted">Security</h6>
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input" type="checkbox" id="notifications">
+                                    <label class="form-check-label text-light" for="notifications">
+                                        Email Notifications
+                                    </label>
+                                </div>
+                            </div>
 
-                                    <div class="mb-3">
-                                        <label class="form-label text-light">New Password</label>
-                                        <input type="password" class="form-control" placeholder="Enter new password">
-                                    </div>
+                            <div class="mb-4">
+                                <h6 class="text-uppercase text-muted">Security</h6>
 
-                                    <div class="mb-3">
-                                        <label class="form-label text-light">Confirm Password</label>
-                                        <input type="password" class="form-control" placeholder="Confirm password">
-                                    </div>
+                                <div class="mb-3">
+                                    <label class="form-label text-light">New Password</label>
+                                    <input type="password" class="form-control" placeholder="Enter new password">
                                 </div>
 
-                                <div class="d-flex justify-content-between mt-4">
-                                    <button class="btn btn-outline-light">Cancel</button>
-                                    <button class="btn btn-primary px-4">Save Changes</button>
+                                <div class="mb-3">
+                                    <label class="form-label text-light">Confirm Password</label>
+                                    <input type="password" class="form-control" placeholder="Confirm password">
                                 </div>
+                            </div>
 
+                            <div class="d-flex justify-content-between mt-4">
+                                <button class="btn btn-outline-light">Cancel</button>
+                                <button class="btn btn-primary px-4">Save Changes</button>
                             </div>
 
                         </div>
+
                     </div>
                 </div>
-            </section>
+            </div>
+        </section>
 
-        </div>
     </div>
+</div>
 
-    <script src="/js/pdfIndex.js?v=3"></script>
+<script src="/js/pdfIndex.js?v=4"></script>

@@ -156,3 +156,84 @@ window.addEventListener("load", () => {
 
             attachDownloadLoading();
         });
+
+
+
+        function updateCountdowns() {
+    const countdowns = document.querySelectorAll(".countdown-text");
+
+    countdowns.forEach(item => {
+        const unlockTime = Number(item.dataset.unlock);
+
+        if (!unlockTime || isNaN(unlockTime)) {
+            console.log("Invalid unlock time:", item.dataset.unlock);
+            return;
+        }
+
+        const now = Date.now();
+        const diff = unlockTime - now;
+
+        const card = item.closest(".card");
+        const lockedBtn = card ? card.querySelector(".locked-download-btn") : null;
+
+        if (diff <= 0) {
+            item.innerHTML = item.dataset.uploaded || "";
+
+            if (lockedBtn) {
+                const url = lockedBtn.dataset.downloadUrl;
+                const action = lockedBtn.dataset.unlockAction;
+
+                if (action === "view") {
+                    lockedBtn.outerHTML = `
+                        <a href="${url}"
+                            class="btn btn-outline-primary btn-premium mt-auto">
+
+                            <span class="btn-text">
+                                <i class="bi bi-eye"></i> View More
+                            </span>
+                        </a>
+                    `;
+                } else {
+                    lockedBtn.outerHTML = `
+                        <a href="${url}"
+                            class="btn btn-outline-primary btn-premium mt-auto download-btn">
+
+                            <span class="btn-text">
+                                <i class="bi bi-download"></i> Pay & Download
+                            </span>
+
+                            <span class="loading-text d-none">
+                                <span class="spinner-border spinner-border-sm me-2"></span>
+                                Downloading...
+                            </span>
+                        </a>
+                    `;
+
+                    attachDownloadLoading();
+                }
+            }
+
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const minutes = Math.floor((diff / (1000 * 60)) % 60);
+        const seconds = Math.ceil((diff / 1000) % 60);
+
+        if (days > 0) {
+            item.innerHTML = `
+                <i class="fa-solid fa-lock me-1"></i>
+                Unlock in ${days}d ${hours}h ${minutes}m ${seconds}s
+            `;
+        } else {
+            item.innerHTML = `
+                <i class="fa-solid fa-lock me-1"></i>
+                Unlock in ${hours}h ${minutes}m ${seconds}s
+            `;
+        }
+    });
+}
+
+setInterval(updateCountdowns, 1000);
+updateCountdowns();

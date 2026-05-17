@@ -92,6 +92,10 @@ module.exports.downloadPdf = AsyncWrap(async (req, res) => {
         if (!pdf || !pdf.pdf?.filename) {
             return res.status(404).send("File not found");
         }
+        if (pdf.unlockAt && new Date(pdf.unlockAt) > new Date()) {
+            req.flash("error", "This note is locked right now!");
+            return res.redirect("/pdfs");
+        }
 
         const publicId = pdf.pdf.filename;
 
@@ -117,10 +121,21 @@ module.exports.downloadPdf = AsyncWrap(async (req, res) => {
 
 module.exports.uploadPdfForm = AsyncWrap(async (req, res) => {
     try {
-        const { title, price, branch, semester, category } = req.body;
+        const {
+            title,
+            price,
+            branch,
+            semester,
+            category,
+            examType,
+            unlockAt
+        } = req.body;
+
+        console.log("REQ BODY:", req.body);
+        console.log("UNLOCK AT:", unlockAt);
 
         // 🔴 Basic validation
-        if (!title || !price || !branch || !semester || !category) {
+        if (!title || price === undefined || !branch || !semester || !category || !examType) {
             req.flash("error", "All fields are required!");
             return res.redirect("/pdfs/new");
         }
@@ -146,6 +161,18 @@ module.exports.uploadPdfForm = AsyncWrap(async (req, res) => {
             return res.redirect("/pdfs/new");
         }
 
+        // 🔒 Unlock date/time validation
+        let finalUnlockAt = null;
+
+        if (unlockAt && unlockAt.toString().trim() !== "") {
+            finalUnlockAt = new Date(unlockAt);
+
+            if (isNaN(finalUnlockAt.getTime())) {
+                req.flash("error", "Invalid unlock date and time!");
+                return res.redirect("/pdfs/new");
+            }
+        }
+
         const newPdf = new Pdf({
             title,
             pdf: {
@@ -156,6 +183,8 @@ module.exports.uploadPdfForm = AsyncWrap(async (req, res) => {
             branch,
             semester: parsedSemester,
             category,
+            examType,
+            unlockAt: finalUnlockAt,
             owner: req.user._id
         });
 
@@ -193,22 +222,31 @@ module.exports.filterPdfs = AsyncWrap(async (req, res) => {
     }
 });
 
-module.exports.viewProject = AsyncWrap(async (req, res)=>{
-    const {id} = req.params;
-    const pdf = await Pdf.findById(id);
-    console.log(pdf)
-    res.render("clients/show", {pdf});
-});
-
-module.exports.renderEditForm = async (req, res)=>{
+module.exports.viewProject = AsyncWrap(async (req, res) => {
     const { id } = req.params;
     const pdf = await Pdf.findById(id);
-    res.render("clients/edit.ejs", {pdf});
+    console.log(pdf)
+    res.render("clients/show", { pdf });
+});
+
+module.exports.renderEditForm = async (req, res) => {
+    const { id } = req.params;
+    const pdf = await Pdf.findById(id);
+    res.render("clients/edit.ejs", { pdf });
 }
 
 module.exports.updatePdf = AsyncWrap(async (req, res) => {
     const { id } = req.params;
-    const { title, price, branch, semester, category, examType } = req.body;
+
+    const {
+        title,
+        price,
+        branch,
+        semester,
+        category,
+        examType,
+        unlockAt
+    } = req.body;
 
     const pdfDoc = await Pdf.findById(id);
 
@@ -217,11 +255,21 @@ module.exports.updatePdf = AsyncWrap(async (req, res) => {
         return res.redirect("/admin");
     }
 
-    if (!title || !price || !branch || !semester || !category || !examType) {
+    // ✅ Basic validation
+    if (
+        !title ||
+        price === undefined ||
+        price === "" ||
+        !branch ||
+        !semester ||
+        !category ||
+        !examType
+    ) {
         req.flash("error", "All fields are required!");
         return res.redirect(`/pdfs/${id}/edit`);
     }
 
+    // ✅ Number conversion
     const parsedPrice = parseFloat(price);
     const parsedSemester = parseInt(semester);
 
@@ -230,28 +278,42 @@ module.exports.updatePdf = AsyncWrap(async (req, res) => {
         return res.redirect(`/pdfs/${id}/edit`);
     }
 
+    // ✅ Unlock date/time validation
+    let finalUnlockAt = null;
+
+    if (unlockAt && unlockAt.toString().trim() !== "") {
+        finalUnlockAt = new Date(unlockAt);
+
+        if (isNaN(finalUnlockAt.getTime())) {
+            req.flash("error", "Invalid unlock date and time!");
+            return res.redirect(`/pdfs/${id}/edit`);
+        }
+    }
+
+    // ✅ Update normal fields
     pdfDoc.title = title;
     pdfDoc.price = parsedPrice;
     pdfDoc.branch = branch;
     pdfDoc.semester = parsedSemester;
     pdfDoc.category = category;
     pdfDoc.examType = examType;
+    pdfDoc.unlockAt = finalUnlockAt;
 
-    // Agar new PDF upload hua hai tabhi old PDF replace karo
+    // ✅ Agar new PDF upload hua hai tabhi old PDF replace karo
     if (req.file) {
         if (!req.file.mimetype.includes("pdf")) {
             req.flash("error", "Only PDF files are allowed!");
             return res.redirect(`/pdfs/${id}/edit`);
         }
 
-        // Old file Cloudinary se delete
+        // ✅ Old file Cloudinary se delete
         if (pdfDoc.pdf && pdfDoc.pdf.filename) {
             await cloudinary.uploader.destroy(pdfDoc.pdf.filename, {
                 resource_type: "image"
             });
         }
 
-        // New file save
+        // ✅ New file save
         pdfDoc.pdf = {
             url: req.file.path,
             filename: req.file.filename
@@ -262,9 +324,9 @@ module.exports.updatePdf = AsyncWrap(async (req, res) => {
 
     req.flash("success", "PDF updated successfully!");
     res.redirect("/admin");
-})
+});
 
-module.exports.deletePdf =  AsyncWrap(async (req, res) => {
+module.exports.deletePdf = AsyncWrap(async (req, res) => {
     const { id } = req.params;
 
     const pdfDoc = await Pdf.findById(id);

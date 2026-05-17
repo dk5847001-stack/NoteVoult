@@ -1,4 +1,3 @@
-const { ref, required } = require("joi");
 const mongoose = require("mongoose");
 const User = require("./User");
 const Schema = mongoose.Schema;
@@ -83,6 +82,10 @@ const pdfSchema = new Schema({
 
         required: true,
         default: "Semester"
+    },
+    unlockAt: {
+        type: Date,
+        default: null
     },
     owner: {
         type: Schema.Types.ObjectId,

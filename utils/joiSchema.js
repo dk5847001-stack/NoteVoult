@@ -59,13 +59,24 @@ const pdfJoiSchema = Joi.object({
 
     expiresAt: Joi.date()
         .optional()
-        .allow(null)
+        .allow(null, "")
         .messages({
             "date.base": "Expires date must be valid"
         }),
 
+    unlockAt: Joi.date()
+        .optional()
+        .allow(null, "")
+        .messages({
+            "date.base": "Unlock date and time must be valid"
+        }),
+
     isPaid: Joi.boolean()
         .default(false)
+}).options({
+    abortEarly: false,
+    allowUnknown: true,
+    stripUnknown: false
 });
 
 module.exports = {
