@@ -15,6 +15,10 @@
                 <p class="footer-text">
                     Premium platform for PDFs, notes, micro papers and academic projects.
                 </p>
+                <a href="/contactUs" class="footer-action-btn">
+                    <span><i class="fa-solid fa-headset"></i>&nbsp; Contact Us</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
 
                 <div class="social-icons">
                     <a href="#"><i class="fab fa-github"></i></a>
@@ -26,12 +30,8 @@
                     <form id="subscribeForm" method="post" action="/subscribers">
                         <div class="input-icon">
                             <i class="fa-solid fa-envelope"></i>
-                            <input
-                                type="email"
-                                name="email"
-                                class="form-control subscribe-input"
-                                placeholder="Enter your email"
-                                required>
+                            <input type="email" name="email" class="form-control subscribe-input"
+                                placeholder="Enter your email" required>
                         </div>
 
                         <button type="submit" class="subscribe-btn" id="subBtn">
@@ -58,11 +58,13 @@
                 <% if(currUser){ %>
                     <a href="/pdfs">Profile</a>
                     <a href="/pdfs/new">Upload PDF</a>
+                    <a href="/contactUs">Contact Us</a>
                     <a href="/logout">Logout</a>
-                <% } else { %>
-                    <a href="/login">Login</a>
-                    <a href="/register">Register</a>
-                <% } %>
+                    <% } else { %>
+                        <a href="/login">Login</a>
+                        <a href="/register">Register</a>
+                        <a href="/contactUs">Contact Us</a>
+                        <% } %>
             </div>
 
             <div class="col-lg-4 col-md-12 footer-actions">
@@ -95,23 +97,27 @@
                             <i class="fa-solid fa-arrow-right"></i>
                         </a>
 
-                        <% if(currUser.role === "admin"){ %>
+                        <% if(currUser.role==="admin" ){ %>
                             <a href="/admin" class="footer-action-btn">
                                 <span><i class="fa-solid fa-user-shield me-1"></i> Admin</span>
                                 <i class="fa-solid fa-arrow-right"></i>
                             </a>
-                        <% } %>
-                    <% } else { %>
-                        <a href="/register" class="footer-action-btn">
-                            <span><i class="fa-solid fa-user-plus me-1"></i> Register</span>
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </a>
+                            <% } %>
+                                <% } else { %>
+                                    <a href="/register" class="footer-action-btn">
+                                        <span><i class="fa-solid fa-user-plus me-1"></i> Register</span>
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </a>
 
-                        <a href="/login" class="footer-action-btn">
-                            <span><i class="fa-solid fa-right-to-bracket me-1"></i> Login</span>
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-                    <% } %>
+                                    <a href="/login" class="footer-action-btn">
+                                        <span><i class="fa-solid fa-right-to-bracket me-1"></i> Login</span>
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </a>
+                                    <a href="/contactUs" class="footer-action-btn">
+                                        <span><i class="fa-solid fa-right-to-bracket me-1"></i> Contact Us</span>
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </a>
+                                    <% } %>
                 </div>
             </div>
 
