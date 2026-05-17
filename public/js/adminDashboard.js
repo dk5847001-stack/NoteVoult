@@ -55,4 +55,5 @@
     scrollToSection("manageUsersBtn", "section1");
     scrollToSection("subscriberBtn", "subscriber");
     scrollToSection("pdfs", "allPdfs");
+    scrollToSection("message", "allMessages");
 })();

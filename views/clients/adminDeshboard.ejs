@@ -1,6 +1,6 @@
 <% layout("layouts/boilerplate.ejs") -%>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-<link rel="stylesheet" href="/css/adminDashboard.css" />
+    <link rel="stylesheet" href="/css/adminDashboard.css" />
 
     <div class="container-fluid admin-dashboard-container margin mt-4">
 
@@ -69,7 +69,7 @@
                         View Subscribers
                     </button>
 
-                    <button class="admin-btn btn-msg">
+                    <button id="message" class="admin-btn btn-msg">
                         <i class="fa-solid fa-comments"></i>
                         View Messages
                     </button>
@@ -168,7 +168,8 @@
                                     </td>
 
                                     <!-- ACTION -->
-                                    <td data-label="Action" class="user-actions-cell d-flex justify-content-center gap-2">
+                                    <td data-label="Action"
+                                        class="user-actions-cell d-flex justify-content-center gap-2">
 
                                         <% if(user.isBlocked==="active" ){ %>
                                             <a href="/admin/unblock/<%= user._id %>" class="btn btn-success btn-sm">
@@ -345,146 +346,357 @@
 
 
         <!--  -------------------------------- Pdf section ------------------------ -->
-<section class="pdf-admin-section">
-<div class="admin-heading-wrapper">
-    <div class="admin-heading-line"></div>
+        <section class="pdf-admin-section">
+            <div class="admin-heading-wrapper">
+                <div class="admin-heading-line"></div>
 
-    <h2 id="allPdfs" class="admin-heading">
-        <span class="heading-icon">
-            <i class="fa-solid fa-layer-group"></i>
-        </span>
+                <h2 id="allPdfs" class="admin-heading">
+                    <span class="heading-icon">
+                        <i class="fa-solid fa-layer-group"></i>
+                    </span>
 
-        <span class="heading-text">
-            Manage All PDFs
-        </span>
+                    <span class="heading-text">
+                        Manage All PDFs
+                    </span>
 
-        <span class="heading-badge">
-            <i class="fa-solid fa-shield-halved"></i>
-            Admin Panel
-        </span>
-    </h2>
+                    <span class="heading-badge">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        Admin Panel
+                    </span>
+                </h2>
 
-    <div class="admin-heading-line"></div>
-</div>    <!-- Skeleton Loader -->
-    <div class="skeleton-wrapper row g-4">
-        <% for(let i = 0; i < 8; i++){ %>
-            <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                <div class="card pdf-card h-100 p-3">
-                    <div class="placeholder-glow text-center">
-                        <span class="placeholder col-5 rounded-circle ph-avatar"></span>
-                    </div>
-
-                    <div class="card-body text-center">
-                        <p class="placeholder-glow mb-2">
-                            <span class="placeholder col-9"></span>
-                        </p>
-
-                        <p class="placeholder-glow mb-2">
-                            <span class="placeholder col-7"></span>
-                        </p>
-
-                        <p class="placeholder-glow mb-3">
-                            <span class="placeholder col-5"></span>
-                        </p>
-
-                        <div class="placeholder-glow mb-2">
-                            <span class="placeholder col-12 ph-btn"></span>
-                        </div>
-
-                        <div class="row g-2 placeholder-glow">
-                            <div class="col-6">
-                                <span class="placeholder col-12 ph-small-btn"></span>
+                <div class="admin-heading-line"></div>
+            </div> <!-- Skeleton Loader -->
+            <div class="skeleton-wrapper row g-4">
+                <% for(let i=0; i < 8; i++){ %>
+                    <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                        <div class="card pdf-card h-100 p-3">
+                            <div class="placeholder-glow text-center">
+                                <span class="placeholder col-5 rounded-circle ph-avatar"></span>
                             </div>
-                            <div class="col-6">
-                                <span class="placeholder col-12 ph-small-btn"></span>
+
+                            <div class="card-body text-center">
+                                <p class="placeholder-glow mb-2">
+                                    <span class="placeholder col-9"></span>
+                                </p>
+
+                                <p class="placeholder-glow mb-2">
+                                    <span class="placeholder col-7"></span>
+                                </p>
+
+                                <p class="placeholder-glow mb-3">
+                                    <span class="placeholder col-5"></span>
+                                </p>
+
+                                <div class="placeholder-glow mb-2">
+                                    <span class="placeholder col-12 ph-btn"></span>
+                                </div>
+
+                                <div class="row g-2 placeholder-glow">
+                                    <div class="col-6">
+                                        <span class="placeholder col-12 ph-small-btn"></span>
+                                    </div>
+                                    <div class="col-6">
+                                        <span class="placeholder col-12 ph-small-btn"></span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                    <% } %>
             </div>
-        <% } %>
+
+            <!-- Real Data -->
+            <div class="real-data row g-4 d-none">
+                <% if(allPdfs && allPdfs.length> 0){ %>
+
+                    <% for(let pdf of allPdfs){ %>
+                        <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                            <div class="card pdf-card h-100 text-center p-3">
+
+                                <img src="https://www.freeiconspng.com/thumbs/pdf-icon-png/pdf-word-icon-31.png"
+                                    class="pdf-icon" alt="pdf">
+
+                                <div class="card-body d-flex flex-column">
+
+                                    <h5 class="pdf-title mb-2">
+                                        <%= pdf.title %>
+                                    </h5>
+
+                                    <p class="card-footer-text mb-2">
+                                        <i class="fa-regular fa-clock me-1"></i>
+                                        <%= pdf.uploadedAt ? pdf.uploadedAt.toLocaleString() : "No date" %>
+                                    </p>
+
+                                    <div class="mb-3">
+                                        <div class="price-pill">
+                                            <i class="fa-solid fa-circle-check"></i>
+
+                                            <span class="old-price">
+                                                ₹<del>
+                                                    <%= pdf.price %>
+                                                </del>
+                                            </span>
+
+                                            <span class="free-price">FREE</span>
+                                        </div>
+                                    </div>
+
+                                    <a href="/pdfs/download/<%= pdf._id %>"
+                                        class="btn btn-outline-primary btn-premium mt-auto download-btn">
+
+                                        <span class="btn-text">
+                                            <i class="bi bi-download"></i> Pay & Download
+                                        </span>
+
+                                        <span class="loading-text d-none">
+                                            <span class="spinner-border spinner-border-sm me-2"></span>
+                                            Downloading...
+                                        </span>
+                                    </a>
+
+                                    <div class="action-btns">
+                                        <a href="/pdfs/<%= pdf._id %>/edit" class="btn edit-btn">
+                                            <i class="fa-solid fa-pen-to-square"></i> Edit
+                                        </a>
+
+                                        <form action="/pdfs/<%= pdf._id %>?_method=DELETE" method="POST"
+                                            onsubmit="return confirm('Are you sure you want to delete this PDF?')">
+                                            <button type="submit" class="btn delete-btn w-100">
+                                                <i class="fa-solid fa-trash"></i> Delete
+                                            </button>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <% } %>
+
+                            <% } else { %>
+                                <div class="col-12">
+                                    <div class="empty-box text-center">
+                                        <i class="fa-solid fa-file-circle-xmark fa-2x mb-3"></i>
+                                        <h4>No PDFs available</h4>
+                                        <p class="mb-0">Upload a PDF to show it here.</p>
+                                    </div>
+                                </div>
+                                <% } %>
+            </div>
+
+        </section>
+       <!-- ----------------------- Message Section --------------------------- -->
+<section id="allMessages" class="admin-message-section mt-4">
+
+    <div class="admin-heading-wrapper">
+        <div class="admin-heading-line"></div>
+
+        <h2 class="admin-heading">
+            <span class="heading-icon">
+                <i class="fa-solid fa-envelope-open-text"></i>
+            </span>
+
+            <span class="heading-text">
+                Manage Users Messages
+            </span>
+
+            <span class="heading-badge">
+                <i class="fa-solid fa-shield-halved"></i>
+                Admin Panel
+            </span>
+        </h2>
+
+        <div class="admin-heading-line"></div>
     </div>
 
-    <!-- Real Data -->
-    <div class="real-data row g-4 d-none">
-        <% if(allPdfs && allPdfs.length > 0){ %>
+    <div class="message-admin-card">
 
-            <% for(let pdf of allPdfs){ %>
-                <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                    <div class="card pdf-card h-100 text-center p-3">
+        <div class="message-admin-header">
+            <div>
+                <h4>
+                    <i class="fa-solid fa-inbox me-2"></i>
+                    User Messages
+                </h4>
+                <p>
+                    View, review and manage all contact messages submitted by users.
+                </p>
+            </div>
 
-                        <img src="https://www.freeiconspng.com/thumbs/pdf-icon-png/pdf-word-icon-31.png"
-                             class="pdf-icon"
-                             alt="pdf">
+            <span class="message-count-badge">
+                <i class="fa-solid fa-message"></i>
+                <%= allMessages ? allMessages.length : 0 %> Messages
+            </span>
+        </div>
 
-                        <div class="card-body d-flex flex-column">
+        <% if(allMessages && allMessages.length > 0) { %>
 
-                            <h5 class="pdf-title mb-2">
-                                <%= pdf.title %>
-                            </h5>
+            <!-- Desktop View -->
+            <div class="message-desktop-view">
+                <div class="message-table-wrapper mb-3 mt-3">
+                    <table class="message-table">
+                        <thead>
+                            <tr>
+                                <th class="col-name">Name</th>
+                                <th class="col-email">Email</th>
+                                <th class="col-subject">Subject</th>
+                                <th class="col-message">Message</th>
+                                <th class="col-time">Time</th>
+                                <th class="col-action">Action</th>
+                            </tr>
+                        </thead>
 
-                            <p class="card-footer-text mb-2">
-                                <i class="fa-regular fa-clock me-1"></i>
-                                <%= pdf.uploadedAt ? pdf.uploadedAt.toLocaleString() : "No date" %>
-                            </p>
+                        <tbody>
+                            <% for(let message of allMessages) { %>
+                                <tr>
+                                    <td>
+                                        <div class="message-user-cell">
+                                            <div class="message-avatar">
+                                                <%= message.name ? message.name.charAt(0).toUpperCase() : "U" %>
+                                            </div>
 
-                            <div class="mb-3">
-                                <div class="price-pill">
-                                    <i class="fa-solid fa-circle-check"></i>
+                                            <div class="message-user-content">
+                                                <strong><%= message.name %></strong>
+                                                <small>User</small>
+                                            </div>
+                                        </div>
+                                    </td>
 
-                                    <span class="old-price">
-                                        ₹<del><%= pdf.price %></del>
-                                    </span>
+                                    <td>
+                                        <a href="mailto:<%= message.email %>" class="message-email">
+                                            <%= message.email %>
+                                        </a>
+                                    </td>
 
-                                    <span class="free-price">FREE</span>
+                                    <td>
+                                        <span class="message-subject">
+                                            <%= message.subject %>
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <p class="message-body-text">
+                                            <%= message.message %>
+                                        </p>
+                                    </td>
+
+                                    <td>
+                                        <span class="message-time">
+                                            <i class="fa-regular fa-calendar-days me-1"></i>
+                                            <%= message.createdAt ? message.createdAt.toLocaleString() : "N/A" %>
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        <form
+                                            method="POST"
+                                            action="/contactUs/<%= message._id %>?_method=DELETE"
+                                            onsubmit="return confirm('Are you sure you want to delete this message?')">
+
+                                            <button type="submit" class="message-delete-btn">
+                                                <i class="fa-solid fa-trash-can"></i>
+                                                Delete
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Mobile View -->
+            <div class="message-mobile-view">
+                <% for(let message of allMessages) { %>
+                    <div class="message-mobile-card">
+
+                        <div class="message-mobile-top">
+                            <div class="message-user-cell">
+                                <div class="message-avatar">
+                                    <%= message.name ? message.name.charAt(0).toUpperCase() : "U" %>
+                                </div>
+
+                                <div class="message-user-content">
+                                    <strong><%= message.name %></strong>
+                                    <small>User Message</small>
                                 </div>
                             </div>
 
-                            <a href="/pdfs/download/<%= pdf._id %>"
-                               class="btn btn-outline-primary btn-premium mt-auto download-btn">
+                            <span class="message-mobile-status">New</span>
+                        </div>
 
-                                <span class="btn-text">
-                                    <i class="bi bi-download"></i> Pay & Download
+                        <div class="message-mobile-info">
+
+                            <div class="message-info-box">
+                                <span>
+                                    <i class="fa-solid fa-envelope"></i>
+                                    Email
                                 </span>
-
-                                <span class="loading-text d-none">
-                                    <span class="spinner-border spinner-border-sm me-2"></span>
-                                    Downloading...
-                                </span>
-                            </a>
-
-                            <div class="action-btns">
-                                <a href="/pdfs/<%= pdf._id %>/edit" class="btn edit-btn">
-                                    <i class="fa-solid fa-pen-to-square"></i> Edit
+                                <a href="mailto:<%= message.email %>">
+                                    <%= message.email %>
                                 </a>
+                            </div>
 
-                                <form action="/pdfs/<%= pdf._id %>?_method=DELETE"
-                                      method="POST"
-                                      onsubmit="return confirm('Are you sure you want to delete this PDF?')">
-                                    <button type="submit" class="btn delete-btn w-100">
-                                        <i class="fa-solid fa-trash"></i> Delete
-                                    </button>
-                                </form>
+                            <div class="message-info-box">
+                                <span>
+                                    <i class="fa-solid fa-tag"></i>
+                                    Subject
+                                </span>
+                                <strong><%= message.subject %></strong>
+                            </div>
+
+                            <div class="message-info-box">
+                                <span>
+                                    <i class="fa-solid fa-comment-dots"></i>
+                                    Message
+                                </span>
+                                <p><%= message.message %></p>
+                            </div>
+
+                            <div class="message-info-box">
+                                <span>
+                                    <i class="fa-regular fa-clock"></i>
+                                    Time
+                                </span>
+                                <strong>
+                                    <%= message.createdAt ? message.createdAt.toLocaleString() : "N/A" %>
+                                </strong>
                             </div>
 
                         </div>
+
+                        <form
+                            method="POST"
+                            action="/contactUs/<%= message._id %>?_method=DELETE"
+                            onsubmit="return confirm('Are you sure you want to delete this message?')">
+
+                            <button type="submit" class="message-mobile-delete">
+                                <i class="fa-solid fa-trash-can"></i>
+                                Delete Message
+                            </button>
+                        </form>
+
                     </div>
-                </div>
-            <% } %>
+                <% } %>
+            </div>
 
         <% } else { %>
-            <div class="col-12">
-                <div class="empty-box text-center">
-                    <i class="fa-solid fa-file-circle-xmark fa-2x mb-3"></i>
-                    <h4>No PDFs available</h4>
-                    <p class="mb-0">Upload a PDF to show it here.</p>
-                </div>
-            </div>
-        <% } %>
-    </div>
 
+            <div class="message-empty-box">
+                <div class="message-empty-icon">
+                    <i class="fa-regular fa-envelope-open"></i>
+                </div>
+
+                <h4>Message Not Found!</h4>
+                <p>Abhi tak kisi user ne contact message submit nahi kiya hai.</p>
+            </div>
+
+        <% } %>
+
+    </div>
 </section>
 
 
+
         <!--  --------------------------------   Java Script  ------------------------ -->
-<script src="/js/adminDashboard.js"></script>
+        <script src="/js/adminDashboard.js"></script>

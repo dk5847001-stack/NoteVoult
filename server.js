@@ -14,7 +14,7 @@ const flash = require("connect-flash");
 require("./config/dbConfig");
 
 const Subscriber = require("./models/Subscriber");
-
+const Message = require("./models/Message");
 const User = require("./models/User");
 const pdfRoutes = require("./routes/pdfRoutes");
 const AdminRoutes = require("./routes/AdminRoutes");
@@ -79,6 +79,27 @@ app.use("/pdfs", pdfRoutes);
 app.use("/admin", AdminRoutes);
 app.use("/subscribers", SubscriberRoutes);
 
+// Message Routes
+    app.get("/contactUs", (req, res)=>{
+        res.render("clients/Message.ejs");
+    });
+    app.post("/contactUs", async (req, res)=>{
+        const { name, email, subject, message } = req.body;
+        const newMessage = new Message({ name, email, subject, message });
+        await newMessage.save();
+        req.flash("success", "message was sent successfully!");
+        res.redirect("/contactUs");
+    });
+
+    app.delete("/contactUs/:id", async (req, res) => {
+    const { id } = req.params;
+
+    await Message.findByIdAndDelete(id);
+
+    req.flash("success", "User message deleted successfully!");
+    res.redirect("/admin");
+});
+
 // single project view
 app.get("/purchase/:id", async (req, res) => {
     const { id } = req.params;
@@ -91,6 +112,8 @@ app.get("/purchase/:id", async (req, res) => {
     }
 
     res.render("clients/purchase.ejs", { pdf });
+
+    
 });// Routes------------------------------------------------
 
 // 404

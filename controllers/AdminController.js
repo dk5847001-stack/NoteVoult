@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Subscriber = require("../models/Subscriber");
+const Message = require("../models/Message");
 const Pdf = require("../models/pdf");
 const LoginActivity = require("../models/LoginActivity");
 const AsyncWrap = require("../utils/AsyncWrap");
@@ -8,7 +9,8 @@ module.exports.index = AsyncWrap(async (req, res) => {
     const users = await User.find({}).sort({ uploadedAt: -1 });
     const allSubscribers = await Subscriber.find({}).sort({ uploadedAt: -1 });
     const allPdfs = await Pdf.find({}).sort({ uploadedAt: -1 });
-    res.render("clients/adminDeshboard.ejs", { users, allSubscribers, allPdfs });
+    const allMessages = await Message.find({}).sort({ uploadedAt: -1 });
+    res.render("clients/adminDeshboard.ejs", { users, allSubscribers, allPdfs, allMessages });
 });
 
 module.exports.blockUser = AsyncWrap(async (req, res) => {

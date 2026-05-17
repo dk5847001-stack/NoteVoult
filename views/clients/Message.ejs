@@ -1,0 +1,300 @@
+<% layout("layouts/boilerplate.ejs") -%>
+<link rel="stylesheet" href="/css/Message.css">
+
+<section class="contact-page">
+    <div class="container">
+
+        <!-- Top Professional Message -->
+        <div class="contact-top">
+            <span class="contact-top-badge">
+                <i class="fa-solid fa-headset"></i>
+                Student Support Center
+            </span>
+
+            <h2>
+                Need Help? We’re Here to Support You
+            </h2>
+
+            <p>
+                Notes, PDFs, projects, payment ya download se related koi bhi query ho,
+                apna message bhejiye. Hum aapki problem ko jaldi solve karne ki koshish karenge.
+            </p>
+        </div>
+
+        <!-- Contact Main Wrapper -->
+        <div class="contact-wrapper">
+            <div class="row g-0">
+
+                <!-- Left Side Info -->
+                <div class="col-lg-5">
+                    <div class="contact-info">
+                        <div class="contact-info-content">
+
+                            <div class="contact-badge">
+                                <i class="fa-solid fa-circle-question"></i>
+                                Need Help?
+                            </div>
+
+                            <h2>Let’s Contact Us!</h2>
+
+                            <p>
+                                Agar aapko notes, PDFs, projects, payment, download ya website se related
+                                koi bhi problem hai, to form fill karke apna message bhej sakte hain.
+                            </p>
+
+                            <div class="contact-feature">
+                                <i class="fa-solid fa-envelope-open-text"></i>
+                                <div>
+                                    <strong>Email Support</strong>
+                                    <span>Apna query clearly likhiye, hum help karenge.</span>
+                                </div>
+                            </div>
+
+                            <div class="contact-feature">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <div>
+                                    <strong>PDF & Notes Help</strong>
+                                    <span>Download, notes, micro ya project issue ke liye support.</span>
+                                </div>
+                            </div>
+
+                            <div class="contact-feature">
+                                <i class="fa-solid fa-lock"></i>
+                                <div>
+                                    <strong>Safe & Secure</strong>
+                                    <span>Aapki details private aur secure rakhi jayegi.</span>
+                                </div>
+                            </div>
+
+                            <div class="helper-box">
+                                <h5>
+                                    <i class="fa-solid fa-lightbulb me-2"></i>
+                                    Message likhte time dhyan rakhein
+                                </h5>
+
+                                <ul>
+                                    <li>Apna correct email address likhein.</li>
+                                    <li>Subject short aur clear rakhein.</li>
+                                    <li>Problem ka detail message me explain karein.</li>
+                                    <li>Payment ya download issue ho to PDF name bhi likhein.</li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side Form -->
+                <div class="col-lg-7">
+                    <div class="contact-form-box">
+
+                        <h3>
+                            <i class="fa-solid fa-paper-plane me-2 text-primary"></i>
+                            Send Message
+                        </h3>
+
+                        <p class="form-subtitle">
+                            Fill the form below. Our team will review your message and contact you as soon as possible.
+                        </p>
+
+                        <form method="post" action="/contactUs" class="needs-validation" novalidate>
+
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+
+                                <div class="input-group-custom">
+                                    <i class="fa-solid fa-user"></i>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        id="name"
+                                        placeholder="Enter your full name"
+                                        minlength="4"
+                                        maxlength="15"
+                                        required
+                                        class="form-control premium-input">
+                                </div>
+
+                                <div class="small-helper">
+                                    Name 4 se 15 characters ke beech hona chahiye.
+                                </div>
+
+                                <div class="invalid-feedback">
+                                    Name must be between 4 and 15 characters.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+
+                                <div class="input-group-custom">
+                                    <i class="fa-solid fa-envelope"></i>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        id="email"
+                                        placeholder="Enter your email address"
+                                        required
+                                        class="form-control premium-input">
+                                </div>
+
+                                <div class="small-helper">
+                                    Isi email par aapko reply mil sakta hai.
+                                </div>
+
+                                <div class="invalid-feedback">
+                                    Please enter a valid email address.
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject</label>
+
+                                <div class="input-group-custom">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                    <input
+                                        type="text"
+                                        name="subject"
+                                        id="subject"
+                                        placeholder="Example: PDF download issue"
+                                        minlength="8"
+                                        maxlength="25"
+                                        required
+                                        class="form-control premium-input">
+                                </div>
+
+                                <div class="small-helper">
+                                    Subject 8 se 25 characters ke beech rakhein.
+                                </div>
+
+                                <div class="invalid-feedback">
+                                    Subject must be between 8 and 25 characters.
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Message</label>
+
+                                <div class="input-group-custom textarea-icon">
+                                    <i class="fa-solid fa-message"></i>
+                                    <textarea
+                                        name="message"
+                                        id="message"
+                                        placeholder="Write your message here..."
+                                        minlength="10"
+                                        maxlength="110"
+                                        required
+                                        class="form-control premium-textarea"></textarea>
+                                </div>
+
+                                <div class="small-helper">
+                                    Message 10 se 110 characters ke beech likhein.
+                                </div>
+
+                                <div class="invalid-feedback">
+                                    Message must be between 10 and 110 characters.
+                                </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-contact w-100" id="messageBtn">
+                                <span id="btnText">
+                                    <i class="fa-solid fa-paper-plane me-2"></i>
+                                    Send Message
+                                </span>
+                                <span id="btnSpinner" class="spinner-border spinner-border-sm ms-2 d-none"></span>
+                            </button>
+
+                            <div class="contact-note">
+                                <i class="fa-solid fa-circle-info"></i>
+                                <span>
+                                    Please avoid duplicate messages. Ek hi issue ke liye ek baar message submit karein.
+                                </span>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <div class="faq-heading">
+                <div class="faq-badge">
+                    <i class="fa-solid fa-comments"></i>
+                    Frequently Asked Questions
+                </div>
+
+                <h3>Need Quick Help?</h3>
+                <p>
+                    Yaha kuch common questions ke answers diye gaye hain.
+                </p>
+            </div>
+
+            <div class="row g-4">
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="faq-card">
+                        <div class="faq-icon">
+                            <i class="fa-solid fa-download"></i>
+                        </div>
+
+                        <h5>PDF download nahi ho raha?</h5>
+
+                        <p>
+                            Agar PDF download nahi ho raha hai, to message me PDF ka name aur issue clearly likhein.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="faq-card">
+                        <div class="faq-icon">
+                            <i class="fa-solid fa-indian-rupee-sign"></i>
+                        </div>
+
+                        <h5>Payment issue ho gaya?</h5>
+
+                        <p>
+                            Payment related issue me apna email, PDF name aur payment status message me mention karein.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="faq-card">
+                        <div class="faq-icon">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+
+                        <h5>Notes ya micro chahiye?</h5>
+
+                        <p>
+                            Aap branch, semester aur subject ka name message me likh kar request bhej sakte hain.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-3">
+                    <div class="faq-card">
+                        <div class="faq-icon">
+                            <i class="fa-solid fa-diagram-project"></i>
+                        </div>
+
+                        <h5>Project related help?</h5>
+
+                        <p>
+                            Project query ke liye project title, technology aur required changes clearly mention karein.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<script src="/js/Message.js"></script>
