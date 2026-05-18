@@ -1,6 +1,6 @@
 <% layout("layouts/boilerplate.ejs") -%>
 
-<link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/home.css">
     <div class="home-page">
 
         <section class="hero-wrap">
@@ -28,7 +28,7 @@
                                 <i class="fa-solid fa-layer-group me-2"></i>
                                 Explore Library
                             </a>
-                            
+
                             <a href="https://examnovaai.onrender.com/marketplace" class="btn-primary-glow">
                                 <i class="fa-solid fa-layer-group me-2"></i>
                                 Visit Official Website
@@ -38,7 +38,7 @@
                                 <i class="fa-solid fa-cloud-arrow-up me-2"></i>
                                 <b>Upload PDF</b>
                             </a>
-                        </div>                        
+                        </div>
 
                         <div class="stats-row">
                             <div class="mb-3 mt-3 stat-card">
@@ -113,9 +113,9 @@
                                 <div class="price-tag">₹1599</div>
                             </div>
                             <a href="/contactUs" class="footer-action-btn">
-                    <span><i class="fa-solid fa-headset"></i>&nbsp; Contact Us</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
+                                <span><i class="fa-solid fa-headset"></i>&nbsp; Contact Us</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
 
                         </div>
                     </div>
@@ -169,7 +169,7 @@
                                     <div class="user-info-box">
                                         <span>Status</span>
                                         <strong>
-                                            <%= currUser.isBlocked === "blocked" ? "Blocked" : "Active" %>
+                                            <%= currUser.isBlocked==="blocked" ? "Blocked" : "Active" %>
                                         </strong>
                                     </div>
                                 </div>
@@ -213,6 +213,11 @@
                                     <span><i class="fa-solid fa-diagram-project"></i> View All Projects</span>
                                     <i class="fa-solid fa-arrow-right"></i>
                                 </a>
+                                
+                                <a href="/contactUs" class="footer-action-btn">
+                                <span><i class="fa-solid fa-headset"></i>&nbsp; Contact Us</span>
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
 
                                 <% if(currUser){ %>
                                     <a class="quick-action-btn" href="/pdfs/new">
@@ -418,4 +423,4 @@
 
     </div>
 
-<script src="/js/home.js"></script>
+    <script src="/js/home.js"></script>
