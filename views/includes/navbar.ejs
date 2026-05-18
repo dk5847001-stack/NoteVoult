@@ -37,7 +37,7 @@
                         <i class="fa-solid fa-cloud-arrow-up"></i>
                         Upload
                     </a>
-                <% } %>
+                    <% } %>
             </div>
 
             <div class="auth-actions ms-auto">
@@ -54,35 +54,35 @@
                         Login
                     </a>
 
-                <% } else { %>
+                    <% } else { %>
 
-                    <span class="premium-badge">
-                        <i class="fa-solid fa-crown me-1"></i>
-                        PRO+
-                    </span>
-
-                    <% if(currUser.role === "admin"){ %>
-                        <a href="/admin" class="button-wrapper">
-                            <span class="button">
-                                <i class="fa-solid fa-user-shield"></i>
-                                &nbsp;Admin
-                            </span>
+                        <a href="/premium" class="premium-badge">
+                            <i class="fa-solid fa-crown me-1"></i>
+                            PRO+
                         </a>
-                    <% } %>
 
-                    <button class="user-pill" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#userProfileCanvas" aria-controls="userProfileCanvas">
-                        <i class="fa-solid fa-user"></i>
-                        <%= currUser.username %>
-                        <i class="fa-solid fa-angle-left"></i>
-                    </button>
+                        <% if(currUser.role==="admin" ){ %>
+                            <a href="/admin" class="button-wrapper">
+                                <span class="button">
+                                    <i class="fa-solid fa-user-shield"></i>
+                                    &nbsp;Admin
+                                </span>
+                            </a>
+                            <% } %>
 
-                    <a href="/logout" class="auth-btn btn-logout">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                        Logout
-                    </a>
+                                <button class="user-pill" type="button" data-bs-toggle="offcanvas"
+                                    data-bs-target="#userProfileCanvas" aria-controls="userProfileCanvas">
+                                    <i class="fa-solid fa-user"></i>
+                                    <%= currUser.username %>
+                                        <i class="fa-solid fa-angle-left"></i>
+                                </button>
 
-                <% } %>
+                                <a href="/logout" class="auth-btn btn-logout">
+                                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                                    Logout
+                                </a>
+
+                                <% } %>
 
             </div>
         </div>
@@ -110,7 +110,9 @@
                     <i class="fa-solid fa-user"></i>
                 </div>
 
-                <h4><%= currUser.username %></h4>
+                <h4>
+                    <%= currUser.username %>
+                </h4>
 
                 <span class="role-badge">
                     <i class="fa-solid fa-crown"></i>
@@ -126,7 +128,9 @@
                     </div>
                     <div>
                         <small>Username</small>
-                        <strong><%= currUser.username %></strong>
+                        <strong>
+                            <%= currUser.username %>
+                        </strong>
                     </div>
                 </div>
 
@@ -136,7 +140,9 @@
                     </div>
                     <div>
                         <small>Email</small>
-                        <strong><%= currUser.email %></strong>
+                        <strong>
+                            <%= currUser.email %>
+                        </strong>
                     </div>
                 </div>
 
@@ -146,7 +152,9 @@
                     </div>
                     <div>
                         <small>Role</small>
-                        <strong><%= currUser.role %></strong>
+                        <strong>
+                            <%= currUser.role %>
+                        </strong>
                     </div>
                 </div>
 
@@ -154,28 +162,28 @@
 
             <div class="profile-actions">
 
-                <% if(currUser.role === "admin"){ %>
+                <% if(currUser.role==="admin" ){ %>
                     <a href="/admin" class="profile-action admin-action">
                         <i class="fa-solid fa-user-shield"></i>
                         Admin Dashboard
                     </a>
-                <% } %>
-                    <a href="/contactUs" class="footer-action-btn">
-                    <span><i class="fa-solid fa-headset"></i>&nbsp; Contact Us</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                </a>
-                <a href="/pdfs/new" class="profile-action upload-action">
-                    <i class="fa-solid fa-cloud-arrow-up"></i>
-                    Upload PDF
-                </a>
-                
+                    <% } %>
+                        <a href="/contactUs" class="footer-action-btn">
+                            <span><i class="fa-solid fa-headset"></i>&nbsp; Contact Us</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                        <a href="/pdfs/new" class="profile-action upload-action">
+                            <i class="fa-solid fa-cloud-arrow-up"></i>
+                            Upload PDF
+                        </a>
 
-                <a href="/logout" class="profile-action logout-action">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                    Logout
-                </a>
+
+                        <a href="/logout" class="profile-action logout-action">
+                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                            Logout
+                        </a>
 
             </div>
         </div>
     </div>
-<% } %>
+    <% } %>

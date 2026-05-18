@@ -1,0 +1,575 @@
+<% layout("layouts/boilerplate.ejs") -%>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    .premium-page {
+        min-height: 90vh;
+        padding: 55px 0;
+        color: #f8fafc;
+    }
+
+    .premium-hero {
+        text-align: center;
+        max-width: 850px;
+        margin: 0 auto 45px;
+        padding: 0 16px;
+    }
+
+    .premium-hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 9px 16px;
+        border-radius: 999px;
+        background: rgba(250, 204, 21, 0.14);
+        border: 1px solid rgba(250, 204, 21, 0.35);
+        color: #facc15;
+        font-weight: 900;
+        font-size: 0.85rem;
+        margin-bottom: 18px;
+    }
+
+    .premium-hero h1 {
+        font-size: clamp(2rem, 5vw, 4rem);
+        font-weight: 950;
+        letter-spacing: -1px;
+        margin-bottom: 14px;
+        color: #ffffff;
+    }
+
+    .premium-hero p {
+        color: #cbd5e1;
+        font-size: 1rem;
+        line-height: 1.8;
+        margin: 0 auto;
+        max-width: 720px;
+    }
+
+    .pricing-wrapper {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+        margin-top: 30px;
+    }
+
+    .pricing-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 30px;
+        padding: 28px;
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.13);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 22px 60px rgba(0, 0, 0, 0.32);
+        transition: 0.35s ease;
+        height: 100%;
+    }
+
+    .pricing-card:hover {
+        transform: translateY(-10px);
+        border-color: rgba(96, 165, 250, 0.45);
+        box-shadow: 0 30px 75px rgba(0, 0, 0, 0.42);
+    }
+
+    .pricing-card.featured {
+        background:
+            radial-gradient(circle at top right, rgba(250, 204, 21, 0.18), transparent 230px),
+            rgba(255, 255, 255, 0.105);
+        border: 1px solid rgba(250, 204, 21, 0.42);
+        transform: scale(1.03);
+    }
+
+    .pricing-card.featured:hover {
+        transform: scale(1.03) translateY(-10px);
+    }
+
+    .popular-ribbon {
+        position: absolute;
+        top: 18px;
+        right: -38px;
+        width: 150px;
+        text-align: center;
+        padding: 7px 0;
+        background: linear-gradient(135deg, #facc15, #f97316);
+        color: #111827;
+        font-size: 0.72rem;
+        font-weight: 950;
+        transform: rotate(38deg);
+        box-shadow: 0 10px 22px rgba(250, 204, 21, 0.28);
+    }
+
+    .plan-icon {
+        width: 62px;
+        height: 62px;
+        border-radius: 20px;
+        display: grid;
+        place-items: center;
+        font-size: 1.55rem;
+        margin-bottom: 20px;
+        color: #fff;
+        background: linear-gradient(135deg, #2563eb, #7c3aed);
+        box-shadow: 0 15px 35px rgba(37, 99, 235, 0.35);
+    }
+
+    .plan-icon.plus {
+        background: linear-gradient(135deg, #facc15, #f97316);
+        color: #111827;
+    }
+
+    .plan-icon.business {
+        background: linear-gradient(135deg, #22c55e, #06b6d4);
+    }
+
+    .plan-title {
+        font-size: 1.45rem;
+        font-weight: 900;
+        margin-bottom: 8px;
+        color: #ffffff;
+    }
+
+    .plan-desc {
+        color: #cbd5e1;
+        font-size: 0.92rem;
+        line-height: 1.65;
+        min-height: 72px;
+        margin-bottom: 20px;
+    }
+
+    .plan-price {
+        display: flex;
+        align-items: end;
+        gap: 6px;
+        margin-bottom: 18px;
+    }
+
+    .plan-price h2 {
+        margin: 0;
+        font-size: 2.55rem;
+        font-weight: 950;
+        color: #ffffff;
+    }
+
+    .plan-price span {
+        color: #94a3b8;
+        font-weight: 700;
+        margin-bottom: 9px;
+    }
+
+    .feature-list {
+        list-style: none;
+        padding: 0;
+        margin: 24px 0;
+        display: grid;
+        gap: 13px;
+    }
+
+    .feature-list li {
+        display: flex;
+        align-items: flex-start;
+        gap: 11px;
+        color: #e2e8f0;
+        font-size: 0.94rem;
+        line-height: 1.5;
+    }
+
+    .feature-list li i {
+        margin-top: 3px;
+        color: #22c55e;
+        font-size: 0.95rem;
+    }
+
+    .pricing-btn {
+        width: 100%;
+        border: none;
+        outline: none;
+        padding: 13px 16px;
+        border-radius: 17px;
+        font-weight: 900;
+        color: #fff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: 0.3s ease;
+        background: linear-gradient(135deg, #2563eb, #7c3aed);
+        box-shadow: 0 15px 32px rgba(37, 99, 235, 0.28);
+    }
+
+    .pricing-btn:hover {
+        color: #fff;
+        transform: translateY(-3px);
+        box-shadow: 0 20px 45px rgba(37, 99, 235, 0.42);
+    }
+
+    .pricing-btn.gold {
+        background: linear-gradient(135deg, #facc15, #f97316);
+        color: #111827;
+        box-shadow: 0 15px 32px rgba(250, 204, 21, 0.25);
+    }
+
+    .pricing-btn.gold:hover {
+        color: #111827;
+        box-shadow: 0 20px 45px rgba(250, 204, 21, 0.38);
+    }
+
+    .pricing-btn.green {
+        background: linear-gradient(135deg, #22c55e, #06b6d4);
+        box-shadow: 0 15px 32px rgba(34, 197, 94, 0.25);
+    }
+
+    .premium-guidelines {
+        margin-top: 45px;
+        border-radius: 30px;
+        padding: 30px;
+        background: rgba(255, 255, 255, 0.075);
+        border: 1px solid rgba(255, 255, 255, 0.13);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        box-shadow: 0 22px 60px rgba(0, 0, 0, 0.28);
+    }
+
+    .premium-guidelines h3 {
+        font-size: 1.5rem;
+        font-weight: 900;
+        margin-bottom: 18px;
+        color: #ffffff;
+    }
+
+    .guideline-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .guideline-box {
+        padding: 18px;
+        border-radius: 20px;
+        background: rgba(15, 23, 42, 0.48);
+        border: 1px solid rgba(255, 255, 255, 0.09);
+    }
+
+    .guideline-box h5 {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-size: 1rem;
+        font-weight: 850;
+        color: #f8fafc;
+        margin-bottom: 9px;
+    }
+
+    .guideline-box h5 i {
+        color: #facc15;
+    }
+
+    .guideline-box p {
+        margin: 0;
+        color: #cbd5e1;
+        font-size: 0.9rem;
+        line-height: 1.65;
+    }
+
+    @media (max-width: 992px) {
+        .pricing-wrapper {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .pricing-card.featured {
+            transform: scale(1);
+        }
+
+        .pricing-card.featured:hover {
+            transform: translateY(-10px);
+        }
+
+        .pricing-card:last-child {
+            grid-column: span 2;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .premium-page {
+            padding: 38px 0;
+        }
+
+        .pricing-wrapper {
+            grid-template-columns: 1fr;
+            gap: 18px;
+        }
+
+        .pricing-card,
+        .premium-guidelines {
+            border-radius: 24px;
+            padding: 22px;
+        }
+
+        .pricing-card:last-child {
+            grid-column: span 1;
+        }
+
+        .plan-desc {
+            min-height: auto;
+        }
+
+        .guideline-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .premium-hero h1 {
+            font-size: 2rem;
+        }
+
+        .premium-hero p {
+            font-size: 0.92rem;
+        }
+
+        .plan-price h2 {
+            font-size: 2.15rem;
+        }
+
+        .plan-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 17px;
+            font-size: 1.3rem;
+        }
+
+        .feature-list li {
+            font-size: 0.88rem;
+        }
+
+        .popular-ribbon {
+            top: 16px;
+            right: -42px;
+        }
+    }
+</style>
+
+<section class="premium-page">
+    <div class="container">
+
+        <div class="premium-hero">
+            <div class="premium-hero-badge">
+                <i class="fa-solid fa-crown"></i>
+                NoteVoult Premium Plans
+            </div>
+
+            <h1>Choose Your Best Plan</h1>
+
+            <p>
+                Upgrade your NoteVoult experience with premium access to notes, PDFs,
+                micro papers, project resources, and priority support. Select a plan
+                that fits your learning or business needs.
+            </p>
+        </div>
+
+        <div class="pricing-wrapper">
+
+            <!-- Basic Plan -->
+            <div class="pricing-card">
+                <div class="plan-icon">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <h3 class="plan-title">Basic</h3>
+
+                <p class="plan-desc">
+                    Best for students who want simple access to important PDFs,
+                    notes, and academic materials.
+                </p>
+
+                <div class="plan-price">
+                    <h2>₹99</h2>
+                    <span>/ month</span>
+                </div>
+
+                <ul class="feature-list">
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Access selected academic PDFs
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Download limited study materials
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Basic notes and micro papers
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Standard account support
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Suitable for personal learning
+                    </li>
+                </ul>
+
+                <a href="/contactUs" class="pricing-btn">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    Get Basic
+                </a>
+            </div>
+
+            <!-- Plus Plan -->
+            <div class="pricing-card featured">
+                <div class="popular-ribbon">POPULAR</div>
+
+                <div class="plan-icon plus">
+                    <i class="fa-solid fa-crown"></i>
+                </div>
+
+                <h3 class="plan-title">Plus</h3>
+
+                <p class="plan-desc">
+                    Perfect for active students who need more downloads, premium
+                    notes, exam papers, and project guidance.
+                </p>
+
+                <div class="plan-price">
+                    <h2>₹199</h2>
+                    <span>/ month</span>
+                </div>
+
+                <ul class="feature-list">
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Access premium PDFs and notes
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        More download limits
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        CIA and semester micro papers
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Project resources and references
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Priority student support
+                    </li>
+                </ul>
+
+                <a href="/contactUs" class="pricing-btn gold">
+                    <i class="fa-solid fa-bolt"></i>
+                    Upgrade to Plus
+                </a>
+            </div>
+
+            <!-- Business Plan -->
+            <div class="pricing-card">
+                <div class="plan-icon business">
+                    <i class="fa-solid fa-building"></i>
+                </div>
+
+                <h3 class="plan-title">Business</h3>
+
+                <p class="plan-desc">
+                    Designed for teams, institutes, and project buyers who need
+                    complete access and professional-level support.
+                </p>
+
+                <div class="plan-price">
+                    <h2>₹499</h2>
+                    <span>/ month</span>
+                </div>
+
+                <ul class="feature-list">
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Full premium resource access
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Unlimited PDF browsing
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Complete project support
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Faster support response
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-circle-check"></i>
+                        Best for groups and institutes
+                    </li>
+                </ul>
+
+                <a href="/contactUs" class="pricing-btn green">
+                    <i class="fa-solid fa-briefcase"></i>
+                    Choose Business
+                </a>
+            </div>
+
+        </div>
+
+        <!-- Guidelines Section -->
+        <div class="premium-guidelines">
+            <h3>
+                <i class="fa-solid fa-circle-info me-2"></i>
+                Premium Guidelines
+            </h3>
+
+            <div class="guideline-grid">
+
+                <div class="guideline-box">
+                    <h5>
+                        <i class="fa-solid fa-shield-halved"></i>
+                        Account Usage
+                    </h5>
+                    <p>
+                        Premium access is only for the registered user. Do not share
+                        your account login details with others.
+                    </p>
+                </div>
+
+                <div class="guideline-box">
+                    <h5>
+                        <i class="fa-solid fa-file-pdf"></i>
+                        PDF Access
+                    </h5>
+                    <p>
+                        Available notes, PDFs, micro papers, and projects may depend
+                        on your selected plan and uploaded content availability.
+                    </p>
+                </div>
+
+                <div class="guideline-box">
+                    <h5>
+                        <i class="fa-solid fa-download"></i>
+                        Download Rules
+                    </h5>
+                    <p>
+                        Download access may be limited according to your plan. Any
+                        misuse or unusual activity can temporarily restrict downloads.
+                    </p>
+                </div>
+
+                <div class="guideline-box">
+                    <h5>
+                        <i class="fa-solid fa-headset"></i>
+                        Support
+                    </h5>
+                    <p>
+                        Plus and Business users get faster support for download issues,
+                        PDF problems, project queries, and account-related help.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>

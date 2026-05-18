@@ -95,9 +95,13 @@ app.get("/purchase/:id", async (req, res) => {
     }
 
     res.render("clients/purchase.ejs", { pdf });
+});
 
-    
-});// Routes------------------------------------------------
+app.get("/premium", (req, res)=>{
+    res.render("clients/premium.ejs");
+});
+
+// Routes------------------------------------------------
 
 // 404
 app.use((req, res) => {
