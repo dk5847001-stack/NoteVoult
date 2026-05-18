@@ -101,6 +101,11 @@ app.get("/premium", (req, res)=>{
     res.render("clients/premium.ejs");
 });
 
+// health routes..........
+app.get("/health", (req, res) => {
+    res.status(200).send("OK");
+});
+
 // Routes------------------------------------------------
 
 // 404
