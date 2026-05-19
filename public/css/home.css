@@ -462,3 +462,91 @@
                 font-size: 0.88rem;
             }
         }
+
+
+
+
+
+
+        /* =========================== svg ============================= */
+        .support-loader {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.spinning-cog {
+    animation: spinning-cog 1.3s infinite linear;
+    transform-origin: center;
+    transform-box: fill-box;
+}
+
+@keyframes spinning-cog {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ----- */
+.library-spinner {
+    color: hsl(228, 97%, 42%);
+    animation: librarySpin 1.2s linear infinite;
+    vertical-align: middle;
+}
+
+@keyframes librarySpin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.view-pdf-loader-wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.view-pdf-loader {
+    width: 42px;
+    height: 22px;
+    color: currentColor;
+}
+
+.view-pdf-loader-back,
+.view-pdf-loader-front {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.view-pdf-loader-back {
+    opacity: 0.18;
+}
+
+.view-pdf-loader-front {
+    stroke-dasharray: 260;
+    stroke-dashoffset: 260;
+    animation: viewPdfDash 1.4s linear infinite;
+}
+
+@keyframes viewPdfDash {
+    0% {
+        stroke-dashoffset: 260;
+        opacity: 1;
+    }
+
+    100% {
+        stroke-dashoffset: 0;
+        opacity: 0.45;
+    }
+}
