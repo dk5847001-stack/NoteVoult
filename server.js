@@ -10,7 +10,6 @@ const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const flash = require("connect-flash");
-
 require("./config/dbConfig");
 
 const Subscriber = require("./models/Subscriber");
